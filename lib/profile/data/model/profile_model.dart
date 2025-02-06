@@ -86,7 +86,7 @@ class RunnerProfile extends Equatable {
       ];
 }
 
-class WorkingHours {
+class WorkingHours extends Equatable {
   final String day;
   final String time;
 
