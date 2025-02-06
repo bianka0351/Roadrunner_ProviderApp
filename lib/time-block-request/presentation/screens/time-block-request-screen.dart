@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
+import 'package:roadrunner_provider_app/core/app-dimensions.dart';
+import 'package:roadrunner_provider_app/core/app-fonts.dart';
+import '../../../core/app_colors.dart';
 import '../../bloc/time_block_request_bloc.dart';
 
 class TimeBlockRequestScreen extends StatelessWidget {
@@ -14,7 +16,8 @@ class TimeBlockRequestScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Time Block Request'),
+        title: const Text('Time Block Request',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -51,17 +54,17 @@ class TimeBlockRequestScreen extends StatelessWidget {
               SingleChildScrollView(
                 padding: const EdgeInsets.all(16.0),
                 child: Container(
+                  padding: EdgeInsets.all(AppDimensions.largePadding),
                   height: MediaQuery.of(context).size.height,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 30),
                       const Text(
-                        'Pick Dates',
+                        'Pick dates',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16),
                       ),
-                      const SizedBox(height: 8),
                       ElevatedButton(
                         onPressed: () async {
                           final selectedDates = await showDateRangePicker(
@@ -77,12 +80,25 @@ class TimeBlockRequestScreen extends StatelessWidget {
                             ]));
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryHoverColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(AppDimensions
+                                .smallBorderRadius), // Set border radius here
+                          ),
+                          elevation: 5
+                        ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: const [
-                            Icon(Icons.calendar_today), // Calendar icon
+                            Icon(
+                              Icons.calendar_today,
+                              color: AppColors.lightTextColor,
+                            ), // Calendar icon
                             SizedBox(width: 8), // Spacer between icon and text
-                            Text('Time-Block Dates'),
+                            Text('Time-Block Dates',
+                                style:
+                                    TextStyle(color: AppColors.lightTextColor)),
                           ],
                         ),
                       ),
@@ -91,19 +107,22 @@ class TimeBlockRequestScreen extends StatelessWidget {
                           ' ${state.selectedDates.map((date) => DateFormat.yMMMd().format(date)).join(', ')}',
                           style: const TextStyle(fontSize: 15),
                         ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 50),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Checkbox(
                             value: bloc.isAllDay,
                             onChanged: (value) {
                               bloc.add(ToggleAllDayEvent(value ?? false));
                             },
+                            checkColor: AppColors.primaryHoverColor,
+                            activeColor: AppColors.primaryColor,
                           ),
                           const Text(
-                            'All Day',
+                            'All day',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 14),
+                                fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           SizedBox(width: 20),
                           Row(
@@ -127,11 +146,21 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                             ));
                                           }
                                         },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        AppColors.primaryHoverColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          AppDimensions
+                                              .smallBorderRadius), // Set border radius here
+                                    ),
+                                    elevation: 5
+                                  ),
                                   child: Text(
                                     bloc.startTime == ''
-                                        ? 'Start'
+                                        ? 'Start time'
                                         : '${bloc.startTime}',
-                                    style: const TextStyle(fontSize: 14),
+                                    style: AppFonts.poppinsLight(),
                                   ),
                                 ),
                               ),
@@ -167,11 +196,21 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                             ));
                                           }
                                         },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        AppColors.primaryHoverColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          AppDimensions
+                                              .smallBorderRadius), // Set border radius here
+                                    ),
+                                    elevation: 5
+                                  ),
                                   child: Text(
                                     bloc.endTime == ''
-                                        ? 'End'
+                                        ? 'End time'
                                         : '${bloc.endTime}',
-                                    style: const TextStyle(fontSize: 14),
+                                    style: AppFonts.poppinsLight(),
                                   ),
                                 ),
                               ),
@@ -179,35 +218,93 @@ class TimeBlockRequestScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Notes',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: noteController,
-                        maxLines: 3,
-                        decoration: const InputDecoration(
-                          hintText: 'Add any additional notes',
-                          border: OutlineInputBorder(),
+                      const SizedBox(height: 30),
+                      // const Text(
+                      //   'Notes',
+                      //   style: TextStyle(
+                      //       fontWeight: FontWeight.bold, fontSize: 16),
+                      // ),
+                      // const SizedBox(height: 8),
+                      Container(
+                        decoration: BoxDecoration(
+                          color:
+                              AppColors.textFormFillColor, // Background color
+                          borderRadius:
+                              BorderRadius.circular(12.0), // Border radius
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(
+                                red: 0,
+                                green: 0,
+                                blue: 0,
+                                alpha: 0.1, // Opacity value
+                              ),
+                              offset: Offset(-1, 4), // Shadow offset
+                              blurRadius: 5, // Shadow blur radius
+                            ),
+                          ],
                         ),
-                        onChanged: (value) {
-                          bloc.add(AddNotesEvent(value));
-                        },
+                        child: TextField(
+                          controller: noteController,
+                          maxLines: 6,
+                          decoration: InputDecoration(
+                            hintText: 'WRITE A NOTE',
+                            hintStyle: const TextStyle(
+                              color: AppColors
+                                  .blackTextColor, // Change hint text color
+                              fontWeight: FontWeight
+                                  .w600, // Change hint text font weight
+                            ),
+                            filled: true,
+                            fillColor: AppColors.textFormFillColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  12.0), // Set border radius
+                              borderSide:
+                                  BorderSide.none, // Remove the border line
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  12.0), // Set border radius for enabled state
+                              borderSide: BorderSide
+                                  .none, // Remove the border line for enabled state
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  12.0), // Set border radius for focused state
+                              borderSide: BorderSide
+                                  .none, // Remove the border line for focused state
+                            ),
+                          ),
+                          onChanged: (value) {
+                            bloc.add(AddNotesEvent(value));
+                          },
+                        ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 25),
                       ElevatedButton(
                         onPressed: () {
                           bloc.add(FetchRequestsEvent());
                         },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryHoverColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                AppDimensions.smallBorderRadius),
+                          ),
+                          elevation: 5
+                        ),
+                        
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: const [
-                            Icon(Icons.history), // History icon
+                            Icon(Icons.history,
+                                color: AppColors.lightTextColor),
                             SizedBox(width: 8),
-                            Text('Fetch Previous Requests'),
+                            Text('Fetch Previous Requests',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: AppColors.lightTextColor)),
                           ],
                         ),
                       ),
@@ -234,7 +331,7 @@ class TimeBlockRequestScreen extends StatelessWidget {
               ),
               // Positioned the Send Button at the bottom of the screen
               Positioned(
-                bottom: 40,
+                bottom: 130,
                 left: 0,
                 right: 0,
                 child: Center(
@@ -244,9 +341,26 @@ class TimeBlockRequestScreen extends StatelessWidget {
                             bloc.add(SubmitRequestEvent());
                           }
                         : null,
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: AppDimensions.mediumPadding * 3,
+                        vertical: AppDimensions.smallPadding,
+                      ),
+                      backgroundColor: AppColors.primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            AppDimensions.smallBorderRadius),
+                      ),
+                      elevation: 5, // This adds a shadow effect
+                    ),
                     child: state is TimeBlockRequestSubmitting
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text('Send The Request',style: TextStyle(fontSize: 18),),
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : const Text(
+                            'Send The Request',
+                            style: TextStyle(fontSize: 26, color: Colors.white),
+                          ),
                   ),
                 ),
               ),
