@@ -16,7 +16,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Future<void> _onFetchProfile(
       FetchProfile event, Emitter<ProfileState> emit) async {
     emit(ProfileLoading());
-    final Either<String, Profile> result = await repository.getProfile();
+    final Either<String, RunnerProfile> result = await repository.getProfile();
 
     result.fold((error) => emit(ProfileError(error)),
         (profile) => emit(ProfileLoaded(profile)));

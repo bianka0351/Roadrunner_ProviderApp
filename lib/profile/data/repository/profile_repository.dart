@@ -8,13 +8,13 @@ class ProfileRepository {
 
   ProfileRepository({required this.profileApi});
 
-  Future<Either<String, Profile>> getProfile() async {
+  Future<Either<String, RunnerProfile>> getProfile() async {
     try {
       final response = await profileApi.fetchProfile();
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
-        final profile = Profile.fromJson(data);
+        final profile = RunnerProfile.fromJson(data);
         return Right(profile); // Return the profile on success
       } else {
         return Left('${response.statusCode}'); // Return error message

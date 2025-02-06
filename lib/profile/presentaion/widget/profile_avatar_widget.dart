@@ -16,7 +16,7 @@ class ProfileAvatar extends StatelessWidget {
     required this.size,
     required this.imageUrl,
     this.imageFile,
-    this.borderColor = AppColors.PrimaryColor,
+    this.borderColor = AppColors.primaryColor,
     this.borderWidth = 2,
     this.defaultAssetImage = 'assets/images/default_avatar.png',
   });

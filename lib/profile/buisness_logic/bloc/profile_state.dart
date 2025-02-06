@@ -14,7 +14,7 @@ class ProfileLoading extends ProfileState {}
 
 // Loaded state
 class ProfileLoaded extends ProfileState {
-  final Profile profile;
+  final RunnerProfile profile;
 
   ProfileLoaded(this.profile);
 
