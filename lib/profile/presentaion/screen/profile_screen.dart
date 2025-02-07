@@ -138,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0.r)),
-                          hintText: profile.organizationId),
+                          hintText: profile.organizationTitle),
                     ),
                     SizedBox(
                       height: 20.h,

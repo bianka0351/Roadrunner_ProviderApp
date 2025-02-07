@@ -27,8 +27,8 @@ class MainApp extends StatelessWidget {
               create: (context) => ProfileBloc(
                   repository: ProfileRepository(
                       profileApi: ProfileApi(
-                          baseUrl:
-                              'http://roadrunnergo.azurewebsites.net/api/ProviderAccountService'))),
+                          url:
+                              'http://roadrunnergo.azurewebsites.net/api/ProviderAccountService/GetProfile?Id=82e12922-4dbd-47cd-ad32-a110a84dd82c'))),
               child: ProfileScreen(),
             ),
           );

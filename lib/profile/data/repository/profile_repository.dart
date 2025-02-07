@@ -17,27 +17,3 @@ class ProfileRepository {
     );
   }
 }
-
-/*
-class ProfileRepository {
-  final ProfileApi profileApi;
-
-  ProfileRepository({required this.profileApi});
-
-  Future<Either<String, RunnerProfile>> getProfile() async {
-    try {
-      final response = await profileApi.fetchProfile();
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final profile = RunnerProfile.fromJson(data);
-        return Right(profile); // Return the profile on success
-      } else {
-        return Left('${response.statusCode}'); // Return error message
-      }
-    } catch (e) {
-      return Left('Exception: ${e.toString()}');
-    }
-  }
-}
-*/

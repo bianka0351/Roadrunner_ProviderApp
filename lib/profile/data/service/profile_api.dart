@@ -1,33 +1,22 @@
 import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:roadrunner_provider_app/core/exception_handling/failures.dart';
 import 'package:roadrunner_provider_app/core/exception_handling/get_api.dart';
 import 'package:roadrunner_provider_app/profile/data/model/profile_model.dart';
 
 class ProfileApi {
-  final String baseUrl;
+  final String url; // URL is passed externally
 
-  ProfileApi({required this.baseUrl});
+  ProfileApi({required this.url});
 
   Future<Either<Failure, RunnerProfile>> fetchProfile() async {
     return await GetApi<RunnerProfile>(
-      url: '$baseUrl/GetProfile',
+      url: url,
       fromJson: (json) => RunnerProfile.fromJson(jsonDecode(json)),
+      headers: {
+        "Content-Type": "application/json",
+        "FROM": "ProviderRR",
+      },
     ).call();
   }
 }
-
-
-
-/*
-class ProfileApi {
-  final String baseUrl;
-
-  ProfileApi({required this.baseUrl});
-
-  Future<http.Response> fetchProfile() async {
-    return await http.get(Uri.parse('$baseUrl/getProfile'));
-  }
-}
-*/

@@ -1,72 +1,78 @@
 import 'package:equatable/equatable.dart';
 
 class RunnerProfile extends Equatable {
+  final String id;
   final String profileImage;
   final String username;
   final String email;
   final String address;
   final String phoneNumber;
-  final String organizationId;
+  final String organizationTitle;
   final bool instantBooking;
   final List<WorkingHours> workingHours;
 
   const RunnerProfile({
+    required this.id,
     required this.profileImage,
     required this.username,
     required this.email,
     required this.address,
     required this.phoneNumber,
-    required this.organizationId,
+    required this.organizationTitle,
     required this.instantBooking,
     required this.workingHours,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'profile_image': profileImage,
-      'username': username,
-      'email': email,
-      'address': address,
-      'phone_number': phoneNumber,
-      'organization_id': organizationId,
-      'instant_booking': instantBooking,
-      'working_hours': workingHours.map((e) => e.toJson()).toList(),
-    };
-  }
-
   factory RunnerProfile.fromJson(Map<String, dynamic> json) {
     return RunnerProfile(
-      profileImage: json['profile_image'] ?? '',
-      username: json['username'] ?? '',
+      id: json['id'] ?? '',
+      profileImage: json['profileImageURL'] ?? '',
+      username: json['userName'] ?? '',
       email: json['email'] ?? '',
       address: json['address'] ?? '',
-      phoneNumber: json['phone_number'] ?? '',
-      organizationId: json['organization_id'] ?? '',
-      instantBooking: json['instant_booking'] ?? '',
-      workingHours: (json['working_hours'] as List<dynamic>?)
+      phoneNumber: json['phoneNumber'] ?? '',
+      organizationTitle: json['organizationTitle'] ?? '',
+      instantBooking: json['allowInstantBooking'] ?? false,
+      workingHours: (json['availabilitySchedules'] as List<dynamic>?)
               ?.map((e) => WorkingHours.fromJson(e))
               .toList() ??
           [],
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'profileImageURL': profileImage,
+      'userName': username,
+      'email': email,
+      'address': address,
+      'phoneNumber': phoneNumber,
+      'organizationTitle': organizationTitle,
+      'allowInstantBooking': instantBooking,
+      'availabilitySchedules': workingHours.map((e) => e.toJson()).toList(),
+    };
+  }
+
   RunnerProfile copyWith({
+    String? id,
     String? profileImage,
     String? username,
     String? email,
     String? address,
     String? phoneNumber,
-    String? organizationId,
+    String? organizationTitle,
     bool? instantBooking,
     List<WorkingHours>? workingHours,
   }) {
     return RunnerProfile(
+      id: id ?? this.id,
       profileImage: profileImage ?? this.profileImage,
       username: username ?? this.username,
       email: email ?? this.email,
       address: address ?? this.address,
       phoneNumber: phoneNumber ?? this.phoneNumber,
-      organizationId: organizationId ?? this.organizationId,
+      organizationTitle: organizationTitle ?? this.organizationTitle,
       instantBooking: instantBooking ?? this.instantBooking,
       workingHours: workingHours ?? this.workingHours,
     );
@@ -74,15 +80,15 @@ class RunnerProfile extends Equatable {
 
   @override
   List<Object> get props => [
+        id,
         profileImage,
         username,
         email,
         address,
         phoneNumber,
-        organizationId,
-        profileImage,
+        organizationTitle,
         instantBooking,
-        workingHours
+        workingHours,
       ];
 }
 
@@ -90,10 +96,13 @@ class WorkingHours extends Equatable {
   final String day;
   final String time;
 
-  WorkingHours({required this.day, required this.time});
+  const WorkingHours({required this.day, required this.time});
 
   factory WorkingHours.fromJson(Map<String, dynamic> json) {
-    return WorkingHours(day: json['day'] ?? '', time: json['time'] ?? '');
+    return WorkingHours(
+      day: json['day'] ?? '',
+      time: json['time'] ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {
