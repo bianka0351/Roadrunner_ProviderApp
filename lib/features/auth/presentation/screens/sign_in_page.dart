@@ -40,8 +40,8 @@ class _SignInPageState extends State<SignInPage> {
     BotToast.showCustomNotification(
       toastBuilder: (cancelFunc) => Container(
         padding: EdgeInsets.all(10.w),
-        height: 36.h,
-        // width: 300.w,
+        // height: 40.h,
+        width: 300.w,
         decoration: BoxDecoration(
           color: Color(0xffFFF0F0),
           boxShadow: [
@@ -58,16 +58,21 @@ class _SignInPageState extends State<SignInPage> {
             Icon(
               icon,
               color: Color(0xffEB5454),
-              size: 20.sp,
+              size: 25.sp,
             ),
             SizedBox(width: 8.w),
-            Text(
-              message,
-              style: TextStyle(
-                color: Color(0xffEB5454),
-                fontSize: 13.sp,
-                fontFamily: 'Poppins-SemiBold',
-              ),
+            Flexible(
+              child: Wrap(children: [
+                Text(
+                  message,
+                  style: TextStyle(
+                    color: Color(0xffEB5454),
+                    fontSize: 15.sp,
+                    fontFamily: 'Poppins-SemiBold',
+                  ),
+                  softWrap: true,
+                ),
+              ]),
             ),
           ],
         ),
