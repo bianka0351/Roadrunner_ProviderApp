@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:roadrunner_provider_app/profile/buisness_logic/bloc/profile_bloc.dart';
+import 'package:roadrunner_provider_app/profile/data/repository/profile_repository.dart';
+import 'package:roadrunner_provider_app/profile/data/service/profile_api.dart';
 import 'package:roadrunner_provider_app/profile/presentaion/screen/profile_screen.dart';
 
 void main() {
@@ -19,7 +23,14 @@ class MainApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Profile',
-            home: ProfileScreen(),
+            home: BlocProvider(
+              create: (context) => ProfileBloc(
+                  repository: ProfileRepository(
+                      profileApi: ProfileApi(
+                          baseUrl:
+                              'http://roadrunnergo.azurewebsites.net/api/ProviderAccountService'))),
+              child: ProfileScreen(),
+            ),
           );
         });
   }
