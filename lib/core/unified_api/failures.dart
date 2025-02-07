@@ -1,11 +1,26 @@
-// Representation of failures in the application.
 abstract class Failure {
   final String message;
-
-  const Failure(this.message);
+  Failure({
+    required this.message,
+  });
 }
 
-// General failures
 class ServerFailure extends Failure {
-  const ServerFailure(super.message);
+  ServerFailure({required super.message});
+}
+
+class NetworkFailure extends Failure {
+  NetworkFailure({required super.message});
+}
+
+class AuthFailure extends Failure {
+  AuthFailure({required super.message});
+}
+
+class CatchFailure extends Failure {
+  CatchFailure({required super.message});
+}
+
+class UnknownFailure extends Failure {
+  UnknownFailure({required super.message});
 }

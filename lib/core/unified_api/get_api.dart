@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import 'handling_exception_request.dart';
+import 'handling_request_exception.dart';
 
 typedef FromJson<T> = T Function(String body);
 
-class GetApi<T> with HandlingExceptionRequest {
+class GetApi<T> with HandlingRequestException {
   final Uri uri;
   final FromJson fromJson;
   final Map? body;

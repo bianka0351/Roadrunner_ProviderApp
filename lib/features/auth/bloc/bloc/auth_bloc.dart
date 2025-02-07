@@ -12,7 +12,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final result = await AuthRepo()
           .signIn(event.organizationId, event.userName, event.password);
       result.fold((left) {
-        emit(AuthFailure());
+        emit(AuthFailure(message: left.message));
       }, (right) => emit(AuthSuccess(auth: right)));
     });
   }

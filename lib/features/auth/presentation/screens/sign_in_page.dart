@@ -8,7 +8,7 @@ import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custo
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_password_text_field.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/screens/home_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:roadrunner_provider_app/main.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -34,48 +34,14 @@ class _SignInPageState extends State<SignInPage> {
     return passwordRegExp.hasMatch(password);
   }
 
-  bool staySignedIn = false;
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadStaySignedIn();
-  }
-
-  Future<void> _loadStaySignedIn() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool staySignedInPref = prefs.getBool('staySignedIn') ?? false;
-
-    if (staySignedInPref) {
-      Future.microtask(() {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-      });
-    } else {
-      setState(() {
-        staySignedIn = staySignedInPref;
-        isLoading = false;
-      });
-    }
-  }
-
-  Future<void> _saveStaySignedIn(bool value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('staySignedIn', value);
-    setState(() {
-      staySignedIn = value;
-    });
-  }
+  final ValueNotifier<bool> staySignedIn = ValueNotifier(false);
 
   void showCustomMessage({required String message, required IconData icon}) {
     BotToast.showCustomNotification(
       toastBuilder: (cancelFunc) => Container(
         padding: EdgeInsets.all(10.w),
         height: 36.h,
-        width: 250.w,
+        // width: 300.w,
         decoration: BoxDecoration(
           color: Color(0xffFFF0F0),
           boxShadow: [
@@ -119,218 +85,238 @@ class _SignInPageState extends State<SignInPage> {
             BotToast.showLoading(clickClose: false);
           } else if (state is AuthSuccess) {
             BotToast.closeAllLoading();
+            if (staySignedIn.value) {
+              sharedPref.setString("id", "${state.auth!.id}");
+            }
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
             );
-          } else {
+          } else if (state is AuthFailure) {
             BotToast.closeAllLoading();
             showCustomMessage(
-                message: "The user is not a runner",
-                icon: Icons.warning_amber_rounded);
+                message: state.message, icon: Icons.warning_amber_rounded);
           }
         },
-        child: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : Scaffold(
-                backgroundColor: AppColors.whiteColor,
-                body: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24.w),
-                    child: Form(
-                      key: _formfield,
-                      child: Column(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: AppColors.whiteColor,
+          body: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 70.h),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(height: 70.h),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Road ',
-                                style: TextStyle(
-                                  fontSize: 38.sp,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w900,
-                                  color: AppColors.blackColor,
-                                ),
-                              ),
-                              Text(
-                                'Runner',
-                                style: TextStyle(
-                                  fontSize: 38.sp,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w900,
-                                  color: AppColors.lightBlueColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 40.h),
-                          Center(
-                            child: Text(
-                              'Sign in',
-                              style: TextStyle(
-                                fontSize: 40.sp,
-                                fontFamily: 'Poppins-SemiBold',
-                                fontWeight: FontWeight.bold,
-                              ),
+                          Text(
+                            'Road ',
+                            style: TextStyle(
+                              fontSize: 38.sp,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.blackColor,
                             ),
                           ),
-                          SizedBox(height: 8.h),
-                          Center(
-                            child: Text(
-                              'Please sign in to your account',
-                              style: TextStyle(
-                                fontSize: 22.sp,
-                                fontWeight: FontWeight.w200,
-                                fontFamily: 'Poppins-Regular',
-                                color: AppColors.blackColor,
-                              ),
+                          Text(
+                            'Runner',
+                            style: TextStyle(
+                              fontSize: 38.sp,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.primaryColor,
                             ),
                           ),
-                          SizedBox(height: 24.h),
-                          CustomTextField(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please enter your Org ID.  ";
-                                }
-                                return null;
-                              },
-                              hintText: 'Organization-ID',
-                              controller: organizationIdController),
-                          SizedBox(height: 16.h),
-                          CustomTextField(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please enter your UserName.  ";
-                                }
-                                return null;
-                              },
-                              hintText: 'User-Name',
-                              controller: userNameController),
-                          SizedBox(height: 16.h),
-                          CustomPasswordTextField(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please enter your Password.  ";
-                                }
-                                if (!isValidPassword(value)) {
-                                  return 'Password must be at least 8 characters,\ninclude an uppercase letter,\na lowercase letter, and a number.';
-                                }
-                                return null;
-                              },
-                              hintText: ' Password',
-                              controller: passwordController),
-                          SizedBox(height: 16.h),
-                          // CustomTextField(
-                          //     validator: (value) {
-                          //       if (value == null || value.isEmpty) {
-                          //         return "Please enter your phone number ";
-                          //       } else if (!isValidUSPhoneNumber(value)) {
-                          //         return 'Invalid US phone number';
-                          //       }
-                          //       return null;
-                          //     },
-                          //     hintText: ' Phone Number',
-                          //     controller: phoneNumberController),
-                          // SizedBox(height: 10.h),
-                          Row(
-                            children: [
-                              Checkbox(
-                                activeColor: AppColors.darkBlueColor,
-                                side: BorderSide(
-                                  color: AppColors.darkBlueColor,
-                                ),
-                                value: staySignedIn,
-                                onChanged: (value) async {
-                                  await _saveStaySignedIn(value!);
+                        ],
+                      ),
+                      SizedBox(height: 40.h),
+                      Center(
+                        child: Text(
+                          'Sign in',
+                          style: TextStyle(
+                            fontSize: 40.sp,
+                            fontFamily: 'Poppins-SemiBold',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      Center(
+                        child: Text(
+                          'Please sign in to your account',
+                          style: TextStyle(
+                            fontSize: 22.sp,
+                            fontWeight: FontWeight.w200,
+                            fontFamily: 'Poppins-Regular',
+                            color: AppColors.blackColor,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 24.h),
+                      Form(
+                        key: _formfield,
+                        child: Column(
+                          children: [
+                            CustomTextField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter your Org ID.  ";
+                                  }
+                                  return null;
                                 },
-                              ),
-                              Text(
-                                'Stay signed in',
+                                hintText: 'Organization-ID',
+                                controller: organizationIdController),
+                            SizedBox(height: 16.h),
+                            CustomTextField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter your UserName.  ";
+                                  }
+                                  return null;
+                                },
+                                hintText: 'User-Name',
+                                controller: userNameController),
+                            SizedBox(height: 16.h),
+                            CustomPasswordTextField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter your Password.  ";
+                                  }
+                                  if (!isValidPassword(value)) {
+                                    return 'Password must be at least 8 characters,\ninclude an uppercase letter,\na lowercase letter, and a number.';
+                                  }
+                                  return null;
+                                },
+                                hintText: ' Password',
+                                controller: passwordController),
+                          ],
+                        ),
+                      ),
+                      // CustomTextField(
+                      //     validator: (value) {
+                      //       if (value == null || value.isEmpty) {
+                      //         return "Please enter your phone number ";
+                      //       } else if (!isValidUSPhoneNumber(value)) {
+                      //         return 'Invalid US phone number';
+                      //       }
+                      //       return null;
+                      //     },
+                      //     hintText: ' Phone Number',
+                      //     controller: phoneNumberController),
+                      // SizedBox(height: 10.h),
+                      Row(
+                        children: [
+                          ValueListenableBuilder(
+                              valueListenable: staySignedIn,
+                              builder: (context, value, _) {
+                                return Checkbox(
+                                  activeColor: AppColors.tertiaryColor,
+                                  side: BorderSide(
+                                    color: AppColors.tertiaryColor,
+                                  ),
+                                  value: staySignedIn.value,
+                                  onChanged: (value) {
+                                    staySignedIn.value = value!;
+                                  },
+                                );
+                              }),
+                          Text(
+                            'Stay signed in',
+                            style: TextStyle(
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                          SizedBox(width: 50.w),
+                          TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Forget Password?',
                                 style: TextStyle(
-                                  fontFamily: 'Poppins-Regular',
+                                  color: AppColors.tertiaryColor,
                                   fontSize: 16.sp,
+                                  fontFamily: 'Inter',
                                 ),
+                              ))
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Center(
+                        child: CustomButton(
+                            text: 'Sign in',
+                            onpressed: () {
+                              if (_formfield.currentState!.validate()) {
+                                context.read<AuthBloc>().add(SignInEvent(
+                                      organizationId:
+                                          organizationIdController.text,
+                                      userName: userNameController.text,
+                                      password: passwordController.text,
+                                      // phoneNumber: phoneNumberController.text,
+                                    ));
+                              }
+                              return false;
+                            })),
+                    SizedBox(height: 10.h),
+                    Divider(
+                      thickness: 1.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.w, right: 20.w, bottom: 20.h),
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          text: 'By Registering, you are agree to Road Runner ',
+                          style: TextStyle(
+                            fontFamily: 'Poppins-SemiBold',
+                            fontSize: 12.sp,
+                            color: AppColors.secondaryColor,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'User Agreement',
+                              style: TextStyle(
+                                fontFamily: 'Poppins-SemiBold',
+                                color: AppColors.tertiaryColor,
+                                fontSize: 12.sp,
                               ),
-                              SizedBox(width: 50.w),
-                              TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    'Forget Password?',
-                                    style: TextStyle(
-                                      color: AppColors.darkBlueColor,
-                                      fontSize: 16.sp,
-                                      fontFamily: 'Inter',
-                                    ),
-                                  ))
-                            ],
-                          ),
-                          SizedBox(height: 130.h),
-                          Center(
-                              child: CustomButton(
-                                  text: 'Sign in',
-                                  onpressed: () {
-                                    if (_formfield.currentState!.validate()) {
-                                      context.read<AuthBloc>().add(SignInEvent(
-                                            organizationId:
-                                                organizationIdController.text,
-                                            userName: userNameController.text,
-                                            password: passwordController.text,
-                                            // phoneNumber: phoneNumberController.text,
-                                          ));
-                                    }
-                                    return false;
-                                  })),
-                          SizedBox(height: 10.h),
-                          Divider(
-                            thickness: 1.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.w),
-                            child: RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                text:
-                                    'By Registering, you are agree to Road Runner ',
+                            ),
+                            TextSpan(
+                                text: ' and ',
                                 style: TextStyle(
                                   fontFamily: 'Poppins-SemiBold',
                                   fontSize: 12.sp,
-                                  color: AppColors.greyColor,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: 'User Agreement',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins-SemiBold',
-                                      color: AppColors.darkBlueColor,
-                                      fontSize: 12.sp,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                      text: ' and ',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins-SemiBold',
-                                        fontSize: 12.sp,
-                                      )),
-                                  TextSpan(
-                                    text: 'Cookies & Internet Advertising.',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins-SemiBold',
-                                      color: AppColors.darkBlueColor,
-                                      fontSize: 12.sp,
-                                    ),
-                                  ),
-                                ],
+                                )),
+                            TextSpan(
+                              text: 'Cookies & Internet Advertising.',
+                              style: TextStyle(
+                                fontFamily: 'Poppins-SemiBold',
+                                color: AppColors.tertiaryColor,
+                                fontSize: 12.sp,
                               ),
                             ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ));
+              )
+            ],
+          ),
+        ));
   }
 }

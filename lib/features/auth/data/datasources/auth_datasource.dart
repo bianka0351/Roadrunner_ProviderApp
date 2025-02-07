@@ -9,12 +9,13 @@ class AuthDatasource {
   ) async {
     final postApi = PostApi(
         uri: Uri.parse(
-            'https://13595554-8941-48ff-b8d0-92fa31b0de0a.mock.pstmn.io/checkRunner'),
+            'http://roadrunnergo.azurewebsites.net/api/ProviderAccountService/AccountValidation'),
         body: {
-          'organizationid': organizationId,
-          'username': userName,
-          'password': password,
+          'UserName': userName,
+          'Password': password,
+          'OrgName': organizationId,
         },
+        additionalHeaders: {"FROM": "ProviderRR"},
         fromJson: authResponseModelFromJson);
 
     return await postApi.callRequest();

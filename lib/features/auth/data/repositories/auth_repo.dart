@@ -7,7 +7,7 @@ import 'package:roadrunner_provider_app/features/auth/data/models/auth_model.dar
 class AuthRepo with HandlingExceptionManager {
   Future<Either<Failure, AuthResponseModel>> signIn(
       String organizationId, String userName, String password) async {
-    return wrapHandling(tryCall: () async {
+    return handleError(tryCall: () async {
       final result =
           await AuthDatasource().signIn(organizationId, userName, password);
       return Right(result);

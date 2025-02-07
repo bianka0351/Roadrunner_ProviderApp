@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:roadrunner_provider_app/core/app_colors.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/screens/sign_in_page.dart';
+import 'package:roadrunner_provider_app/features/home-page/presentation/screens/home_page.dart';
+import 'package:roadrunner_provider_app/main.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,11 +16,14 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+
     Future.delayed(Duration(seconds: 3), () {
       if (!mounted) return;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => SignInPage()),
+        MaterialPageRoute(
+            builder: (context) =>
+                sharedPref.getString("id") == null ? SignInPage() : HomePage()),
       );
     });
   }
@@ -52,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 24.sp,
-                    color: AppColors.softBlackColor,
+                    color: AppColors.blackColor,
                     fontFamily: 'Poppins-Regular',
                   ),
                 ),

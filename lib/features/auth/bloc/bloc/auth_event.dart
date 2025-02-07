@@ -8,6 +8,5 @@ class SignInEvent extends AuthEvent {
     required this.organizationId,
     required this.userName,
     required this.password,
-    // required this.phoneNumber,
   });
 }

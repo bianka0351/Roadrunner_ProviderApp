@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final authResponseModel = authResponseModelFromJson(jsonString);
+
 import 'dart:convert';
 
 AuthResponseModel authResponseModelFromJson(String str) =>
@@ -7,22 +11,22 @@ String authResponseModelToJson(AuthResponseModel data) =>
     json.encode(data.toJson());
 
 class AuthResponseModel {
-  final String? status;
-  final String? message;
+  final String? id;
+  final String? roleName;
 
   AuthResponseModel({
-    this.status,
-    this.message,
+    this.id,
+    this.roleName,
   });
 
   factory AuthResponseModel.fromJson(Map<String, dynamic> json) =>
       AuthResponseModel(
-        status: json["status"],
-        message: json["message"],
+        id: json["id"],
+        roleName: json["roleName"],
       );
 
   Map<String, dynamic> toJson() => {
-        "status": status,
-        "message": message,
+        "id": id,
+        "roleName": roleName,
       };
 }
