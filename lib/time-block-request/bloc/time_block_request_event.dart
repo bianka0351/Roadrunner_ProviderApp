@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
-// Event Class
+/// Events
 abstract class TimeBlockRequestEvent extends Equatable {
   const TimeBlockRequestEvent();
 
@@ -9,60 +8,46 @@ abstract class TimeBlockRequestEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitializeTimeBlockRequest extends TimeBlockRequestEvent {}
+class SelectDatesEvent extends TimeBlockRequestEvent {
+  final List<DateTime> selectedDates;
 
-class UpdateSelectedDate extends TimeBlockRequestEvent {
-  final DateTime selectedDate;
-
-  const UpdateSelectedDate(this.selectedDate);
+  const SelectDatesEvent(this.selectedDates);
 
   @override
-  List<Object?> get props => [selectedDate];
+  List<Object?> get props => [selectedDates];
 }
 
-class UpdateSelectedDays extends TimeBlockRequestEvent {
-  final List<DateTime> selectedDays;
-
-  const UpdateSelectedDays(this.selectedDays);
-
-  @override
-  List<Object?> get props => [selectedDays];
-}
-
-class ToggleAllDayCheckbox extends TimeBlockRequestEvent {
+class ToggleAllDayEvent extends TimeBlockRequestEvent {
   final bool isAllDay;
 
-  const ToggleAllDayCheckbox(this.isAllDay);
+  const ToggleAllDayEvent(this.isAllDay);
 
   @override
   List<Object?> get props => [isAllDay];
 }
 
-class UpdateStartTime extends TimeBlockRequestEvent {
-  final TimeOfDay startTime;
+class SetTimeRangeEvent extends TimeBlockRequestEvent {
+  final String startTime;
+  final String endTime;
 
-  const UpdateStartTime(this.startTime);
-
-  @override
-  List<Object?> get props => [startTime];
-}
-
-class UpdateEndTime extends TimeBlockRequestEvent {
-  final TimeOfDay endTime;
-
-  const UpdateEndTime(this.endTime);
+  const SetTimeRangeEvent({
+    required this.startTime,
+    required this.endTime,
+  });
 
   @override
-  List<Object?> get props => [endTime];
+  List<Object?> get props => [startTime, endTime];
 }
 
-class UpdateNote extends TimeBlockRequestEvent {
-  final String note;
+class AddNotesEvent extends TimeBlockRequestEvent {
+  final String notes;
 
-  const UpdateNote(this.note);
+  const AddNotesEvent(this.notes);
 
   @override
-  List<Object?> get props => [note];
+  List<Object?> get props => [notes];
 }
 
-class SubmitTimeBlockRequest extends TimeBlockRequestEvent {}
+class SubmitRequestEvent extends TimeBlockRequestEvent {}
+
+class FetchRequestsEvent extends TimeBlockRequestEvent {}

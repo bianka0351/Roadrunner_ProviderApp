@@ -36,5 +36,5 @@ class TimeBlockRequestModel {
       endTime: json['endTime'],
       note: json['note'],
     );
-  }
+  } 
 }

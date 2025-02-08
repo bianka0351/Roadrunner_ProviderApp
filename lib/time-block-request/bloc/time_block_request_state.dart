@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import '../data/models/time-block-request-model.dart';
 
-/// Abstract base class for all states
+/// States
 abstract class TimeBlockRequestState extends Equatable {
   const TimeBlockRequestState();
 
@@ -9,10 +9,8 @@ abstract class TimeBlockRequestState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Initial state when no action has been performed
 class TimeBlockRequestInitial extends TimeBlockRequestState {}
 
-/// State when dates are selected
 class DatesSelectedState extends TimeBlockRequestState {
   final List<DateTime> selectedDates;
 
@@ -22,20 +20,19 @@ class DatesSelectedState extends TimeBlockRequestState {
   List<Object?> get props => [selectedDates];
 }
 
-/// State when the "All Day" checkbox is toggled
 class AllDayToggledState extends TimeBlockRequestState {
   final bool isAllDay;
+  final List<DateTime> selectedDates;
 
-  const AllDayToggledState(this.isAllDay);
+  const AllDayToggledState(this.isAllDay, {required this.selectedDates});
 
   @override
-  List<Object?> get props => [isAllDay];
+  List<Object?> get props => [isAllDay, selectedDates];
 }
 
-/// State when a time range is set
 class TimeRangeSetState extends TimeBlockRequestState {
-  final TimeOfDay startTime;
-  final TimeOfDay endTime;
+  final String startTime;
+  final String endTime;
 
   const TimeRangeSetState({
     required this.startTime,
@@ -46,7 +43,6 @@ class TimeRangeSetState extends TimeBlockRequestState {
   List<Object?> get props => [startTime, endTime];
 }
 
-/// State when notes are added
 class NotesAddedState extends TimeBlockRequestState {
   final String notes;
 
@@ -56,25 +52,10 @@ class NotesAddedState extends TimeBlockRequestState {
   List<Object?> get props => [notes];
 }
 
-/// State when the request is being submitted (Loading)
-class TimeBlockRequestSubmitting extends TimeBlockRequestState {
-  const TimeBlockRequestSubmitting();
+class TimeBlockRequestSubmitting extends TimeBlockRequestState {}
 
-  @override
-  List<Object?> get props => [];
-}
+class TimeBlockRequestSuccess extends TimeBlockRequestState {}
 
-/// State when the request is successfully submitted
-class TimeBlockRequestSuccess extends TimeBlockRequestState {
-  final String successMessage;
-
-  const TimeBlockRequestSuccess(this.successMessage);
-
-  @override
-  List<Object?> get props => [successMessage];
-}
-
-/// State when the request submission fails
 class TimeBlockRequestFailure extends TimeBlockRequestState {
   final String errorMessage;
 
@@ -84,18 +65,11 @@ class TimeBlockRequestFailure extends TimeBlockRequestState {
   List<Object?> get props => [errorMessage];
 }
 
-/// State when the month or week is updated
-class TimeBlockRequestUpdatedState extends TimeBlockRequestState {
-  final DateTime currentMonth;
-  final List<DateTime> selectedDates;
-  final List<String> weekDays;
+class TimeBlockRequestsLoaded extends TimeBlockRequestState {
+  final List<TimeBlockRequestModel> requests;
 
-  const TimeBlockRequestUpdatedState({
-    required this.currentMonth,
-    required this.selectedDates,
-    required this.weekDays,
-  });
+  const TimeBlockRequestsLoaded(this.requests);
 
   @override
-  List<Object?> get props => [currentMonth, selectedDates, weekDays];
+  List<Object?> get props => [requests];
 }

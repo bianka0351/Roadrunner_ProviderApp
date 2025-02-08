@@ -9,7 +9,8 @@ class TimeBlockRequestApiService {
   TimeBlockRequestApiService({required this.baseUrl});
 
   // POST: Submit TimeBlockRequest
-  Future<void> submitTimeBlockRequest(TimeBlockRequestModel requestModel) async {
+  Future<void> submitTimeBlockRequest(
+      TimeBlockRequestModel requestModel) async {
     final url = Uri.parse('$baseUrl/time-block-request');
     final response = await http.post(
       url,
@@ -28,13 +29,16 @@ class TimeBlockRequestApiService {
   // GET: Fetch all TimeBlockRequests (if needed)
   Future<List<TimeBlockRequestModel>> fetchAllRequests() async {
     final url = Uri.parse('$baseUrl/time-block-requests');
-    final response = await http.get(url, headers: {'Accept': 'application/json'});
+    final response =
+        await http.get(url, headers: {'Accept': 'application/json'});
 
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch Time Block Requests');
     }
 
     final List<dynamic> responseBody = jsonDecode(response.body);
-    return responseBody.map((json) => TimeBlockRequestModel.fromJson(json)).toList();
+    return responseBody
+        .map((json) => TimeBlockRequestModel.fromJson(json))
+        .toList();
   }
 }
