@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:roadrunner_provider_app/core/exception_handling/failures.dart';
@@ -23,10 +27,18 @@ class GetApi<T> with HandlingRequestException {
         return Right(fromJson(response.body));
       } else {
         Exception e = getException(response: response);
+        log("API Error: ${e.toString()}");
         return Left(ServerFailure(message: e.toString()));
       }
+    } on SocketException {
+      log("No internet connection");
+      return Left(NetworkFailure(message: "No internet connection"));
+    } on TimeoutException {
+      log("Request timeout");
+      return Left(NetworkFailure(message: "Request timed out"));
     } on Exception catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      log("Unexpected error: $e");
+      return Left(UnknownFailure(message: e.toString()));
     }
   }
 }
