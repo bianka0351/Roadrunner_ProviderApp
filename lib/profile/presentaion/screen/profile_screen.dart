@@ -17,7 +17,15 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool _instantBookingSwitch = true;
+  late bool _instantBookingSwitch;
+
+  // Define controllers
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _organizationTitleController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -47,6 +55,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return Center(child: Text(state.message));
           } else if (state is ProfileLoaded) {
             final profile = state.profile;
+
+            _usernameController.text = profile.username;
+            _emailController.text = profile.email;
+            _addressController.text = profile.address;
+            _phoneNumberController.text = profile.phoneNumber;
+            _organizationTitleController.text = profile.organizationTitle;
+            _instantBookingSwitch = profile.instantBooking;
+
             return SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 40.w),
@@ -79,30 +95,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     // username
                     TextField(
+                      controller: _usernameController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0.r)),
-                          hintText: profile.username),
+                          hintText: 'Username'),
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
                     // Email
                     TextField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0.r)),
-                          hintText: profile.email),
+                          hintText: 'Email'),
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
                     // Address
                     TextField(
+                      controller: _addressController,
+                      readOnly: true,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0.r)),
-                          hintText: profile.address,
+                          hintText: 'Address',
                           suffixIcon: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
@@ -125,20 +145,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     // Phone Number
                     TextField(
+                      controller: _phoneNumberController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0.r)),
-                          hintText: profile.phoneNumber),
+                          hintText: 'PhoneNumber'),
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
                     // Organization ID
                     TextField(
+                      controller: _organizationTitleController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0.r)),
-                          hintText: profile.organizationTitle),
+                          hintText: 'Organization ID'),
                     ),
                     SizedBox(
                       height: 20.h,
@@ -169,9 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           CustomSwitchWidget(
                             value: _instantBookingSwitch,
                             onChanged: (value) {
-                              setState(() {
-                                _instantBookingSwitch = profile.instantBooking;
-                              });
+                              setState(() {});
                             },
                           ),
                           SizedBox(
@@ -217,6 +237,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               TextStyle(color: Colors.white, fontSize: 24.sp),
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 30.h,
                     ),
                   ],
                 ),
