@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:roadrunner_provider_app/core/exception_handling/failures.dart';
-import 'package:roadrunner_provider_app/profile/data/model/profile_model.dart';
-import 'package:roadrunner_provider_app/profile/data/service/profile_api.dart';
+import 'package:roadrunner_provider_app/core/unified_api/failures.dart';
+import 'package:roadrunner_provider_app/features/profile/data/model/profile_model.dart';
+import 'package:roadrunner_provider_app/features/profile/data/service/profile_api.dart';
 
 class ProfileRepository {
   final ProfileApi profileApi;

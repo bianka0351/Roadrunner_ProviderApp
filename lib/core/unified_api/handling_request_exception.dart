@@ -1,25 +1,20 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart';
-import 'package:roadrunner_provider_app/core/exception_handling/exceptions.dart';
+import 'package:roadrunner_provider_app/core/unified_api/exceptions.dart';
 
 mixin HandlingRequestException {
   Exception getException({required Response response}) {
-    String message = 'An unexpected error occurred';
+    final String message = json.decode(response.body);
+    // String message = 'An unexpected error occurred';
 
-    try {
-      if (response.body.isNotEmpty) {
-        final decodedBody = jsonDecode(response.body);
-        if (decodedBody is Map<String, dynamic> &&
-            decodedBody.containsKey('message')) {
-          message = decodedBody['message'];
-        }
-      }
-    } on FormatException catch (e) {
-      log('JSON FormatException: ${e.message}');
-    } catch (e) {
-      log('Unexpected error decoding response: $e');
-    }
+    // try {
+    //   final decodedBody = jsonDecode(response.body);
+    //   if (decodedBody is Map<String, dynamic> &&
+    //       decodedBody.containsKey('message')) {
+    //     message = decodedBody['message'];
+    //   }
+    // } catch (e) {}
 
     // handle HTTP status codes
     switch (response.statusCode) {

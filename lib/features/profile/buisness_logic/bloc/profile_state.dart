@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:roadrunner_provider_app/profile/data/model/profile_model.dart';
+import 'package:roadrunner_provider_app/features/profile/data/model/profile_model.dart';
 
 abstract class ProfileState extends Equatable {
   @override

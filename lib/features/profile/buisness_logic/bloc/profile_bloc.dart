@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:roadrunner_provider_app/core/exception_handling/failures.dart';
-import 'package:roadrunner_provider_app/profile/buisness_logic/bloc/profile_event.dart';
-import 'package:roadrunner_provider_app/profile/buisness_logic/bloc/profile_state.dart';
-import 'package:roadrunner_provider_app/profile/data/model/profile_model.dart';
-import 'package:roadrunner_provider_app/profile/data/repository/profile_repository.dart';
+import 'package:roadrunner_provider_app/core/unified_api/failures.dart';
+import 'package:roadrunner_provider_app/features/profile/buisness_logic/bloc/profile_event.dart';
+import 'package:roadrunner_provider_app/features/profile/buisness_logic/bloc/profile_state.dart';
+import 'package:roadrunner_provider_app/features/profile/data/model/profile_model.dart';
+import 'package:roadrunner_provider_app/features/profile/data/repository/profile_repository.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileRepository repository;

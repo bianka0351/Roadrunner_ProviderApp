@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:roadrunner_provider_app/core/app_colors.dart';
-import 'package:roadrunner_provider_app/profile/buisness_logic/bloc/profile_bloc.dart';
-import 'package:roadrunner_provider_app/profile/buisness_logic/bloc/profile_event.dart';
-import 'package:roadrunner_provider_app/profile/buisness_logic/bloc/profile_state.dart';
-import 'package:roadrunner_provider_app/profile/presentaion/widget/profile_avatar_widget.dart';
-import 'package:roadrunner_provider_app/profile/presentaion/widget/custom_switch_widget.dart';
-import 'package:roadrunner_provider_app/profile/presentaion/widget/working_hours_widget.dart';
+import 'package:roadrunner_provider_app/features/profile/buisness_logic/bloc/profile_bloc.dart';
+import 'package:roadrunner_provider_app/features/profile/buisness_logic/bloc/profile_event.dart';
+import 'package:roadrunner_provider_app/features/profile/buisness_logic/bloc/profile_state.dart';
+import 'package:roadrunner_provider_app/features/profile/presentaion/widget/profile_avatar_widget.dart';
+import 'package:roadrunner_provider_app/features/profile/presentaion/widget/custom_switch_widget.dart';
+import 'package:roadrunner_provider_app/features/profile/presentaion/widget/working_hours_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
