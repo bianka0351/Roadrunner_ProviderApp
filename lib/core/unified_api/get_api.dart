@@ -1,51 +1,45 @@
-import 'dart:convert';
+import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
-
-import 'handling_request_exception.dart';
-
-typedef FromJson<T> = T Function(String body);
+import 'package:roadrunner_provider_app/core/unified_api/failures.dart';
+import 'package:roadrunner_provider_app/core/unified_api/handling_request_exception.dart';
 
 class GetApi<T> with HandlingRequestException {
-  final Uri uri;
-  final FromJson fromJson;
-  final Map? body;
-  final bool getFCMToken;
+  final String url;
+  final T Function(String) fromJson;
+  final Map<String, String>? headers;
 
-  GetApi({
-    required this.uri,
-    required this.fromJson,
-    this.body = const {},
-    this.getFCMToken = false,
-  });
+  GetApi({required this.url, required this.fromJson, this.headers});
 
-  Future<T> callRequest() async {
+  Future<Either<Failure, T>> call() async {
     try {
-      Map<String, String> headers = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
-      var request = http.Request('GET', uri);
-      request.body = jsonEncode(body);
-      request.headers.addAll(headers);
-      http.StreamedResponse streamedResponse =
-          await request.send().timeout(const Duration(seconds: 20));
-      http.Response response = await http.Response.fromStream(streamedResponse);
+      final response = await http
+          .get(
+            Uri.parse(url),
+            headers: headers ?? {'Content-Type': 'application/json'},
+          )
+          .timeout(const Duration(seconds: 10));
+
       if (response.statusCode == 200) {
-        return fromJson(response.body);
+        return Right(fromJson(response.body));
       } else {
-        Exception exception = getException(response: response);
-        throw exception;
+        Exception e = getException(response: response);
+        log("API Error: ${e.toString()}");
+        return Left(ServerFailure(message: e.toString()));
       }
-    } on HttpException {
-      rethrow;
-    } on FormatException {
-      rethrow;
     } on SocketException {
-      rethrow;
-    } catch (e) {
-      rethrow;
+      log("No internet connection");
+      return Left(NetworkFailure(message: "No internet connection"));
+    } on TimeoutException {
+      log("Request timeout");
+      return Left(NetworkFailure(message: "Request timed out"));
+    } on Exception catch (e) {
+      log("Unexpected error: $e");
+      return Left(UnknownFailure(message: e.toString()));
+
     }
   }
 }

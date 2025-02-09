@@ -30,6 +30,3 @@ class AuthException extends AppException {
   AuthException({required String message}) : super(message);
 }
 
-class CatchException extends AppException {
-  CatchException({required String message}) : super(message);
-}

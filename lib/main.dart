@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:roadrunner_provider_app/features/auth/bloc/bloc/auth_bloc.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/screens/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +20,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocProvider<AuthBloc>(
       create: (context) => AuthBloc(),
       child: ScreenUtilInit(
@@ -30,5 +32,6 @@ class MainApp extends StatelessWidget {
             home: SplashScreen(),
           )),
     );
+
   }
 }

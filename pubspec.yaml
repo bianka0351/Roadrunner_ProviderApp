@@ -15,7 +15,11 @@ dependencies:
   flutter_bloc: ^9.0.0
   flutter_screenutil: ^5.9.3
   http: ^1.3.0
+
   shared_preferences: ^2.5.1
+
+  equatable: ^2.0.7
+
 
 
 dev_dependencies:
@@ -27,6 +31,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+
 
   fonts:
     - family: Roboto
@@ -41,3 +46,4 @@ flutter:
     - family: Poppins-Regular
       fonts:
         - asset: assets/fonts/Poppins-Regular.ttf       
+
