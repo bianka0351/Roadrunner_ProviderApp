@@ -29,3 +29,4 @@ class NetworkException extends AppException {
 class AuthException extends AppException {
   AuthException({required String message}) : super(message);
 }
+

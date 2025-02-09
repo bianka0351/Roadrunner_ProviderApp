@@ -39,6 +39,7 @@ class GetApi<T> with HandlingRequestException {
     } on Exception catch (e) {
       log("Unexpected error: $e");
       return Left(UnknownFailure(message: e.toString()));
+
     }
   }
 }

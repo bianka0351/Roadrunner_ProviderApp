@@ -20,6 +20,7 @@ mixin HandlingExceptionManager {
     } on AuthException catch (e) {
       log('AuthException: ${e.message}');
       return Left(AuthFailure(message: e.message));
+
     } on SocketException {
       log('No Internet Connection');
       return Left(
