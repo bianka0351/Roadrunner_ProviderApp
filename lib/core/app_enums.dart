@@ -3,3 +3,9 @@ enum AppFilter {
   completed,
   pending,
 }
+
+enum TimeBlockStatus {
+  pending,
+  approved,
+  rejected,
+}

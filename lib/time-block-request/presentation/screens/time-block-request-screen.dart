@@ -6,6 +6,7 @@ import 'package:roadrunner_provider_app/core/app_fonts.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/network/bloc/network_bloc.dart';
 import '../../../core/network/bloc/network_state.dart';
+import '../../../core/utils/text_scale_util.dart';
 import '../../bloc/time_block_request_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,28 +22,33 @@ class TimeBlockRequestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Time Block Request',
-              style: TextStyle(
-                fontFamily: AppFonts.poppinsFontFamily,
-                  fontSize: AppFonts.titleFontSize.sp,
-                  fontWeight: AppFonts.veryBold)),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {},
-            ),
-          ],
+        child: Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0, // Remove shadow
+        title: Text('Time Block Request',
+            style: TextStyle(
+              fontFamily: AppFonts.poppinsFontFamily,
+              fontSize: AppFonts.titleFontSize.sp,
+              fontWeight: AppFonts.veryBold,
+            )),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        body: BlocConsumer<TimeBlockRequestBloc, TimeBlockRequestState>(
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: TextScaleUtil.constantTextScale(
+        child: BlocConsumer<TimeBlockRequestBloc, TimeBlockRequestState>(
           listener: (context, state) {
             if (state is TimeBlockRequestSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -79,12 +85,14 @@ class TimeBlockRequestScreen extends StatelessWidget {
                 children: [
                   SingleChildScrollView(
                     padding: EdgeInsets.symmetric(
-                        vertical: AppDimensions.mediumPadding.h,
-                        horizontal: AppDimensions.mediumPadding.w),
+                      vertical: AppDimensions.mediumPadding.h,
+                      horizontal: AppDimensions.mediumPadding.w,
+                    ),
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                          horizontal: AppDimensions.mediumPadding.w),
-                      height: 600.h,
+                        horizontal: AppDimensions.mediumPadding.w,
+                      ),
+                      height: 550.h,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -92,10 +100,10 @@ class TimeBlockRequestScreen extends StatelessWidget {
                           Text(
                             'Pick dates',
                             style: TextStyle(
-                                              fontFamily: AppFonts.poppinsFontFamily,
-
-                                fontWeight: AppFonts.semiBold,
-                                fontSize: AppFonts.largeFontSize.sp),
+                              fontFamily: AppFonts.poppinsFontFamily,
+                              fontWeight: AppFonts.semiBold,
+                              fontSize: AppFonts.largeFontSize.sp,
+                            ),
                           ),
                           BlocBuilder<NetworkBloc, NetworkState>(
                             builder: (context, networkState) {
@@ -139,25 +147,25 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                             ),
                                             rangePickerElevation:
                                                 4.0, // Elevation
-                                            rangePickerShadowColor: Color(
+                                            rangePickerShadowColor: const Color(
                                                 0x33000000), // Shadow color with 20% opacity
                                             rangeSelectionBackgroundColor:
                                                 AppColors.primaryColor.withAlpha(
                                                     51), // 20% opacity (51 = 0.2 * 255)
                                             rangePickerHeaderHeadlineStyle:
                                                 TextStyle(
-                                                                  fontFamily: AppFonts.poppinsFontFamily,
-
+                                              fontFamily:
+                                                  AppFonts.poppinsFontFamily,
                                               fontSize: 20.0,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white,
                                             ),
                                             rangePickerHeaderHelpStyle:
                                                 TextStyle(
-                                                                  fontFamily: AppFonts.poppinsFontFamily,
-
+                                              fontFamily:
+                                                  AppFonts.poppinsFontFamily,
                                               fontSize: 14.0,
-                                              color: Color(
+                                              color: const Color(
                                                   0xCCFFFFFF), // 80% opacity (0xCC = 0.8 * 255)
                                             ),
                                           ),
@@ -190,11 +198,13 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                     ),
                                     SizedBox(
                                         width: AppDimensions.smallPadding.w),
-                                    Text('Time-Block Dates',
-                                        style: TextStyle(
-                                                          fontFamily: AppFonts.poppinsFontFamily,
-
-                                            color: AppColors.lightTextColor)),
+                                    Text(
+                                      'Time-Block Dates',
+                                      style: TextStyle(
+                                        fontFamily: AppFonts.poppinsFontFamily,
+                                        color: AppColors.lightTextColor,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               );
@@ -210,9 +220,9 @@ class TimeBlockRequestScreen extends StatelessWidget {
                             Text(
                               'Selected Dates: ${(state is DatesSelectedState ? (state).selectedDates : (state as AllDayToggledState).selectedDates).map((date) => DateFormat.yMMMd().format(date)).join(' - ')}',
                               style: TextStyle(
-                                                fontFamily: AppFonts.poppinsFontFamily,
-
-                                  fontSize: AppFonts.smallFontSize.sp),
+                                fontFamily: AppFonts.poppinsFontFamily,
+                                fontSize: AppFonts.smallFontSize.sp,
+                              ),
                             ),
                           SizedBox(height: AppDimensions.hugePadding.h),
                           Row(
@@ -229,10 +239,10 @@ class TimeBlockRequestScreen extends StatelessWidget {
                               Text(
                                 'All day',
                                 style: TextStyle(
-                                                  fontFamily: AppFonts.poppinsFontFamily,
-
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: AppFonts.mediumFontSize.sp),
+                                  fontFamily: AppFonts.poppinsFontFamily,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: AppFonts.mediumFontSize.sp,
+                                ),
                               ),
                               SizedBox(width: AppDimensions.mediumPadding.w),
                               Row(
@@ -276,7 +286,6 @@ class TimeBlockRequestScreen extends StatelessWidget {
 
                                                   if (time != null) {
                                                     final formattedTime =
-                                                        // ignore: use_build_context_synchronously
                                                         time.format(context);
                                                     bloc.add(SetTimeRangeEvent(
                                                       startTime: formattedTime,
@@ -312,8 +321,8 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            AppDimensions.smallPadding.w),
+                                      horizontal: AppDimensions.smallPadding.w,
+                                    ),
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                           bottom: AppDimensions.smallPadding.h),
@@ -322,24 +331,22 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                         child: Text(
                                           '_',
                                           style: TextStyle(
-                                                            fontFamily: AppFonts.poppinsFontFamily,
-
-                                              fontSize: AppFonts
-                                                  .extraLargeFontSize.sp,
-                                              fontWeight: AppFonts.regular),
+                                            fontFamily:
+                                                AppFonts.poppinsFontFamily,
+                                            fontSize:
+                                                AppFonts.extraLargeFontSize.sp,
+                                            fontWeight: AppFonts.regular,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                   BlocBuilder<NetworkBloc, NetworkState>(
                                     builder: (context, networkState) {
-                                      // final isConnected =
-                                      //     networkState is NetworkConnectedState;
                                       return SizedBox(
                                         width: AppDimensions.mediumWidth.w,
                                         child: ElevatedButton(
                                           onPressed: bloc.isAllDay
-                                              //|| !isConnected
                                               ? null
                                               : () async {
                                                   final time =
@@ -372,7 +379,6 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                                   );
                                                   if (time != null) {
                                                     final formattedTime =
-                                                        // ignore: use_build_context_synchronously
                                                         time.format(context);
                                                     bloc.add(SetTimeRangeEvent(
                                                       startTime: bloc.startTime,
@@ -424,7 +430,7 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                     blue: 0,
                                     alpha: 0.2,
                                   ),
-                                  offset: Offset(0, 4),
+                                  offset: const Offset(0, 4),
                                   blurRadius: AppDimensions.smallBlurRdius,
                                 ),
                               ],
@@ -435,8 +441,7 @@ class TimeBlockRequestScreen extends StatelessWidget {
                               decoration: InputDecoration(
                                 hintText: 'WRITE A NOTE',
                                 hintStyle: const TextStyle(
-                                                  fontFamily: AppFonts.poppinsFontFamily,
-
+                                  fontFamily: AppFonts.poppinsFontFamily,
                                   color: AppColors.blackTextColor,
                                   fontWeight: AppFonts.semiBold,
                                 ),
@@ -481,16 +486,20 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(Icons.history,
-                                        color: AppColors.lightTextColor),
+                                    Icon(
+                                      Icons.history,
+                                      color: AppColors.lightTextColor,
+                                    ),
                                     SizedBox(
                                         width: AppDimensions.smallPadding.w),
-                                    Text('Fetch previous Time-blocks',
-                                        style: TextStyle(
-                                                          fontFamily: AppFonts.poppinsFontFamily,
-
-                                            fontSize: AppFonts.smallFontSize.sp,
-                                            color: AppColors.lightTextColor)),
+                                    Text(
+                                      'Fetch previous Time-blocks',
+                                      style: TextStyle(
+                                        fontFamily: AppFonts.poppinsFontFamily,
+                                        fontSize: AppFonts.smallFontSize.sp,
+                                        color: AppColors.lightTextColor,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               );
@@ -504,10 +513,10 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                 Text(
                                   'Previous Requests',
                                   style: TextStyle(
-                                                    fontFamily: AppFonts.poppinsFontFamily,
-
-                                      fontWeight: AppFonts.semiBold,
-                                      fontSize: AppFonts.largeFontSize.sp),
+                                    fontFamily: AppFonts.poppinsFontFamily,
+                                    fontWeight: AppFonts.semiBold,
+                                    fontSize: AppFonts.largeFontSize.sp,
+                                  ),
                                 ),
                                 ...state.requests.map((request) => ListTile(
                                       title: Text(request.note),
@@ -556,11 +565,10 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                 : Text(
                                     'Send The Request',
                                     style: TextStyle(
-                                                      fontFamily: AppFonts.poppinsFontFamily,
-
-                                        fontSize:
-                                            AppFonts.mainButtonFontSize.sp,
-                                        color: Colors.white),
+                                      fontFamily: AppFonts.poppinsFontFamily,
+                                      fontSize: AppFonts.mainButtonFontSize.sp,
+                                      color: Colors.white,
+                                    ),
                                   ),
                           );
                         },
@@ -573,6 +581,6 @@ class TimeBlockRequestScreen extends StatelessWidget {
           },
         ),
       ),
-    );
+    ));
   }
 }

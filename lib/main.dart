@@ -3,17 +3,22 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart'; // Add this import
 import 'package:roadrunner_provider_app/core/network/bloc/network_bloc.dart';
+import 'package:roadrunner_provider_app/time-block-request/presentation/screens/time-block-request-screen.dart';
 import 'core/network/bloc/network_event.dart';
 import 'core/utils/orientation_util.dart';
 import 'core/utils/text_scale_util.dart';
 import 'time-block-request/bloc/time_block_request_bloc.dart';
 import 'time-block-request/data/repositories/time-block-request-repository.dart';
 import 'time-block-request/data/datasources/time_block_request_api_service.dart';
-import 'time-block-request/presentation/screens/time-block-request-screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+// Set transparent status bar
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.light, // Change based on background color
+  ));
   runApp(const MyApp());
 }
 
@@ -46,10 +51,6 @@ class MyApp extends StatelessWidget {
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Time Block Request App',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-            ),
             home: TextScaleUtil.constantTextScale(
               child: TimeBlockRequestScreen(),
             ),

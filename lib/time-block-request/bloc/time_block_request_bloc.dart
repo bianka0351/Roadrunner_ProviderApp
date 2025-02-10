@@ -35,7 +35,7 @@ class TimeBlockRequestBloc
       endTime = event.endTime;
       emit(TimeRangeSetState(startTime: startTime, endTime: endTime));
     });
-    
+
     on<AddNotesEvent>((event, emit) {
       notes = event.notes;
       emit(NotesAddedState(notes));
@@ -61,8 +61,9 @@ class TimeBlockRequestBloc
 
     on<FetchRequestsEvent>((event, emit) async {
       try {
-        final requests = await repository.getAllRequests();
-        emit(TimeBlockRequestsLoaded(requests));
+        final requests =
+            await repository.getAllRequests(userId: '', organizationId: '');
+        emit(TimeBlockRequestsLoaded(requests.cast<TimeBlockRequestModel>()));
       } catch (error) {
         emit(TimeBlockRequestFailure(error.toString()));
       }

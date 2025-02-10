@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
+import '../models/previous_time_block_requests_model.dart';
 import '../models/time-block-request-model.dart';
 
 class TimeBlockRequestApiService {
@@ -8,9 +8,8 @@ class TimeBlockRequestApiService {
 
   TimeBlockRequestApiService({required this.baseUrl});
 
-  // POST: Submit TimeBlockRequest
-  Future<void> submitTimeBlockRequest(
-      TimeBlockRequestModel requestModel) async {
+  // POST: Submit a Time Block Request
+  Future<void> submitTimeBlockRequest(TimeBlockRequestModel requestModel) async {
     final url = Uri.parse('$baseUrl/time-block-request');
     final response = await http.post(
       url,
@@ -26,11 +25,17 @@ class TimeBlockRequestApiService {
     }
   }
 
-  // GET: Fetch all TimeBlockRequests (if needed)
-  Future<List<TimeBlockRequestModel>> fetchAllRequests() async {
-    final url = Uri.parse('$baseUrl/time-block-requests');
-    final response =
-        await http.get(url, headers: {'Accept': 'application/json'});
+  // GET: Fetch all Time Block Requests
+  Future<List<PreviousTimeBlockRequestModel>> fetchAllRequests({
+    required String userId,
+    required String organizationId,
+  }) async {
+    final url = Uri.parse(
+        '$baseUrl/time-block-requests?userId=$userId&organizationId=$organizationId');
+    final response = await http.get(
+      url,
+      headers: {'Accept': 'application/json'},
+    );
 
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch Time Block Requests');
@@ -38,7 +43,7 @@ class TimeBlockRequestApiService {
 
     final List<dynamic> responseBody = jsonDecode(response.body);
     return responseBody
-        .map((json) => TimeBlockRequestModel.fromJson(json))
+        .map((json) => PreviousTimeBlockRequestModel.fromJson(json))
         .toList();
   }
 }
