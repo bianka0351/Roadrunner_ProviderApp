@@ -129,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.all(10.r),
-                                  backgroundColor: AppColors.tertiaryColor,
+                                  backgroundColor: AppColors.secondaryColor,
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(7.r))),
@@ -172,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.all(10.r),
-                              backgroundColor: AppColors.tertiaryColor,
+                              backgroundColor: AppColors.secondaryColor,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(7.r))),
                           child: Text(

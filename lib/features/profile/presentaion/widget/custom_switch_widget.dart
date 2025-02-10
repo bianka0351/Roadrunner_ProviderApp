@@ -26,7 +26,7 @@ class _CustomSwitchWidgetState extends State<CustomSwitchWidget> {
         width: 50.w,
         height: 30.h,
         decoration: BoxDecoration(
-          color: widget.value ? AppColors.tertiaryColor : Colors.grey,
+          color: widget.value ? AppColors.secondaryColor : Colors.grey,
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: Stack(

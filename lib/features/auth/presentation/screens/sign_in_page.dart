@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:roadrunner_provider_app/core/app_colors.dart';
+import 'package:roadrunner_provider_app/core/app_fonts.dart';
 import 'package:roadrunner_provider_app/features/auth/bloc/bloc/auth_bloc.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_password_text_field.dart';
+import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_road_runner.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/screens/home_page.dart';
 import 'package:roadrunner_provider_app/main.dart';
@@ -57,7 +59,7 @@ class _SignInPageState extends State<SignInPage> {
           children: [
             Icon(
               icon,
-              color: Color(0xffEB5454),
+              color: AppColors.errorColor,
               size: 25.sp,
             ),
             SizedBox(width: 8.w),
@@ -66,7 +68,7 @@ class _SignInPageState extends State<SignInPage> {
                 Text(
                   message,
                   style: TextStyle(
-                    color: Color(0xffEB5454),
+                    color: AppColors.errorColor,
                     fontSize: 15.sp,
                     fontFamily: 'Poppins-SemiBold',
                   ),
@@ -105,7 +107,7 @@ class _SignInPageState extends State<SignInPage> {
         },
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: AppColors.whiteColor,
+          backgroundColor: Colors.white,
           body: Stack(
             alignment: Alignment.topCenter,
             children: [
@@ -119,48 +121,27 @@ class _SignInPageState extends State<SignInPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            'Road ',
-                            style: TextStyle(
-                              fontSize: 38.sp,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.blackColor,
-                            ),
+                          CustomRoadRunner(
+                            text: 'Road',
+                            color: Colors.black,
+                            fontSize: 38.sp,
                           ),
-                          Text(
-                            'Runner',
-                            style: TextStyle(
-                              fontSize: 38.sp,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
+                          CustomRoadRunner(
+                            text: ' Runner',
+                            color: AppColors.primaryColor,
+                            fontSize: 38.sp,
+                          )
                         ],
                       ),
                       SizedBox(height: 40.h),
                       Center(
-                        child: Text(
-                          'Sign in',
-                          style: TextStyle(
-                            fontSize: 40.sp,
-                            fontFamily: 'Poppins-SemiBold',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: Text('Sign in',
+                            style: AppFonts.poppinsSemiBold(fontSize: 40.sp)),
                       ),
                       SizedBox(height: 8.h),
                       Center(
-                        child: Text(
-                          'Please sign in to your account',
-                          style: TextStyle(
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.w200,
-                            fontFamily: 'Poppins-Regular',
-                            color: AppColors.blackColor,
-                          ),
-                        ),
+                        child: Text('Please sign in to your account',
+                            style: AppFonts.poppinsRegular(fontSize: 20.sp)),
                       ),
                       SizedBox(height: 24.h),
                       Form(
@@ -174,7 +155,7 @@ class _SignInPageState extends State<SignInPage> {
                                   }
                                   return null;
                                 },
-                                hintText: 'Organization-ID',
+                                hintText: 'Organization ID',
                                 controller: organizationIdController),
                             SizedBox(height: 16.h),
                             CustomTextField(
@@ -184,7 +165,7 @@ class _SignInPageState extends State<SignInPage> {
                                   }
                                   return null;
                                 },
-                                hintText: 'User-Name',
+                                hintText: 'User Name',
                                 controller: userNameController),
                             SizedBox(height: 16.h),
                             CustomPasswordTextField(
@@ -197,7 +178,7 @@ class _SignInPageState extends State<SignInPage> {
                                   }
                                   return null;
                                 },
-                                hintText: ' Password',
+                                hintText: 'Password',
                                 controller: passwordController),
                           ],
                         ),
@@ -220,9 +201,9 @@ class _SignInPageState extends State<SignInPage> {
                               valueListenable: staySignedIn,
                               builder: (context, value, _) {
                                 return Checkbox(
-                                  activeColor: AppColors.tertiaryColor,
+                                  activeColor: AppColors.secondaryColor,
                                   side: BorderSide(
-                                    color: AppColors.tertiaryColor,
+                                    color: AppColors.secondaryColor,
                                   ),
                                   value: staySignedIn.value,
                                   onChanged: (value) {
@@ -230,24 +211,17 @@ class _SignInPageState extends State<SignInPage> {
                                   },
                                 );
                               }),
-                          Text(
-                            'Stay signed in',
-                            style: TextStyle(
-                              fontFamily: 'Poppins-Regular',
-                              fontSize: 16.sp,
-                            ),
-                          ),
-                          SizedBox(width: 50.w),
+                          Text('Stay signed in',
+                              style: AppFonts.poppinsRegular(fontSize: 16.sp)),
+                          SizedBox(width: 70.w),
                           TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Forget Password?',
-                                style: TextStyle(
-                                  color: AppColors.tertiaryColor,
+                            onPressed: () {},
+                            child: Text('Forget Password?',
+                                style: AppFonts.poppinsRegular(
                                   fontSize: 16.sp,
-                                  fontFamily: 'Inter',
-                                ),
-                              ))
+                                  color: AppColors.secondaryColor,
+                                )),
+                          )
                         ],
                       ),
                     ],
@@ -284,33 +258,32 @@ class _SignInPageState extends State<SignInPage> {
                       child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                          text: 'By Registering, you are agree to Road Runner ',
-                          style: TextStyle(
-                            fontFamily: 'Poppins-SemiBold',
+                          text:
+                              '   By Registering, you are agree to Road Runner ',
+                          style: AppFonts.poppinsSemiBold(
                             fontSize: 12.sp,
-                            color: AppColors.secondaryColor,
+                            color: AppColors.tritiaryColor,
                           ),
                           children: [
                             TextSpan(
                               text: 'User Agreement',
-                              style: TextStyle(
-                                fontFamily: 'Poppins-SemiBold',
-                                color: AppColors.tertiaryColor,
+                              style: AppFonts.poppinsSemiBold(
                                 fontSize: 12.sp,
+                                color: AppColors.secondaryColor,
                               ),
                             ),
                             TextSpan(
-                                text: ' and ',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins-SemiBold',
-                                  fontSize: 12.sp,
-                                )),
+                              text: ' and ',
+                              style: AppFonts.poppinsSemiBold(
+                                fontSize: 12.sp,
+                                color: AppColors.tritiaryColor,
+                              ),
+                            ),
                             TextSpan(
                               text: 'Cookies & Internet Advertising.',
-                              style: TextStyle(
-                                fontFamily: 'Poppins-SemiBold',
-                                color: AppColors.tertiaryColor,
+                              style: AppFonts.poppinsSemiBold(
                                 fontSize: 12.sp,
+                                color: AppColors.secondaryColor,
                               ),
                             ),
                           ],
