@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'package:dartz/dartz.dart';
-import 'package:roadrunner_provider_app/core/unified_api/exceptions.dart';
-import 'package:roadrunner_provider_app/core/unified_api/failures.dart';
+import 'package:roadrunner_provider_app/core/unified_apis/exceptions.dart';
+import 'package:roadrunner_provider_app/core/unified_apis/failures.dart';
 
 mixin HandlingExceptionManager {
   Future<Either<Failure, T>> handleError<T>(

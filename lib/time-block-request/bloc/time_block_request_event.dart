@@ -7,7 +7,15 @@ abstract class TimeBlockRequestEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
+class FetchRequestsEvent extends TimeBlockRequestEvent {
+  final String userId;
+  final String organizationId;
 
+  const FetchRequestsEvent({required this.userId, required this.organizationId});
+
+  @override
+  List<Object?> get props => [userId, organizationId];
+}
 class SelectDatesEvent extends TimeBlockRequestEvent {
   final List<DateTime> selectedDates;
 
@@ -50,4 +58,6 @@ class AddNotesEvent extends TimeBlockRequestEvent {
 
 class SubmitRequestEvent extends TimeBlockRequestEvent {}
 
-class FetchRequestsEvent extends TimeBlockRequestEvent {}
+//class FetchRequestsEvent extends TimeBlockRequestEvent {}
+
+class ResetFormEvent extends TimeBlockRequestEvent {}

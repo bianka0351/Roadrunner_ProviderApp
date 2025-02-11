@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:roadrunner_provider_app/core/unified_api/exceptions.dart';
+import 'package:roadrunner_provider_app/core/unified_apis/exceptions.dart';
 
 mixin HandlingRequestException {
   Exception getException({required Response response}) {

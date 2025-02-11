@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../data/models/time-block-request-model.dart';
+import '../data/models/previous_time_block_requests_model.dart';
 
 /// States
 abstract class TimeBlockRequestState extends Equatable {
@@ -7,6 +7,19 @@ abstract class TimeBlockRequestState extends Equatable {
 
   @override
   List<Object?> get props => [];
+}
+
+class TimeBlockRequestLoading extends TimeBlockRequestState {}
+
+class TimeBlockRequestEmpty extends TimeBlockRequestState {}
+
+class TimeBlockRequestsLoaded extends TimeBlockRequestState {
+  final List<PreviousTimeBlockRequestModel> requests;
+
+  const TimeBlockRequestsLoaded(this.requests);
+
+  @override
+  List<Object?> get props => [requests];
 }
 
 class TimeBlockRequestInitial extends TimeBlockRequestState {}
@@ -65,11 +78,11 @@ class TimeBlockRequestFailure extends TimeBlockRequestState {
   List<Object?> get props => [errorMessage];
 }
 
-class TimeBlockRequestsLoaded extends TimeBlockRequestState {
-  final List<TimeBlockRequestModel> requests;
+// class TimeBlockRequestsLoaded extends TimeBlockRequestState {
+//   final List<TimeBlockRequestModel> requests;
 
-  const TimeBlockRequestsLoaded(this.requests);
+//   const TimeBlockRequestsLoaded(this.requests);
 
-  @override
-  List<Object?> get props => [requests];
-}
+//   @override
+//   List<Object?> get props => [requests];
+// }

@@ -6,7 +6,7 @@ class AppColors {
   static const Color primaryHoverColor = Color(0xFF025A82);
   static const Color secondaryHoverColor = Color(0xFFDDDDDD);
   static const Color successColor = Color(0xFF7DA02C);
-  static const Color whiteColor = Color(0xFFFB3640);
+  static const Color errorColor = Color(0xFFFB3640);
   static const Color bgColor = Color(0xFFF6F6F6);
   static const Color bgColor2 = Color(0xFFF6F7F9);
   static const Color inProgressStatus = Color(0xFF649D55);
