@@ -29,6 +29,15 @@ class MainApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (context, child) {
           return MaterialApp(
+            theme: ThemeData(
+              fontFamily: 'Poppins-Regular', // Default font for the app
+              textTheme: TextTheme(
+                headlineLarge: TextStyle(fontFamily: 'Roboto', fontSize: 32),
+                titleLarge:
+                    TextStyle(fontFamily: 'Poppins-SemiBold', fontSize: 24),
+                bodyMedium: TextStyle(fontFamily: 'Inter', fontSize: 16),
+              ),
+            ),
             debugShowCheckedModeBanner: false,
             title: 'Profile',
             home: BlocProvider(
