@@ -9,7 +9,7 @@ class ProfileApi {
 
   ProfileApi({required this.url});
 
-  Future<Either<Failure, RunnerProfile>> fetchProfile() async {
+  Future<RunnerProfile> fetchProfile() async {
     return await GetApi<RunnerProfile>(
       url: url,
       fromJson: (json) => RunnerProfile.fromJson(jsonDecode(json)),
