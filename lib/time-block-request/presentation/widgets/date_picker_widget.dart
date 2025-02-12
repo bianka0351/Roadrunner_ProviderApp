@@ -65,7 +65,7 @@ class DatePickerWidget extends StatelessWidget {
         }
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primaryHoverColor,
+        backgroundColor: AppColors.secondaryColor,
         shape: RoundedRectangleBorder(
           borderRadius:
               BorderRadius.circular(AppDimensions.smallBorderRadius.r),
@@ -77,14 +77,14 @@ class DatePickerWidget extends StatelessWidget {
         children: [
           Icon(
             Icons.calendar_today,
-            color: AppColors.lightTextColor,
+            color: AppColors.tritiaryColor,
           ),
           SizedBox(width: AppDimensions.smallPadding.w),
           Text(
             'Time-Block Dates',
             style: TextStyle(
               fontFamily: AppFonts.poppinsFontFamily,
-              color: AppColors.lightTextColor,
+              color: AppColors.tritiaryColor,
             ),
           ),
         ],

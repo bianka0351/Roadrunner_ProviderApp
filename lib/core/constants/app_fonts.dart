@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
-
 class AppFonts {
   // Poppins font family
   static const String poppinsFontFamily = 'Poppins';
@@ -12,27 +10,61 @@ class AppFonts {
   static const FontWeight medium = FontWeight.w500;
   static const FontWeight semiBold = FontWeight.w600;
   static const FontWeight bold = FontWeight.w700;
-  static const FontWeight veryBold = FontWeight.w700;
-
-  // Font sizes
-  static const double smallFontSize = 12.0;
-  static const double mediumFontSize = 14.0;
-  static const double largeFontSize = 16.0;
-  static const double extraLargeFontSize = 18.0;
-  static const double mainButtonFontSize = 22.0;
-  static const double headingFontSize = 24.0;
-  static const double titleFontSize = 26.0;
-
-  static const TextStyle Function({double fontSize, Color color})
-      poppinsLightStyle = poppinsLight;
+  static const FontWeight extraBold = FontWeight.w900;
 
   // Text styles
-  static TextStyle poppinsLight(
-      {double fontSize = smallFontSize,
-      Color color = AppColors.lightTextColor}) {
+  static TextStyle poppinsLight({final double? fontSize, final Color? color}) {
+    return TextStyle(
+      fontFamily: poppinsFontFamily,
+      fontWeight: light,
+      fontSize: fontSize,
+      color: color,
+    );
+  }
+
+  static TextStyle poppinsRegular(
+      {final double? fontSize, final Color? color}) {
+    return TextStyle(
+      fontFamily: poppinsFontFamily,
+      fontWeight: regular,
+      fontSize: fontSize,
+      color: color,
+    );
+  }
+
+  static TextStyle poppinsMedium({final double? fontSize, final Color? color}) {
     return TextStyle(
       fontFamily: poppinsFontFamily,
       fontWeight: medium,
+      fontSize: fontSize,
+      color: color,
+    );
+  }
+
+  static TextStyle poppinsSemiBold(
+      {final double? fontSize, final Color? color}) {
+    return TextStyle(
+      fontFamily: poppinsFontFamily,
+      fontWeight: semiBold,
+      fontSize: fontSize,
+      color: color,
+    );
+  }
+
+  static TextStyle poppinsBold({final double? fontSize, final Color? color}) {
+    return TextStyle(
+      fontFamily: poppinsFontFamily,
+      fontWeight: bold,
+      fontSize: fontSize,
+      color: color,
+    );
+  }
+
+  static TextStyle poppinsExtraBold(
+      {final double? fontSize, final Color? color}) {
+    return TextStyle(
+      fontFamily: poppinsFontFamily,
+      fontWeight: extraBold,
       fontSize: fontSize,
       color: color,
     );

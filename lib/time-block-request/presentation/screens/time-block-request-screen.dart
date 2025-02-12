@@ -742,7 +742,7 @@ class TimeBlockRequestScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontFamily: AppFonts.poppinsFontFamily,
                                 fontWeight: AppFonts.semiBold,
-                                fontSize: AppFonts.largeFontSize.sp,
+                                fontSize: 20.sp,
                               ),
                             ),
                             const DatePickerWidget(),
@@ -757,7 +757,7 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                 'Selected Dates: ${(state is DatesSelectedState ? (state).selectedDates : (state as AllDayToggledState).selectedDates).map((date) => DateFormat.yMMMd().format(date)).join(' - ')}',
                                 style: TextStyle(
                                   fontFamily: AppFonts.poppinsFontFamily,
-                                  fontSize: AppFonts.smallFontSize.sp,
+                                  fontSize: 11.sp,
                                 ),
                               ),
                             SizedBox(height: AppDimensions.hugePadding.h),
@@ -769,7 +769,7 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                   onChanged: (value) {
                                     bloc.add(ToggleAllDayEvent(value ?? false));
                                   },
-                                  checkColor: AppColors.primaryHoverColor,
+                                  checkColor: AppColors.secondaryColor,
                                   activeColor: AppColors.primaryColor,
                                 ),
                                 Text(
@@ -777,7 +777,7 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                   style: TextStyle(
                                     fontFamily: AppFonts.poppinsFontFamily,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: AppFonts.mediumFontSize.sp,
+                                    fontSize: 14.sp,
                                   ),
                                 ),
                                 SizedBox(width: AppDimensions.mediumPadding.w),
@@ -803,8 +803,7 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                             style: TextStyle(
                                               fontFamily:
                                                   AppFonts.poppinsFontFamily,
-                                              fontSize: AppFonts
-                                                  .extraLargeFontSize.sp,
+                                              fontSize: 26.sp,
                                               fontWeight: AppFonts.regular,
                                             ),
                                           ),
@@ -849,7 +848,7 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                 );
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primaryHoverColor,
+                                backgroundColor: AppColors.secondaryColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                     AppDimensions.smallBorderRadius.r,
@@ -862,179 +861,25 @@ class TimeBlockRequestScreen extends StatelessWidget {
                                 children: [
                                   Icon(
                                     Icons.history,
-                                    color: AppColors.lightTextColor,
+                                    color: AppColors.tritiaryColor,
                                   ),
                                   SizedBox(width: AppDimensions.smallPadding.w),
                                   Text(
                                     'Fetch previous Time-blocks',
                                     style: TextStyle(
                                       fontFamily: AppFonts.poppinsFontFamily,
-                                      fontSize: AppFonts.smallFontSize.sp,
-                                      color: AppColors.lightTextColor,
+                                      fontSize: 11.sp,
+                                      color: AppColors.tritiaryColor,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-// if (state is TimeBlockRequestLoading)
-//   Padding(
-//     padding: EdgeInsets.symmetric(vertical: AppDimensions.mediumPadding.h),
-//     child: Center(
-//       child: CircularProgressIndicator(
-//         color: AppColors.primaryColor,
-//       ),
-//     ),
-//   ),
-// if (state is TimeBlockRequestFailure)
-//   Padding(
-//     padding: EdgeInsets.symmetric(vertical: AppDimensions.mediumPadding.h),
-//     child: Center(
-//       child: Text(
-//         'Error: ${(state).errorMessage}',
-//         style: TextStyle(
-//           fontFamily: AppFonts.poppinsFontFamily,
-//           fontSize: AppFonts.smallFontSize.sp,
-//           color: AppColors.errorColor,
-//         ),
-//       ),
-//     ),
-//   ),
-// if (state is TimeBlockRequestsLoaded)
-//   Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: [
-//       SizedBox(height: AppDimensions.mediumPadding.h),
-//       Text(
-//         'Previous Requests',
-//         style: TextStyle(
-//           fontFamily: AppFonts.poppinsFontFamily,
-//           fontWeight: AppFonts.semiBold,
-//           fontSize: AppFonts.largeFontSize.sp,
-//         ),
-//       ),
-//       ...(state).requests.map((request) => Card(
-//         margin: EdgeInsets.symmetric(vertical: AppDimensions.smallPadding.h),
-//         child: ListTile(
-//           title: Text(
-//             request.note ?? 'No note',
-//             style: TextStyle(
-//               fontFamily: AppFonts.poppinsFontFamily,
-//               fontSize: AppFonts.mediumFontSize.sp,
-//               fontWeight: AppFonts.semiBold,
-//             ),
-//           ),
-//           subtitle: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Text(
-//                 'Date: ${DateFormat.yMMMd().format(request.date)}',
-//                 style: TextStyle(
-//                   fontFamily: AppFonts.poppinsFontFamily,
-//                   fontSize: AppFonts.smallFontSize.sp,
-//                   color: AppColors.greyColor,
-//                 ),
-//               ),
-//               Text(
-//                 'Status: ${request.status.toString().split('.').last}',
-//                 style: TextStyle(
-//                   fontFamily: AppFonts.poppinsFontFamily,
-//                   fontSize: AppFonts.smallFontSize.sp,
-//                   color: request.status == TimeBlockStatus.approved
-//                       ? AppColors.successColor
-//                       : request.status == TimeBlockStatus.rejected
-//                           ? AppColors.errorColor
-//                           : AppColors.softBlackColor,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       )),
-//     ],
-//   ),
                           ],
                         ),
                       ),
                     ),
-                    //         SizedBox(height: AppDimensions.largePadding.h),
-                    //         ElevatedButton(
-                    //           onPressed: () {
-                    //             () {
-                    //               context
-                    //                   .read<TimeBlockRequestBloc>()
-                    //                   .add(FetchRequestsEvent(
-                    //                     userId:
-                    //                         'user123', // Replace with actual user ID
-                    //                     organizationId:
-                    //                         'org123', // Replace with actual organization ID
-                    //                   ));
-                    //               showDialog(
-                    //                 context: context,
-                    //                 builder: (context) {
-                    //                   return BlocBuilder<TimeBlockRequestBloc,
-                    //                       TimeBlockRequestState>(
-                    //                     builder: (context, state) {
-                    //                       return TimeBlockRequestsDialog(
-                    //                           state: state);
-                    //                     },
-                    //                   );
-                    //                 },
-                    //               );
-                    //             };
-                    //             //   bloc.add(FetchRequestsEvent(userId: '', organizationId: ''));
-                    //           },
-                    //           style: ElevatedButton.styleFrom(
-                    //             backgroundColor: AppColors.primaryHoverColor,
-                    //             shape: RoundedRectangleBorder(
-                    //               borderRadius: BorderRadius.circular(
-                    //                   AppDimensions.smallBorderRadius.r),
-                    //             ),
-                    //             elevation: AppDimensions.smallBlurRdius,
-                    //           ),
-                    //           child: Row(
-                    //             mainAxisSize: MainAxisSize.min,
-                    //             children: [
-                    //               Icon(
-                    //                 Icons.history,
-                    //                 color: AppColors.lightTextColor,
-                    //               ),
-                    //               SizedBox(width: AppDimensions.smallPadding.w),
-                    //               Text(
-                    //                 'Fetch previous Time-blocks',
-                    //                 style: TextStyle(
-                    //                   fontFamily: AppFonts.poppinsFontFamily,
-                    //                   fontSize: AppFonts.smallFontSize.sp,
-                    //                   color: AppColors.lightTextColor,
-                    //                 ),
-                    //               ),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //         if (state is TimeBlockRequestsLoaded)
-                    //           Column(
-                    //             crossAxisAlignment: CrossAxisAlignment.start,
-                    //             children: [
-                    //               SizedBox(
-                    //                   height: AppDimensions.mediumPadding.h),
-                    //               Text(
-                    //                 'Previous Requests',
-                    //                 style: TextStyle(
-                    //                   fontFamily: AppFonts.poppinsFontFamily,
-                    //                   fontWeight: AppFonts.semiBold,
-                    //                   fontSize: AppFonts.largeFontSize.sp,
-                    //                 ),
-                    //               ),
-                    //               ...state.requests.map((request) => ListTile(
-                    //                     title: Text(request.note),
-                    //                     subtitle: Text(
-                    //                         'Dates: ${request.selectedDates.map((date) => DateFormat.yMMMd().format(date)).join(', ')}'),
-                    //                   )),
-                    //             ],
-                    //           ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
+                
                     Positioned(
                       bottom: AppDimensions.smallHeight.h,
                       left: 0,

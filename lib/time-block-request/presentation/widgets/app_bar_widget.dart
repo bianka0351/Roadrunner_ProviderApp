@@ -22,8 +22,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         'Time Block Request',
         style: TextStyle(
           fontFamily: AppFonts.poppinsFontFamily,
-          fontSize: AppFonts.titleFontSize.sp,
-          fontWeight: AppFonts.veryBold,
+          fontSize: 25.sp,
+        //  fontWeight: AppFonts.,
         ),
       ),
       centerTitle: true,

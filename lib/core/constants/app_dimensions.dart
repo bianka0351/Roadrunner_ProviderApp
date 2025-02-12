@@ -21,7 +21,7 @@ class AppDimensions {
   static const double smallHeight = 20.0;
   static const double mediumHeight = 50.0;
   static const double largeHeight = 100.0;
-  static const double hugeHeight = 100.0;
+  static const double hugeHeight = 150.0;
 
   static const double smallWidth = 50.0;
   static const double mediumWidth = 85.0;

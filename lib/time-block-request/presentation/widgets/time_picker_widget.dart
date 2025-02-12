@@ -72,7 +72,7 @@ class TimePickerWidget extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: AppDimensions.smallPadding.w,
               ),
-              backgroundColor: AppColors.primaryHoverColor,
+              backgroundColor: AppColors.secondaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius:
                     BorderRadius.circular(AppDimensions.smallBorderRadius.r),

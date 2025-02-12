@@ -21,7 +21,7 @@ class NoteInputWidget extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.textFormFillColor,
+        color: AppColors.tritiaryColor,
         borderRadius: BorderRadius.circular(AppDimensions.smallBorderRadius.r),
         boxShadow: [
           BoxShadow(
@@ -43,11 +43,11 @@ class NoteInputWidget extends StatelessWidget {
           hintText: 'WRITE A NOTE',
           hintStyle: const TextStyle(
             fontFamily: AppFonts.poppinsFontFamily,
-            color: AppColors.blackTextColor,
+            color: Color(0x00ff0000),
             fontWeight: AppFonts.semiBold,
           ),
           filled: true,
-          fillColor: AppColors.textFormFillColor,
+          fillColor: AppColors.tritiaryColor,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppDimensions.smallBorderRadius.r),
             borderSide: BorderSide.none,
