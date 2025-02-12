@@ -11,4 +11,7 @@ class AppColors {
   static const Color noShowStatusColor = Color(0xFFAF0000);
   static const Color startStatusColor = Color(0xFFEE8105);
   static const Color finishedStatusColor = Color(0xFF626262);
+
+  static const Color lightTextColor = Color(0xFFFFFFFF);
 }
+

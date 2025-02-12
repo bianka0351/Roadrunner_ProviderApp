@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:roadrunner_provider_app/core/constants/app_colors.dart';
 import 'package:roadrunner_provider_app/core/constants/app_dimensions.dart';
 import 'package:roadrunner_provider_app/core/constants/app_fonts.dart';
 import '../../bloc/time_block_request_bloc.dart';
@@ -21,7 +20,6 @@ class NoteInputWidget extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.tritiaryColor,
         borderRadius: BorderRadius.circular(AppDimensions.smallBorderRadius.r),
         boxShadow: [
           BoxShadow(
@@ -29,7 +27,7 @@ class NoteInputWidget extends StatelessWidget {
               red: 0,
               green: 0,
               blue: 0,
-              alpha: 0.2,
+              alpha: 0.5,
             ),
             offset: const Offset(0, 4),
             blurRadius: AppDimensions.smallBlurRdius,
@@ -43,11 +41,11 @@ class NoteInputWidget extends StatelessWidget {
           hintText: 'WRITE A NOTE',
           hintStyle: const TextStyle(
             fontFamily: AppFonts.poppinsFontFamily,
-            color: Color(0x00ff0000),
+            color: Colors.black,
             fontWeight: AppFonts.semiBold,
           ),
           filled: true,
-          fillColor: AppColors.tritiaryColor,
+          fillColor: Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppDimensions.smallBorderRadius.r),
             borderSide: BorderSide.none,

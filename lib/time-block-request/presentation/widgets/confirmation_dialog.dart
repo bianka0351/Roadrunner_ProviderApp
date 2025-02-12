@@ -40,15 +40,16 @@ class CustomConfirmationDialog extends StatelessWidget {
                 },
               ),
             ),
+            SizedBox(height: AppDimensions.smallHeight.h),
             // Pop-up message
             Padding(
-              padding: const EdgeInsets.all(AppDimensions.hugePadding),
+              padding: const EdgeInsets.all(AppDimensions.largePadding),
               child: Center(
                 child: Text(
                   'Are you sure you want to send Time-Block request?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -75,7 +76,7 @@ class CustomConfirmationDialog extends StatelessWidget {
                   child: Text(
                     'No',
                     style: TextStyle(
-                      fontSize: 16.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -96,7 +97,7 @@ class CustomConfirmationDialog extends StatelessWidget {
                   child: Text(
                     'Yes',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),

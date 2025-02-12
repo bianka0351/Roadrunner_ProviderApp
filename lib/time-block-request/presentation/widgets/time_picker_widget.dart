@@ -54,6 +54,7 @@ class TimePickerWidget extends StatelessWidget {
                     );
 
                     if (selectedTime != null) {
+                      // ignore: use_build_context_synchronously
                       final formattedTime = selectedTime.format(context);
                       if (isStartTime) {
                         bloc.add(SetTimeRangeEvent(
@@ -81,7 +82,7 @@ class TimePickerWidget extends StatelessWidget {
             ),
             child: Text(
               time.isEmpty ? placeholderText : time,
-              style: AppFonts.poppinsLight(),
+              style: AppFonts.poppinsLight(color: AppColors.lightTextColor),
             ),
           ),
         );

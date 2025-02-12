@@ -77,14 +77,14 @@ class DatePickerWidget extends StatelessWidget {
         children: [
           Icon(
             Icons.calendar_today,
-            color: AppColors.tritiaryColor,
+            color: AppColors.lightTextColor,
           ),
           SizedBox(width: AppDimensions.smallPadding.w),
           Text(
             'Time-Block Dates',
             style: TextStyle(
               fontFamily: AppFonts.poppinsFontFamily,
-              color: AppColors.tritiaryColor,
+              color: AppColors.lightTextColor,
             ),
           ),
         ],
