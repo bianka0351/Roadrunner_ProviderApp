@@ -1,15 +1,23 @@
 /*
 run from profile
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roadrunner_provider_app/profile/buisness_logic/bloc/profile_bloc.dart';
-import 'package:roadrunner_provider_app/profile/data/repository/profile_repository.dart';
-import 'package:roadrunner_provider_app/profile/data/service/profile_api.dart';
-import 'package:roadrunner_provider_app/profile/presentaion/screen/profile_screen.dart';
+import 'package:roadrunner_provider_app/features/auth/bloc/bloc/auth_bloc.dart';
+import 'package:roadrunner_provider_app/features/auth/presentation/screens/splash_screen.dart';
+import 'package:roadrunner_provider_app/features/profile/buisness_logic/bloc/profile_bloc.dart';
+import 'package:roadrunner_provider_app/features/profile/data/repository/profile_repository.dart';
+import 'package:roadrunner_provider_app/features/profile/data/service/profile_api.dart';
+import 'package:roadrunner_provider_app/features/profile/presentaion/screen/profile_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+late SharedPreferences sharedPref;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  sharedPref = await SharedPreferences.getInstance();
   runApp(const MainApp());
 }
 
@@ -24,6 +32,15 @@ class MainApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (context, child) {
           return MaterialApp(
+            theme: ThemeData(
+              fontFamily: 'Poppins-Regular', // Default font for the app
+              textTheme: TextTheme(
+                headlineLarge: TextStyle(fontFamily: 'Roboto', fontSize: 32),
+                titleLarge:
+                    TextStyle(fontFamily: 'Poppins-SemiBold', fontSize: 24),
+                bodyMedium: TextStyle(fontFamily: 'Inter', fontSize: 16),
+              ),
+            ),
             debugShowCheckedModeBanner: false,
             title: 'Profile',
             home: BlocProvider(
@@ -38,6 +55,7 @@ class MainApp extends StatelessWidget {
         });
   }
 }
+
 */
 
 /*
