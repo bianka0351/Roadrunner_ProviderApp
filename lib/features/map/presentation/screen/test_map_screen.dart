@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_bloc.dart';
-import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_event.dart';
 import 'package:roadrunner_provider_app/features/map/presentation/widget/map_widget.dart';
 
 class MapScreen extends StatelessWidget {
@@ -10,16 +9,18 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<LatLng> orderLocations = [
+      LatLng(37.044829, 41.230214), // Example order locations
+      LatLng(37.050211, 41.218235),
+      LatLng(37.040620, 41.211015),
+      LatLng(37.042470, 41.229350),
+    ];
+
     return BlocProvider(
-      create: (context) => MapBloc()
-        ..add(LoadMapDataEvent([
-          LatLng(37.7749, -122.4194), // Example order locations
-          LatLng(37.7849, -122.4094),
-          LatLng(37.7949, -122.3994),
-        ])),
+      create: (context) => MapBloc(),
       child: Scaffold(
         appBar: AppBar(title: const Text('Order Locations')),
-        body: const MapWidget(),
+        body: MapWidget(orderLocations: orderLocations),
       ),
     );
   }
