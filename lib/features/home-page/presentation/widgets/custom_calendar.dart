@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:roadrunner_provider_app/core/app_colors.dart';
+import 'package:roadrunner_provider_app/features/home-page/buisness_logic/bloc/order_bloc.dart';
 
 class CustomCalendar extends StatefulWidget {
   const CustomCalendar({super.key});
@@ -10,167 +13,182 @@ class CustomCalendar extends StatefulWidget {
 }
 
 class _CustomCalendarState extends State<CustomCalendar> {
-  DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
+  final ValueNotifier<DateTime> _selectedDay = ValueNotifier(DateTime.now());
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<OrderBloc>().add(GetOrderListEvent(
+          date: DateFormat('yyyy-MM-dd').format(DateTime.now())));
+    });
+  }
 
-  // تنسيق اليوم ليكون بالشكل الذي تريده
   List<DateTime> _getDaysInWeek(DateTime date) {
     final firstDayOfWeek = date.subtract(Duration(days: date.weekday - 1));
     return List.generate(
         7, (index) => firstDayOfWeek.add(Duration(days: index)));
   }
 
+  DateTime _getDisplayMonth() {
+    return DateTime(_focusedDay.value.year, _focusedDay.value.month, 1);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final daysInWeek = _getDaysInWeek(_focusedDay);
-
     return Column(
       children: [
-        // شريط التنقل بين الأشهر
-        Container(
-          height: 40,
-          width: 361,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: AppColors.secondaryColor,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _focusedDay = DateTime(
-                      _focusedDay.year,
-                      _focusedDay.month - 1,
-                      _focusedDay.day,
-                    );
-                  });
-                },
+        ValueListenableBuilder<DateTime>(
+          valueListenable: _focusedDay,
+          builder: (context, value, child) {
+            return Container(
+              height: 40.h,
+              width: 361.w,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.r),
+                color: AppColors.secondaryColor,
               ),
-              Text(
-                DateFormat.yMMMM().format(_focusedDay),
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: "PlusJakartaSans",
-                    fontWeight: FontWeight.w700),
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _focusedDay = DateTime(
-                      _focusedDay.year,
-                      _focusedDay.month + 1,
-                      _focusedDay.day,
-                    );
-                  });
-                },
-              ),
-            ],
-          ),
-        ),
-
-        // التقويم الأسبوعي
-        SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.black,
-                size: 20,
-              ),
-              onPressed: () {
-                setState(() {
-                  _focusedDay = _focusedDay.subtract(Duration(days: 7));
-                });
-              },
-            ),
-            Expanded(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: daysInWeek.map((day) {
-                  final isSelected =
-                      _selectedDay != null && isSameDay(day, _selectedDay!);
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedDay = day;
-                      });
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back_ios,
+                        color: Colors.white, size: 18.sp),
+                    onPressed: () {
+                      _focusedDay.value =
+                          DateTime(value.year, value.month - 1, 1);
+                      _selectedDay.value = _focusedDay.value;
                     },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      width: 39,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: isSelected
-                            ? AppColors.primaryColor
-                            : Colors.transparent,
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            DateFormat.E()
-                                .format(day), // اسم اليوم (Sun, Mon, ...)
-                            style: TextStyle(
-                              fontSize: 14,
-                              color:
-                                  isSelected ? Colors.white : Color(0xff111827),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "PlusJakartaSans",
-                            ),
-                          ),
-                          Text(
-                            DateFormat.d().format(day), // رقم اليوم (1, 2, ...)
-                            style: TextStyle(
-                              fontSize: 14,
-                              color:
-                                  isSelected ? Colors.white : Color(0xff111827),
-                              fontFamily: "PlusJakartaSans",
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
+                  ),
+                  Text(
+                    DateFormat.yMMMM().format(_getDisplayMonth()),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontFamily: "PlusJakartaSans",
+                      fontWeight: FontWeight.w700,
                     ),
-                  );
-                }).toList(),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_forward_ios,
+                        color: Colors.white, size: 18.sp),
+                    onPressed: () {
+                      _focusedDay.value =
+                          DateTime(value.year, value.month + 1, 1);
+                      _selectedDay.value = _focusedDay.value;
+                    },
+                  ),
+                ],
               ),
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.black,
-                size: 20,
-              ),
-              onPressed: () {
-                setState(() {
-                  _focusedDay = _focusedDay.add(Duration(days: 7));
-                });
-              },
-            ),
-          ],
+            );
+          },
         ),
-        SizedBox(height: 15),
+        SizedBox(height: 16.h),
+        ValueListenableBuilder<DateTime>(
+          valueListenable: _focusedDay,
+          builder: (context, value, child) {
+            final daysInWeek = _getDaysInWeek(value);
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios,
+                      color: Colors.black, size: 18.sp),
+                  onPressed: () {
+                    _focusedDay.value =
+                        _focusedDay.value.subtract(Duration(days: 7));
+                    _selectedDay.value = _focusedDay.value;
+                  },
+                ),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: daysInWeek.map((day) {
+                      return ValueListenableBuilder<DateTime>(
+                        valueListenable: _selectedDay,
+                        builder: (context, selectedValue, child) {
+                          final isSelected = isSameDay(day, selectedValue);
+                          return GestureDetector(
+                            onTap: () {
+                              _selectedDay.value = day;
+                              _focusedDay.value = day;
+                              context.read<OrderBloc>().add(
+                                    GetOrderListEvent(
+                                        date: DateFormat('yyyy-MM-dd')
+                                            .format(_selectedDay.value)),
+                                  );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 5.h),
+                              width: 39.w,
+                              height: 56.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                color: isSelected
+                                    ? AppColors.primaryColor
+                                    : Colors.transparent,
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    DateFormat.E().format(day),
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: isSelected
+                                          ? Colors.white
+                                          : const Color(0xff111827),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "PlusJakartaSans",
+                                    ),
+                                  ),
+                                  Text(
+                                    DateFormat.d().format(day),
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: isSelected
+                                          ? Colors.white
+                                          : const Color(0xff111827),
+                                      fontFamily: "PlusJakartaSans",
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios,
+                      color: Colors.black, size: 18.sp),
+                  onPressed: () {
+                    _focusedDay.value =
+                        _focusedDay.value.add(Duration(days: 7));
+                    _selectedDay.value = _focusedDay.value;
+                  },
+                ),
+              ],
+            );
+          },
+        ),
+        SizedBox(height: 15.h),
       ],
     );
   }
 
-  // مقارنة الأيام لتحديد اليوم المحدد
   bool isSameDay(DateTime day1, DateTime day2) {
     return day1.year == day2.year &&
         day1.month == day2.month &&
         day1.day == day2.day;
+  }
+
+  @override
+  void dispose() {
+    _focusedDay.dispose();
+    _selectedDay.dispose();
+    super.dispose();
   }
 }

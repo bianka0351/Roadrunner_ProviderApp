@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:roadrunner_provider_app/core/app_colors.dart';
 import 'package:roadrunner_provider_app/core/app_fonts.dart';
+import 'package:roadrunner_provider_app/core/widgets/custom_error_message.dart';
 import 'package:roadrunner_provider_app/features/auth/bloc/bloc/auth_bloc.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_password_text_field.dart';
@@ -31,58 +32,12 @@ class _SignInPageState extends State<SignInPage> {
   //   return usPhoneNumberRegExp.hasMatch(phoneNumber);
   // }
 
-  bool isValidPassword(String password) {
-    final passwordRegExp = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$');
-    return passwordRegExp.hasMatch(password);
-  }
+  // bool isValidPassword(String password) {
+  //   final passwordRegExp = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$');
+  //   return passwordRegExp.hasMatch(password);
+  // }
 
   final ValueNotifier<bool> staySignedIn = ValueNotifier(false);
-
-  void showCustomMessage({required String message, required IconData icon}) {
-    BotToast.showCustomNotification(
-      toastBuilder: (cancelFunc) => Container(
-        padding: EdgeInsets.all(10.w),
-        // height: 40.h,
-        width: 300.w,
-        decoration: BoxDecoration(
-          color: Color(0xffFFF0F0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10.r,
-              offset: Offset(0, 4.h),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: AppColors.errorColor,
-              size: 25.sp,
-            ),
-            SizedBox(width: 8.w),
-            Flexible(
-              child: Wrap(children: [
-                Text(
-                  message,
-                  style: TextStyle(
-                    color: AppColors.errorColor,
-                    fontSize: 15.sp,
-                    fontFamily: 'Poppins-SemiBold',
-                  ),
-                  softWrap: true,
-                ),
-              ]),
-            ),
-          ],
-        ),
-      ),
-      duration: Duration(seconds: 4),
-      align: Alignment.lerp(Alignment.center, Alignment.bottomCenter, 0.4),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +56,9 @@ class _SignInPageState extends State<SignInPage> {
             );
           } else if (state is AuthFailure) {
             BotToast.closeAllLoading();
-            showCustomMessage(
-                message: state.message, icon: Icons.warning_amber_rounded);
+            CustomErrorMessage().showCustomMessage(
+                message: "Your email/username and password is incorrect.",
+                icon: Icons.warning_amber_rounded);
           }
         },
         child: Scaffold(
@@ -173,9 +129,9 @@ class _SignInPageState extends State<SignInPage> {
                                   if (value == null || value.isEmpty) {
                                     return "Please enter your Password.  ";
                                   }
-                                  if (!isValidPassword(value)) {
-                                    return 'Password must be at least 8 characters,\ninclude an uppercase letter,\na lowercase letter, and a number.';
-                                  }
+                                  // if (!isValidPassword(value)) {
+                                  //   return 'Password must be at least 8 characters,\ninclude an uppercase letter,\na lowercase letter, and a number.';
+                                  // }
                                   return null;
                                 },
                                 hintText: 'Password',

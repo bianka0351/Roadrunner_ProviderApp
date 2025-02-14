@@ -8,16 +8,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(text, style: AppFonts.poppinsSemiBold(fontSize: 32.sp)),
-        leading: IconButton(
-            padding: EdgeInsets.only(left: 15.w),
-            onPressed: () {},
-            icon: Icon(
-              Icons.arrow_back,
-              size: 35.sp,
-            )),
+        centerTitle: true,
         actions: [
           IconButton(
               padding: EdgeInsets.only(right: 15.w),

@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:dartz/dartz.dart';
-import 'package:roadrunner_provider_app/core/unified_api/failures.dart';
 import 'package:roadrunner_provider_app/core/unified_api/get_api.dart';
 import 'package:roadrunner_provider_app/features/profile/data/model/profile_model.dart';
 
@@ -9,7 +7,7 @@ class ProfileApi {
 
   ProfileApi({required this.url});
 
-  Future<Either<Failure, RunnerProfile>> fetchProfile() async {
+  Future<RunnerProfile> fetchProfile() async {
     return await GetApi<RunnerProfile>(
       url: url,
       fromJson: (json) => RunnerProfile.fromJson(jsonDecode(json)),

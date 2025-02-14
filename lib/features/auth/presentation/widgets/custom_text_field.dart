@@ -20,11 +20,13 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,
-        hintText: hintText,
-        hintStyle: AppFonts.poppinsRegular(
+        labelText: hintText,
+        labelStyle: AppFonts.poppinsRegular(
           fontSize: 20.sp,
           color: Color(0xFFB2B2C2),
         ),
+        floatingLabelStyle: AppFonts.poppinsRegular(
+            fontSize: 20.sp, color: AppColors.secondaryColor),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(color: Color(0xFFDDDDDD)),

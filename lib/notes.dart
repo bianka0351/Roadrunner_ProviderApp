@@ -4,10 +4,10 @@ run from profile
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roadrunner_provider_app/profile/buisness_logic/bloc/profile_bloc.dart';
-import 'package:roadrunner_provider_app/profile/data/repository/profile_repository.dart';
-import 'package:roadrunner_provider_app/profile/data/service/profile_api.dart';
-import 'package:roadrunner_provider_app/profile/presentaion/screen/profile_screen.dart';
+import 'package:roadrunner_provider_app/features/profile/buisness_logic/bloc/profile_bloc.dart';
+import 'package:roadrunner_provider_app/features/profile/data/repository/profile_repository.dart';
+import 'package:roadrunner_provider_app/features/profile/data/service/profile_api.dart';
+import 'package:roadrunner_provider_app/features/profile/presentaion/screen/profile_screen.dart';
 
 void main() {
   runApp(const MainApp());

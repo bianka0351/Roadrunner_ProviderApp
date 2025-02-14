@@ -11,7 +11,7 @@ class BuildMapSection extends StatelessWidget {
       width: 368.w,
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(15.r),
       ),
       child: Center(child: Icon(Icons.map, size: 50.sp, color: Colors.white)),
     );

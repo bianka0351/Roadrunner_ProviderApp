@@ -20,7 +20,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider<AuthBloc>(
       create: (context) => AuthBloc(),
       child: ScreenUtilInit(
@@ -32,6 +31,5 @@ class MainApp extends StatelessWidget {
             home: SplashScreen(),
           )),
     );
-
   }
 }

@@ -4,145 +4,174 @@ import 'package:roadrunner_provider_app/core/app_colors.dart';
 import 'package:roadrunner_provider_app/core/app_fonts.dart';
 
 class CustomCard extends StatelessWidget {
-  const CustomCard({super.key});
+  CustomCard(
+      {super.key,
+      required this.number,
+      required this.clientName,
+      required this.startTime,
+      required this.clientAddress,
+      required this.status,
+      required this.service,
+      required this.serviceNumber,
+      required this.productNumber,
+      required this.clientImage});
+  String number;
+  String clientName;
+  String startTime;
+  String clientAddress;
+  String status;
+  String service;
+  int serviceNumber;
+  int productNumber;
+  String clientImage;
+  final Map<String, Color> statusColors = {
+    "In Progress": AppColors.inProgressStatusColor,
+    "Start": AppColors.startStatusColor,
+    "Confirmed": AppColors.tritiaryColor,
+    "No Show": AppColors.noShowStatusColor,
+    "Finished": AppColors.finishedStatusColor,
+    "Arrived": AppColors.arrivedStatusColor,
+  };
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: Column(
-        children: [
-          Container(
-            height: 100.h,
-            width: 387.w,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20.r),
-              border: Border.all(color: Color(0xFFBEC7D0)),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 35.w,
-                  height: 100.h,
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.r),
-                        bottomLeft: Radius.circular(20.r)),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text("1",
-                      style: AppFonts.poppinsSemiBold(
-                        color: Colors.white,
-                        fontSize: 16.sp,
-                      )),
+    return Column(
+      children: [
+        Container(
+          height: 86.h,
+          width: 387.w,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20.r),
+            border: Border.all(color: Color(0xFFBEC7D0)),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 35.w,
+                height: 86.h,
+                decoration: BoxDecoration(
+                  color: statusColors[status],
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.r),
+                      bottomLeft: Radius.circular(20.r)),
                 ),
-                SizedBox(width: 10.w),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 28.r,
-                            // backgroundImage: AssetImage('assets/images/person.jpg'),
-                          ),
-                          SizedBox(width: 10.w),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10.h),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Omar Shammas",
-                                    style:
-                                        AppFonts.poppinsBold(fontSize: 16.sp)),
-                                Text("08 : 30 PM",
-                                    style: AppFonts.poppinsMedium(
-                                        fontSize: 14.sp)),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.location_on_rounded,
-                              size: 20.sp, color: AppColors.secondaryColor),
-                          SizedBox(width: 5.w),
-                          Text("Phoenix, Arizona 85001",
-                              style: AppFonts.poppinsRegular(
-                                  fontSize: 13.sp, color: Color(0xFF464646))),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 30.w),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                alignment: Alignment.center,
+                child: Text(number,
+                    style: AppFonts.poppinsSemiBold(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    )),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 8.h, left: 8.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("vanso",
-                        style: AppFonts.poppinsExtraBold(fontSize: 20.sp)),
-                    Text("hair cut",
-                        style: AppFonts.poppinsRegular(
-                          fontSize: 11.sp,
-                          color: Color(0xff484A58),
-                        )),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(100.w, 38.h),
-                        backgroundColor: AppColors.primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.r),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 25.r,
+                          backgroundImage: (clientImage.isNotEmpty &&
+                                  Uri.tryParse(clientImage)?.hasAbsolutePath ==
+                                      true)
+                              ? NetworkImage(
+                                  clientImage,
+                                )
+                              : null,
+                          child: (clientImage.isEmpty ||
+                                  Uri.tryParse(clientImage)?.hasAbsolutePath !=
+                                      true)
+                              ? Icon(Icons.person,
+                                  size: 30.sp, color: Colors.white)
+                              : null,
                         ),
-                      ),
-                      child: Text("Start",
-                          style: AppFonts.poppinsSemiBold(
-                            fontSize: 16.sp,
-                            color: Colors.white,
-                          )),
+                        SizedBox(width: 8.w),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(clientName,
+                                style: AppFonts.poppinsBold(fontSize: 16.sp)),
+                            Text(startTime,
+                                style:
+                                    AppFonts.poppinsRegular(fontSize: 12.sp)),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.location_on_rounded,
+                            size: 20.sp, color: AppColors.secondaryColor),
+                        SizedBox(width: 5.w),
+                        Text(clientAddress,
+                            style: AppFonts.poppinsRegular(fontSize: 12.sp)),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Divider(
-                  color: AppColors.tritiaryColor,
-                  thickness: 1.0,
-                  indent: 20.w,
-                ),
               ),
-              Text('18 mil - 0:26 min',
-                  style: AppFonts.poppinsSemiBold(
-                    fontSize: 10.sp,
-                    color: AppColors.tritiaryColor,
-                  )),
-              Expanded(
-                child: Divider(
-                  color: AppColors.tritiaryColor,
-                  thickness: 1.0,
-                  endIndent: 20.w,
+              SizedBox(width: 15.w),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(status,
+                        style: AppFonts.poppinsSemiBold(
+                            fontSize: 20.sp, color: statusColors[status])),
+                    Text(service,
+                        style: AppFonts.poppinsRegular(
+                          fontSize: 12.sp,
+                          color: AppColors.tritiaryColor,
+                        )),
+                    Text(
+                        "${serviceNumber > 0 ? '$serviceNumber others' : ''}"
+                        "${serviceNumber > 0 && productNumber > 0 ? ', ' : ''}"
+                        "${productNumber > 0 ? '$productNumber Products' : ''}",
+                        style: AppFonts.poppinsRegular(
+                          fontSize: 12.sp,
+                          color: AppColors.tritiaryColor,
+                        )),
+                  ],
                 ),
               ),
             ],
           ),
-          SizedBox(
-            height: 10.h,
-          ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Divider(
+                color: AppColors.tritiaryColor,
+                thickness: 1.0,
+                indent: 20.w,
+              ),
+            ),
+            Text('18 mil - 0:26 min',
+                style: AppFonts.poppinsSemiBold(
+                  fontSize: 10.sp,
+                  color: AppColors.tritiaryColor,
+                )),
+            Expanded(
+              child: Divider(
+                color: AppColors.tritiaryColor,
+                thickness: 1.0,
+                endIndent: 20.w,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+      ],
     );
   }
 }

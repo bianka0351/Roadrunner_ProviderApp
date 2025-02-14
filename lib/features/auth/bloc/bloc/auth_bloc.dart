@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:roadrunner_provider_app/features/auth/data/models/auth_model.dart';
-import 'package:roadrunner_provider_app/features/auth/data/repositories/auth_repo.dart';
+import 'package:roadrunner_provider_app/features/auth/data/model/auth_model.dart';
+import 'package:roadrunner_provider_app/features/auth/data/repository/auth_repo.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
