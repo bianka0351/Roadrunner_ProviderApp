@@ -10,10 +10,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   final MapRepository mapRepository = MapRepository();
 
   MapBloc() : super(MapInitialState()) {
-    on<LoadMapDataEvent>(_onLoadMapDate);
+    on<LoadOrdersLocationEvent>(_onLoadOrdersLocationDate);
   }
 
-  void _onLoadMapDate(LoadMapDataEvent event, Emitter<MapState> emit) async {
+  void _onLoadOrdersLocationDate(
+      LoadOrdersLocationEvent event, Emitter<MapState> emit) async {
     if (event.orderLocations.isEmpty) {
       emit(const MapErrorState('No order locations provided'));
       return;
@@ -26,7 +27,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     result.fold(
       (failure) => emit(MapErrorState(failure.message)),
-      (routePath) => emit(MapLoadedState(
+      (routePath) => emit(OrdersLocationState(
           orderLocations: event.orderLocations, routePath: routePath)),
     );
   }
