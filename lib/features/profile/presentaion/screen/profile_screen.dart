@@ -10,6 +10,8 @@ import 'package:roadrunner_provider_app/features/profile/presentaion/widget/cust
 import 'package:roadrunner_provider_app/features/profile/presentaion/widget/working_hours_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _ProfileScreenState();

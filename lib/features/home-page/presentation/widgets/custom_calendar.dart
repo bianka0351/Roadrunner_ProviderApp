@@ -15,6 +15,7 @@ class CustomCalendar extends StatefulWidget {
 class _CustomCalendarState extends State<CustomCalendar> {
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
   final ValueNotifier<DateTime> _selectedDay = ValueNotifier(DateTime.now());
+
   @override
   void initState() {
     super.initState();
@@ -57,7 +58,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                     onPressed: () {
                       _focusedDay.value =
                           DateTime(value.year, value.month - 1, 1);
-                      _selectedDay.value = _focusedDay.value;
+                      // _selectedDay.value = _focusedDay.value;
                     },
                   ),
                   Text(
@@ -75,7 +76,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                     onPressed: () {
                       _focusedDay.value =
                           DateTime(value.year, value.month + 1, 1);
-                      _selectedDay.value = _focusedDay.value;
+                      // _selectedDay.value = _focusedDay.value;
                     },
                   ),
                 ],
@@ -97,21 +98,24 @@ class _CustomCalendarState extends State<CustomCalendar> {
                   onPressed: () {
                     _focusedDay.value =
                         _focusedDay.value.subtract(Duration(days: 7));
-                    _selectedDay.value = _focusedDay.value;
+                    // _selectedDay.value = _focusedDay.value;
                   },
                 ),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: daysInWeek.map((day) {
+                      final isSelected = isSameDay(day, _selectedDay.value);
+                      final isToday = isSameDay(day, DateTime.now());
                       return ValueListenableBuilder<DateTime>(
                         valueListenable: _selectedDay,
                         builder: (context, selectedValue, child) {
-                          final isSelected = isSameDay(day, selectedValue);
                           return GestureDetector(
                             onTap: () {
                               _selectedDay.value = day;
                               _focusedDay.value = day;
+                              context.read<OrderBloc>().selectedDate =
+                                  _selectedDay.value;
                               context.read<OrderBloc>().add(
                                     GetOrderListEvent(
                                         date: DateFormat('yyyy-MM-dd')
@@ -134,9 +138,13 @@ class _CustomCalendarState extends State<CustomCalendar> {
                                     DateFormat.E().format(day),
                                     style: TextStyle(
                                       fontSize: 14.sp,
-                                      color: isSelected
+                                      color: isToday && isSelected
                                           ? Colors.white
-                                          : const Color(0xff111827),
+                                          : (isSelected
+                                              ? Colors.white
+                                              : (isToday
+                                                  ? AppColors.primaryColor
+                                                  : const Color(0xff111827))),
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "PlusJakartaSans",
                                     ),
@@ -145,9 +153,13 @@ class _CustomCalendarState extends State<CustomCalendar> {
                                     DateFormat.d().format(day),
                                     style: TextStyle(
                                       fontSize: 14.sp,
-                                      color: isSelected
+                                      color: isToday && isSelected
                                           ? Colors.white
-                                          : const Color(0xff111827),
+                                          : (isSelected
+                                              ? Colors.white
+                                              : (isToday
+                                                  ? AppColors.primaryColor
+                                                  : const Color(0xff111827))),
                                       fontFamily: "PlusJakartaSans",
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -167,14 +179,13 @@ class _CustomCalendarState extends State<CustomCalendar> {
                   onPressed: () {
                     _focusedDay.value =
                         _focusedDay.value.add(Duration(days: 7));
-                    _selectedDay.value = _focusedDay.value;
+                    // _selectedDay.value = _focusedDay.value;
                   },
                 ),
               ],
             );
           },
         ),
-        SizedBox(height: 15.h),
       ],
     );
   }

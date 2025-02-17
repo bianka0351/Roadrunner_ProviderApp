@@ -6,8 +6,10 @@ part 'order_event.dart';
 part 'order_state.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
+  DateTime selectedDate = DateTime.now();
   OrderBloc() : super(OrderInitial()) {
     on<GetOrderListEvent>((event, emit) async {
+      // selectedDate = DateFormat('yyyy-MM-dd').parse(event.date);
       emit(OrderLoading());
       final result = await OrderRepository().getOrderList(event.date);
 

@@ -66,7 +66,7 @@ class CustomCard extends StatelessWidget {
                     )),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 8.h, left: 8.w),
+                padding: EdgeInsets.only(top: 10.h, left: 10.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -113,9 +113,9 @@ class CustomCard extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(width: 15.w),
+              Spacer(),
               Padding(
-                padding: const EdgeInsets.only(right: 10),
+                padding: EdgeInsets.only(right: 10.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
