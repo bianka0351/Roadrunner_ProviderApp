@@ -19,8 +19,10 @@ class OrdersLocationState extends MapState {
   final List<LatLng> orderLocations;
   final List<LatLng> routePath;
 
-  const OrdersLocationState(
-      {required this.orderLocations, required this.routePath});
+  const OrdersLocationState({
+    required this.orderLocations,
+    required this.routePath,
+  });
 
   @override
   List<Object?> get props => [orderLocations, routePath];

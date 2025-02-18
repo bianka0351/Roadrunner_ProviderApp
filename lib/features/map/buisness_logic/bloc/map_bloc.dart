@@ -13,7 +13,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<LoadOrdersLocationEvent>(_onLoadOrdersLocationDate);
   }
 
-  void _onLoadOrdersLocationDate(
+  Future<void> _onLoadOrdersLocationDate(
       LoadOrdersLocationEvent event, Emitter<MapState> emit) async {
     if (event.orderLocations.isEmpty) {
       emit(const MapErrorState('No order locations provided'));
@@ -22,13 +22,21 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     emit(MapLoadingState());
 
-    final Either<Failure, List<LatLng>> result =
-        await mapRepository.getRoute(event.orderLocations);
+    final Either<Failure, List<LatLng>> addressToLatLngResult =
+        await mapRepository.getOrdersAdressLocation(event.orderLocations);
 
-    result.fold(
-      (failure) => emit(MapErrorState(failure.message)),
-      (routePath) => emit(OrdersLocationState(
-          orderLocations: event.orderLocations, routePath: routePath)),
-    );
+    await addressToLatLngResult.fold((failure) async {
+      emit(MapErrorState('Failed to convert addresses: ${failure.message}'));
+    }, (latLngList) async {
+      final Either<Failure, List<LatLng>> routePathResult =
+          await mapRepository.getOrdersLocationRoute(latLngList);
+
+      routePathResult.fold((failure) {
+        emit(MapErrorState('Failed to get route path: ${failure.message}'));
+      }, (routePath) {
+        emit(OrdersLocationState(
+            orderLocations: latLngList, routePath: routePath));
+      });
+    });
   }
 }

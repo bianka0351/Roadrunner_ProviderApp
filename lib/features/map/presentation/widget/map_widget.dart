@@ -4,15 +4,19 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:roadrunner_provider_app/core/app_colors.dart';
+import 'package:roadrunner_provider_app/features/home-page/data/model/order_model.dart';
 import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_bloc.dart';
 import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_event.dart';
 import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_state.dart';
 import 'package:roadrunner_provider_app/features/map/presentation/widget/order_location_marker.dart';
 
 class MapWidget extends StatefulWidget {
-  final List<LatLng> orderLocations;
+  final List<String> orders;
 
-  const MapWidget({super.key, required this.orderLocations});
+  const MapWidget({
+    super.key,
+    required this.orders,
+  });
 
   @override
   State<StatefulWidget> createState() => _MapWidgetState();
@@ -25,7 +29,7 @@ class _MapWidgetState extends State<MapWidget> {
   void initState() {
     super.initState();
     // Dispatch the event when the widget initializes
-    context.read<MapBloc>().add(LoadOrdersLocationEvent(widget.orderLocations));
+    context.read<MapBloc>().add(LoadOrdersLocationEvent(widget.orders));
   }
 
   @override
@@ -53,7 +57,7 @@ class _MapWidgetState extends State<MapWidget> {
           children: [
             // tile layer
             TileLayer(
-              urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+              urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             ),
             // polyline layer
             PolylineLayer(polylines: [
@@ -80,4 +84,12 @@ class _MapWidgetState extends State<MapWidget> {
       return const Center(child: CircularProgressIndicator());
     });
   }
+}
+
+List<String> ordersAddresses(OrderResponseModel? orders) {
+  List<String> ordersList = [];
+  // ignore: unused_local_variable
+  // for (Order order in orders!.orders) {}
+
+  return ordersList;
 }

@@ -10,7 +10,7 @@ abstract class MapEvent extends Equatable {
 
 // load map data with a list of order locations
 class LoadOrdersLocationEvent extends MapEvent {
-  final List<LatLng> orderLocations;
+  final List<String> orderLocations;
 
   const LoadOrdersLocationEvent(this.orderLocations);
 
