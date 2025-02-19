@@ -25,8 +25,8 @@ class OrderLocationMarker extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0.h),
             child: Text(
               index,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, color: AppColors.tertiaryColor),
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ))
       ],
     );

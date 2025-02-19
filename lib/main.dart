@@ -25,10 +25,10 @@ class MainApp extends StatelessWidget {
             theme: ThemeData(
               fontFamily: 'Poppins-Regular', // Default font for the app
               textTheme: TextTheme(
-                headlineLarge: TextStyle(fontFamily: 'Roboto', fontSize: 32),
+                headlineLarge: TextStyle(fontFamily: 'Roboto', fontSize: 32.sp),
                 titleLarge:
-                    TextStyle(fontFamily: 'Poppins-SemiBold', fontSize: 24),
-                bodyMedium: TextStyle(fontFamily: 'Inter', fontSize: 16),
+                    TextStyle(fontFamily: 'Poppins-SemiBold', fontSize: 24.sp),
+                bodyMedium: TextStyle(fontFamily: 'Inter', fontSize: 16.sp),
               ),
             ),
             debugShowCheckedModeBanner: false,
