@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:roadrunner_provider_app/features/home-page/data/model/order_model.dart';
+import 'package:roadrunner_provider_app/features/home-page/data/model/order_detail_model.dart';
+import 'package:roadrunner_provider_app/features/home-page/data/model/order_response_model.dart';
 import 'package:roadrunner_provider_app/features/home-page/data/repository/order_repository.dart';
 
 part 'order_event.dart';
@@ -15,7 +16,15 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
       result.fold((left) {
         emit(OrderFailure(message: left.message));
-      }, (right) => emit(OrderSuccess(orderList: right)));
+      }, (right) => emit(OrderSuccess(orderList: right.orders)));
+    });
+    on<GetOrderDetailEvent>((event, emit) async {
+      emit(OrderLoading());
+      final result = await OrderRepository().getOrderDetail(event.clientId);
+
+      result.fold((left) {
+        emit(OrderFailure(message: left.message));
+      }, (right) => emit(OrderDetailSuccess(details: right)));
     });
   }
 }

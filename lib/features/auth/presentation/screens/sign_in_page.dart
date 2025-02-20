@@ -6,7 +6,7 @@ import 'package:roadrunner_provider_app/core/app_colors.dart';
 import 'package:roadrunner_provider_app/core/app_fonts.dart';
 import 'package:roadrunner_provider_app/core/widgets/custom_error_message.dart';
 import 'package:roadrunner_provider_app/features/auth/bloc/bloc/auth_bloc.dart';
-import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_button.dart';
+import 'package:roadrunner_provider_app/core/widgets/custom_button.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_password_text_field.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_road_runner.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_text_field.dart';

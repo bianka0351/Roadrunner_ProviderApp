@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:roadrunner_provider_app/core/app_colors.dart';
 import 'package:roadrunner_provider_app/core/app_fonts.dart';
 
+// ignore: must_be_immutable
 class CustomCard extends StatelessWidget {
   CustomCard(
       {super.key,
@@ -24,6 +25,7 @@ class CustomCard extends StatelessWidget {
   int serviceNumber;
   int productNumber;
   String clientImage;
+
   final Map<String, Color> statusColors = {
     "In Progress": AppColors.inProgressStatusColor,
     "Start": AppColors.startStatusColor,
@@ -39,7 +41,7 @@ class CustomCard extends StatelessWidget {
       children: [
         Container(
           height: 86.h,
-          width: 387.w,
+          width: 408.w,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20.r),
@@ -107,7 +109,7 @@ class CustomCard extends StatelessWidget {
                             size: 20.sp, color: AppColors.secondaryColor),
                         SizedBox(width: 5.w),
                         Text(clientAddress,
-                            style: AppFonts.poppinsRegular(fontSize: 12.sp)),
+                            style: AppFonts.poppinsRegular(fontSize: 10.sp)),
                       ],
                     ),
                   ],

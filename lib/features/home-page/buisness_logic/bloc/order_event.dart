@@ -8,3 +8,10 @@ class GetOrderListEvent extends OrderEvent {
     required this.date,
   });
 }
+
+class GetOrderDetailEvent extends OrderEvent {
+  final int clientId;
+  GetOrderDetailEvent({
+    required this.clientId,
+  });
+}

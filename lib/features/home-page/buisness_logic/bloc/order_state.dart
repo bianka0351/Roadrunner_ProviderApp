@@ -7,9 +7,16 @@ class OrderInitial extends OrderState {}
 class OrderLoading extends OrderState {}
 
 class OrderSuccess extends OrderState {
-  final OrderResponseModel? orderList;
+  final List<Order>? orderList;
   OrderSuccess({
     this.orderList,
+  });
+}
+
+class OrderDetailSuccess extends OrderState {
+  final OrderDetailModel? details;
+  OrderDetailSuccess({
+    this.details,
   });
 }
 

@@ -58,7 +58,6 @@ class _CustomCalendarState extends State<CustomCalendar> {
                     onPressed: () {
                       _focusedDay.value =
                           DateTime(value.year, value.month - 1, 1);
-                      // _selectedDay.value = _focusedDay.value;
                     },
                   ),
                   Text(
@@ -76,7 +75,6 @@ class _CustomCalendarState extends State<CustomCalendar> {
                     onPressed: () {
                       _focusedDay.value =
                           DateTime(value.year, value.month + 1, 1);
-                      // _selectedDay.value = _focusedDay.value;
                     },
                   ),
                 ],
@@ -98,7 +96,6 @@ class _CustomCalendarState extends State<CustomCalendar> {
                   onPressed: () {
                     _focusedDay.value =
                         _focusedDay.value.subtract(Duration(days: 7));
-                    // _selectedDay.value = _focusedDay.value;
                   },
                 ),
                 Expanded(
@@ -179,7 +176,6 @@ class _CustomCalendarState extends State<CustomCalendar> {
                   onPressed: () {
                     _focusedDay.value =
                         _focusedDay.value.add(Duration(days: 7));
-                    // _selectedDay.value = _focusedDay.value;
                   },
                 ),
               ],

@@ -1,4 +1,3 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +8,7 @@ import 'package:roadrunner_provider_app/core/widgets/custom_app_bar.dart';
 import 'package:roadrunner_provider_app/core/widgets/custom_error_message.dart';
 import 'package:roadrunner_provider_app/features/home-page/buisness_logic/bloc/order_bloc.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/screens/order_detail.dart';
-import 'package:roadrunner_provider_app/features/home-page/presentation/widgets/build_map_section.dart';
+import 'package:roadrunner_provider_app/features/home-page/presentation/widgets/custom_map.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/widgets/custom_calendar.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/widgets/custom_card.dart';
 
@@ -21,8 +20,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static final ValueNotifier<bool> _isShowRouteMap = ValueNotifier(false);
-
   Future<void> _refreshOrders() async {
     final selectedDate = context.read<OrderBloc>().selectedDate;
     context.read<OrderBloc>().add(
@@ -52,12 +49,9 @@ class _HomePageState extends State<HomePage> {
                 child: BlocBuilder<OrderBloc, OrderState>(
                   builder: (context, state) {
                     if (state is OrderLoading) {
-                      BotToast.showLoading(clickClose: false);
-                      return SizedBox();
+                      return Center(child: CircularProgressIndicator());
                     } else if (state is OrderSuccess) {
-                      BotToast.closeAllLoading();
-                      if (state.orderList!.orders == null ||
-                          state.orderList!.orders!.isEmpty) {
+                      if (state.orderList?.isEmpty ?? true) {
                         return ListView(
                           physics: AlwaysScrollableScrollPhysics(),
                           children: [
@@ -75,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                           ],
                         );
                       }
-                      state.orderList!.orders!.sort((a, b) {
+                      state.orderList!.sort((a, b) {
                         DateTime startA =
                             DateFormat("hh:mm a").parse(a.startTime!);
                         DateTime startB =
@@ -84,65 +78,50 @@ class _HomePageState extends State<HomePage> {
                       });
                       return Column(
                         children: [
-                          ValueListenableBuilder<bool>(
-                            valueListenable: _isShowRouteMap,
-                            builder: (context, isShowRouteMap, child) {
-                              return Column(
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      _isShowRouteMap.value =
-                                          !_isShowRouteMap.value;
-                                    },
-                                    child: Text(
-                                      isShowRouteMap ? "Hide Map" : "Show Map",
-                                      style: AppFonts.poppinsRegular(
-                                        fontSize: 16.sp,
-                                        color: isShowRouteMap
-                                            ? AppColors.tritiaryColor
-                                            : AppColors.primaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                  if (isShowRouteMap) BuildMapSection()
-                                ],
-                              );
-                            },
-                          ),
+                          CustomMap(),
                           SizedBox(height: 10.h),
                           Expanded(
                             child: ListView.builder(
-                              itemCount: state.orderList!.orders!.length,
+                              itemCount: state.orderList!.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
+                                    BlocProvider.of<OrderBloc>(context).add(
+                                        GetOrderDetailEvent(
+                                            clientId: state.orderList![index]
+                                                    .clientId ??
+                                                0));
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
-                                      return OrderDetail();
+                                      return OrderDetail(
+                                        id: state.orderList![index].clientId,
+                                      );
                                     }));
                                   },
                                   child: CustomCard(
                                     number: "${index + 1}",
                                     clientName:
-                                        "${state.orderList!.orders![index].clientName}",
+                                        "${state.orderList![index].clientName}",
                                     startTime:
-                                        "${state.orderList!.orders![index].startTime}",
-                                    clientAddress:
-                                        "${state.orderList!.orders![index].clientAddress}",
-                                    productNumber: state.orderList!
-                                        .orders![index].orderProducts!.length,
-                                    status:
-                                        "${state.orderList!.orders![index].status}",
-                                    service: state.orderList!.orders![index]
-                                        .orderServices![0],
-                                    serviceNumber: state
-                                            .orderList!
-                                            .orders![index]
-                                            .orderServices!
-                                            .length -
+                                        "${state.orderList![index].startTime}",
+                                    clientAddress: [
+                                      state.orderList![index].clientAddress!
+                                          .streetAddress,
+                                      state.orderList![index].clientAddress!
+                                          .city,
+                                      state.orderList![index].clientAddress!
+                                          .state,
+                                    ].join(", "),
+                                    productNumber: state.orderList![index]
+                                        .orderProducts!.length,
+                                    status: "${state.orderList![index].status}",
+                                    service:
+                                        "${state.orderList![index].orderServices![0].serviceName}",
+                                    serviceNumber: state.orderList![index]
+                                            .orderServices!.length -
                                         1,
                                     clientImage:
-                                        "${state.orderList!.orders![index].clientImage}",
+                                        "${state.orderList![index].clientImage}",
                                   ),
                                 );
                               },
@@ -151,7 +130,6 @@ class _HomePageState extends State<HomePage> {
                         ],
                       );
                     } else if (state is OrderFailure) {
-                      BotToast.closeAllLoading();
                       CustomErrorMessage().showCustomMessage(
                           message: state.message,
                           icon: Icons.warning_amber_rounded);
