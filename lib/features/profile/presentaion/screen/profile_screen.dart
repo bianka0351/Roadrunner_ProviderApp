@@ -99,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0.r)),
-                          hintText: 'Username'),
+                          labelText: 'Username'),
                     ),
                     SizedBox(
                       height: 20.h,
@@ -110,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0.r)),
-                          hintText: 'Email'),
+                          labelText: 'Email'),
                     ),
                     SizedBox(
                       height: 20.h,
@@ -120,9 +120,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       controller: _addressController,
                       readOnly: true,
                       decoration: InputDecoration(
+                          labelText: 'Address',
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0.r)),
-                          hintText: 'Address',
                           suffixIcon: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
@@ -149,18 +149,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0.r)),
-                          hintText: 'PhoneNumber'),
+                          labelText: 'Phone Number'),
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
                     // Organization ID
                     TextField(
+                      readOnly: true,
                       controller: _organizationTitleController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0.r)),
-                          hintText: 'Organization ID'),
+                          labelText: 'Organization Name'),
                     ),
                     SizedBox(
                       height: 20.h,

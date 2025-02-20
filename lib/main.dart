@@ -1,10 +1,6 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:roadrunner_provider_app/features/auth/bloc/bloc/auth_bloc.dart';
-import 'package:roadrunner_provider_app/features/auth/presentation/screens/splash_screen.dart';
+import 'package:roadrunner_provider_app/features/map/presentation/screen/test_map_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences sharedPref;
@@ -20,18 +16,25 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return BlocProvider<AuthBloc>(
-      create: (context) => AuthBloc(),
-      child: ScreenUtilInit(
-          designSize: const Size(428, 926), // Reference size for the design.
-
-          child: MaterialApp(
+    return ScreenUtilInit(
+        designSize: Size(428, 926),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return MaterialApp(
+            theme: ThemeData(
+              fontFamily: 'Poppins-Regular', // Default font for the app
+              textTheme: TextTheme(
+                headlineLarge: TextStyle(fontFamily: 'Roboto', fontSize: 32.sp),
+                titleLarge:
+                    TextStyle(fontFamily: 'Poppins-SemiBold', fontSize: 24.sp),
+                bodyMedium: TextStyle(fontFamily: 'Inter', fontSize: 16.sp),
+              ),
+            ),
             debugShowCheckedModeBanner: false,
-            builder: BotToastInit(),
-            home: SplashScreen(),
-          )),
-    );
-
+            title: 'Profile',
+            home: MapScreen(),
+          );
+        });
   }
 }

@@ -1,9 +1,4 @@
 import 'dart:convert';
-
-
-
-import 'dart:developer';
-
 import 'package:http/http.dart';
 import 'package:roadrunner_provider_app/core/unified_api/exceptions.dart';
 
@@ -29,7 +24,6 @@ mixin HandlingRequestException {
         return AuthException(message: message);
       case 404:
         return NotFoundException(message: message);
-
       case 429:
         return ServerException(message: "Too many requests. Slow down.");
       case 500:
