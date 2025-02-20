@@ -150,7 +150,7 @@ class MapApi {
         return LatLng(lat, lon);
       }
     } catch (e) {
-      log("❌ [Geocoding] Failed: $e");
+      log("❌ [Geocoding] Failed to find: $address");
     }
     return null;
   }
@@ -178,7 +178,7 @@ class MapApi {
         log("❌ [Nominatim] No results for: $address");
       }
     } catch (e) {
-      log("⚠️ [Nominatim] Error: $e");
+      log("⚠️ [Nominatim] Error");
     }
 
     return null;
