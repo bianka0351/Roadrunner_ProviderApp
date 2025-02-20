@@ -10,6 +10,8 @@ import 'package:roadrunner_provider_app/features/profile/presentaion/widget/cust
 import 'package:roadrunner_provider_app/features/profile/presentaion/widget/working_hours_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _ProfileScreenState();
@@ -129,7 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.all(10.r),
-                                  backgroundColor: AppColors.tertiaryColor,
+                                  backgroundColor: AppColors.secondaryColor,
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(7.r))),
@@ -173,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.all(10.r),
-                              backgroundColor: AppColors.tertiaryColor,
+                              backgroundColor: AppColors.secondaryColor,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(7.r))),
                           child: Text(

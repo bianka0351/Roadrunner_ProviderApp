@@ -5,15 +5,11 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roadrunner_provider_app/features/auth/bloc/bloc/auth_bloc.dart';
-import 'package:roadrunner_provider_app/features/auth/presentation/screens/splash_screen.dart';
+
 import 'package:roadrunner_provider_app/features/profile/buisness_logic/bloc/profile_bloc.dart';
 import 'package:roadrunner_provider_app/features/profile/data/repository/profile_repository.dart';
 import 'package:roadrunner_provider_app/features/profile/data/service/profile_api.dart';
 import 'package:roadrunner_provider_app/features/profile/presentaion/screen/profile_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-late SharedPreferences sharedPref;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

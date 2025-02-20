@@ -1,5 +1,5 @@
 import 'package:roadrunner_provider_app/core/unified_api/post_api.dart';
-import 'package:roadrunner_provider_app/features/auth/data/models/auth_model.dart';
+import 'package:roadrunner_provider_app/features/auth/data/model/auth_model.dart';
 
 class AuthDatasource {
   Future<AuthResponseModel> signIn(

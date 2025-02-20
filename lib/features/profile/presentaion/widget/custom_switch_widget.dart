@@ -7,8 +7,7 @@ class CustomSwitchWidget extends StatefulWidget {
   final ValueChanged<bool> onChanged;
 
   const CustomSwitchWidget(
-      {Key? key, required this.value, required this.onChanged})
-      : super(key: key);
+      {super.key, required this.value, required this.onChanged});
 
   @override
   _CustomSwitchWidgetState createState() => _CustomSwitchWidgetState();
@@ -26,7 +25,7 @@ class _CustomSwitchWidgetState extends State<CustomSwitchWidget> {
         width: 50.w,
         height: 30.h,
         decoration: BoxDecoration(
-          color: widget.value ? AppColors.tertiaryColor : Colors.grey,
+          color: widget.value ? AppColors.secondaryColor : Colors.grey,
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: Stack(

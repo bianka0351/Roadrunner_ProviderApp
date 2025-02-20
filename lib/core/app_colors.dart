@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primaryColor = Color(0xFF38C3E4); // '0XFFEE8105'
-  static const Color tertiaryColor = Color(0xFF0072BC);
-  static const Color secondaryColor = Color(0xFF9CA3AF);
-  static const Color tertiaryHoverColor = Color(0xFFD9D9D9);
-  static const Color secondaryHoverColor = Color(0xFFDDDDDD);
-  static const Color primaryHoverColor = Color(0xFFA3320B); // may changed later
-  static const Color whiteColor = Colors.white;
-  static const Color blackColor = Colors.black;
+  static const Color primaryColor = Color(0xFF38C3E4);
+  static const Color secondaryColor = Color(0xFF025A82);
+  static const Color tritiaryColor = Color(0xFF9CA3AF);
+
+  static const Color errorColor = Color(0xFFFB3640);
+
+  static const Color inProgressStatusColor = Color(0xFFFDB44E);
+  static const Color noShowStatusColor = Color(0xFFAF0000);
+  static const Color startStatusColor = Color(0xFF38C3E4);
+  static const Color finishedStatusColor = Color(0xFF25993A);
+  static const Color arrivedStatusColor = Color(0xFF9CE256);
 }

@@ -4,8 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class WorkingHoursWidget extends StatelessWidget {
   final Map<String, String> workingHours;
 
-  const WorkingHoursWidget({Key? key, required this.workingHours})
-      : super(key: key);
+  const WorkingHoursWidget({super.key, required this.workingHours});
 
   @override
   Widget build(BuildContext context) {

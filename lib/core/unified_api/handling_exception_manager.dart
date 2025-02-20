@@ -1,3 +1,4 @@
+//Handling errors during request execution
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
@@ -29,7 +30,7 @@ mixin HandlingExceptionManager {
       return Left(
           NetworkFailure(message: "The request timed out. Please try again."));
     } catch (e) {
-      log('UnknownException: ${e}');
+      log('UnknownException: $e');
       return Left(UnknownFailure(message: e.toString()));
     }
   }

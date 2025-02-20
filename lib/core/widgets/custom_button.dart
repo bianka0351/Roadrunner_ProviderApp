@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:roadrunner_provider_app/core/app_colors.dart';
+import 'package:roadrunner_provider_app/core/app_fonts.dart';
 
 // ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
@@ -16,13 +17,11 @@ class CustomButton extends StatelessWidget {
           fixedSize: Size(319.w, 55.h),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.r))),
-      child: Text(
-        text,
-        style: TextStyle(
-            fontFamily: 'Poppins-SemiBold',
-            fontSize: 20.sp,
-            color: AppColors.whiteColor),
-      ),
+      child: Text(text,
+          style: AppFonts.poppinsSemiBold(
+            fontSize: 28.sp,
+            color: Colors.white,
+          )),
     );
   }
 }
