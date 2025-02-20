@@ -25,7 +25,6 @@ mixin HandlingRequestException {
         return AuthException(message: message);
       case 404:
         return NotFoundException(message: message);
-
       case 429:
         return ServerException(message: "Too many requests. Slow down.");
       case 500:

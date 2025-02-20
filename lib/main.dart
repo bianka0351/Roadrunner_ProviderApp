@@ -1,13 +1,13 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:roadrunner_provider_app/features/auth/bloc/bloc/auth_bloc.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/screens/splash_screen.dart';
 import 'package:roadrunner_provider_app/features/home-page/buisness_logic/bloc/order_bloc.dart';
+
 
 late SharedPreferences sharedPref;
 
@@ -23,6 +23,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MultiProvider(
       providers: [
         BlocProvider<AuthBloc>(
@@ -34,10 +35,12 @@ class MainApp extends StatelessWidget {
       ],
       child: ScreenUtilInit(
         designSize: const Size(428, 926), // Reference size for the design.
+
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
           return MaterialApp(
+
             debugShowCheckedModeBanner: false,
             builder: BotToastInit(),
             navigatorObservers: [BotToastNavigatorObserver()],
@@ -46,5 +49,6 @@ class MainApp extends StatelessWidget {
         },
       ),
     );
+
   }
 }
