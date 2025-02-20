@@ -28,14 +28,18 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     await addressToLatLngResult.fold((failure) async {
       emit(MapErrorState('Failed to convert addresses: ${failure.message}'));
     }, (latLngList) async {
-      final Either<Failure, List<LatLng>> routePathResult =
+      final Either<Failure, Map<String, dynamic>> routePathResult =
           await mapRepository.getOrdersLocationRoute(latLngList);
 
       routePathResult.fold((failure) {
         emit(MapErrorState('Failed to get route path: ${failure.message}'));
-      }, (routePath) {
+      }, (routeData) {
         emit(OrdersLocationState(
-            orderLocations: latLngList, routePath: routePath));
+          orderLocations: latLngList,
+          routePath: routeData['routePath'], // Route path for the map
+          routeDetails:
+              routeData['routeDetails'], // Distance & duration details
+        ));
       });
     });
   }

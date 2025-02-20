@@ -18,14 +18,16 @@ class MapLoadingState extends MapState {}
 class OrdersLocationState extends MapState {
   final List<LatLng> orderLocations;
   final List<LatLng> routePath;
+  final List<Map<String, dynamic>> routeDetails;
 
   const OrdersLocationState({
     required this.orderLocations,
+    required this.routeDetails,
     required this.routePath,
   });
 
   @override
-  List<Object?> get props => [orderLocations, routePath];
+  List<Object?> get props => [routeDetails, routePath];
 }
 
 // Error state

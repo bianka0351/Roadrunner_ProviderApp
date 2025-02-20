@@ -13,9 +13,13 @@ import 'package:roadrunner_provider_app/features/map/presentation/widget/order_l
 class MapWidget extends StatefulWidget {
   final MapDataType mapDataType;
   final List<String> locations;
+  final void Function(List<Map<String, dynamic>>)? onRouteDetailsUpdated;
 
   const MapWidget(
-      {super.key, required this.locations, required this.mapDataType});
+      {super.key,
+      required this.locations,
+      required this.mapDataType,
+      this.onRouteDetailsUpdated});
 
   @override
   State<StatefulWidget> createState() => _MapWidgetState();
@@ -23,7 +27,7 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   final MapController _mapController = MapController();
-  double _currentZoom = 11.0;
+  double _currentZoom = 12.0;
   LatLng _initialLocation = LatLng(0.0, 0.0);
 
   @override
@@ -69,14 +73,20 @@ class _MapWidgetState extends State<MapWidget> {
           //loaded state
         } else if (state is OrdersLocationState) {
           _initialLocation = state.orderLocations.first;
+          if (widget.onRouteDetailsUpdated != null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.onRouteDetailsUpdated!(state.routeDetails);
+            });
+          }
+
           return FlutterMap(
             // map controller
             mapController: _mapController,
             // map options
             options: MapOptions(
-              initialCenter: state.orderLocations.isNotEmpty
-                  ? state.orderLocations.first
-                  : LatLng(0, 0),
+              initialCenter: state.routePath.isNotEmpty
+                  ? state.routePath.first
+                  : LatLng(0.0, 0.0),
               initialZoom: _currentZoom,
             ),
             // map layers
@@ -84,7 +94,7 @@ class _MapWidgetState extends State<MapWidget> {
               // tile layer
               TileLayer(
                 urlTemplate:
-                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    "https://tile.openstreetmap.org/{z}/{x}/{y}.png", // "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
               ),
               // polyline layer
               PolylineLayer(polylines: [
