@@ -12,7 +12,7 @@ class MapRepository with HandlingExceptionManager {
   Future<Either<Failure, Map<String, dynamic>>> getOrdersLocationRoute(
       List<LatLng> locations) async {
     return await handleError(tryCall: () async {
-      final result = await mapApi.getOrdersLocationRoutesApi(locations);
+      final result = await mapApi.getLocationsRoutesApi(locations);
       return Right(result);
     });
   }
@@ -20,7 +20,7 @@ class MapRepository with HandlingExceptionManager {
   Future<Either<Failure, List<LatLng>>> getOrdersAdressLocation(
       List<String> addresses) async {
     return await handleError(tryCall: () async {
-      final result = await mapApi.getOrdersAddressLocationApi(addresses);
+      final result = await mapApi.getAddressLocationApi(addresses);
       return Right(result);
     });
   }

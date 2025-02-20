@@ -26,7 +26,7 @@ class _MapScreenState extends State<MapScreen> {
       '1011 Lincoln Blvd, San Francisco, CA 94129, USA',
       'Beach St, San Francisco, CA 94133, USA',
       '1 Dr Carlton B Goodlett Pl, San Francisco, CA 94102, USA',
-      '333 Post St, San Francisco, CA 94108, USA'
+      '333 Post St, San Francisco, CA 94108, USA',
     ];
 
     return BlocProvider(

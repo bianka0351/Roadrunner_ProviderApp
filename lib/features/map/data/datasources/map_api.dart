@@ -1,19 +1,22 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'package:geocoding/geocoding.dart';
+import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:roadrunner_provider_app/core/unified_api/get_api.dart';
 
 class MapApi {
-  final String baseOrdersLocationUrl = 'https://router.project-osrm.org';
-  final String baseOrderAddressUrl = 'https://nominatim.openstreetmap.org';
+  final String baseLocationUrl = 'https://router.project-osrm.org';
+  final String baseAddressUrl = 'https://nominatim.openstreetmap.org';
 
   MapApi();
 
-  Future<Map<String, dynamic>> getOrdersLocationRoutesApi(
+  Future<Map<String, dynamic>> getLocationsRoutesApi(
       List<LatLng> locations) async {
     final coords =
         locations.map((loc) => '${loc.longitude},${loc.latitude}').join(';');
     final String url =
-        '$baseOrdersLocationUrl/route/v1/driving/$coords?overview=full&geometries=geojson';
+        '$baseLocationUrl/route/v1/driving/$coords?overview=full&geometries=geojson';
 
     return await GetApi<Map<String, dynamic>>(
       url: url,
@@ -24,31 +27,67 @@ class MapApi {
     ).call();
   }
 
-  Future<List<LatLng>> getOrdersAddressLocationApi(
-      List<String> addresses) async {
+  Future<List<LatLng>> getAddressLocationApi(List<String> addresses) async {
     List<LatLng> locations = [];
 
+    /// I used this since I dont want to throw an exception from Nominatim Api
+    // if null -------> use geocoding instead
     for (String address in addresses) {
-      final encodedAddress = Uri.encodeComponent(address);
-      final String addressUrl =
-          '$baseOrderAddressUrl/search?q=$encodedAddress&format=json';
+      log("🔍 Searching for address: $address");
+      LatLng? latLng = await _getLocationFromNominatim(address);
 
-      LatLng? latLng = await GetApi<LatLng?>(
-        url: addressUrl,
-        fromJson: (json) => _parseAddress(json),
-        headers: {
-          'User-Agent': 'FlutterApp',
-        },
-      ).call();
+      // If Nominatim fails, use geocoding as a fallback
+      // ignore: prefer_conditional_assignment
+      if (latLng == null) {
+        log("⚠️ Nominatim failed! Trying Geocoding...");
+        latLng = await _getLocationFromGeocoding(address);
+      }
 
       if (latLng != null) {
         locations.add(latLng);
       } else {
-        print(
-            'No coordinates found for address: $address'); // Log when no coordinates found
+        log("❌ No coordinates found for: $address");
       }
+
+      await Future.delayed(Duration(seconds: 1)); // To avoid API rate limits
+    }
+
+    /*
+    // Use this if you want to throw exception not switch to geocoding
+    for (String address in addresses) {
+      final encodedAddress = Uri.encodeComponent(address);
+      final String addressUrl =
+          '$baseAddressUrl/search?q=$encodedAddress&format=json';
+
+      LatLng? latLng;
+
+      try {
+        latLng = await GetApi<LatLng?>(
+          url: addressUrl,
+          fromJson: (json) => _parseAddress(json),
+          headers: {
+            'User-Agent': 'FlutterApp',
+          },
+        ).call();
+      } catch (e) {
+        log("Nominatim API failed: $e");
+      }
+
+      // If Nominatim fails, use geocoding as fallback
+      // ignore: prefer_conditional_assignment
+      if (latLng == null) {
+        latLng = await _getLocationFromGeocoding(address);
+      }
+
+      if (latLng != null) {
+        locations.add(latLng);
+      } else {
+        log('No coordinates found for address: $address');
+      }
+
       await Future.delayed(Duration(seconds: 1));
     }
+    */
 
     return locations;
   }
@@ -97,6 +136,51 @@ class MapApi {
       final lon = double.parse(data[0]['lon']);
       return LatLng(lat, lon);
     }
+    return null;
+  }
+
+  Future<LatLng?> _getLocationFromGeocoding(String address) async {
+    try {
+      log("📍 [Geocoding] Trying local geocoder for: $address");
+      List<Location> locations = await locationFromAddress(address);
+      if (locations.isNotEmpty) {
+        final lat = locations.first.latitude;
+        final lon = locations.first.longitude;
+        log("✅ [Geocoding] Found: $address -> ($lat, $lon)");
+        return LatLng(lat, lon);
+      }
+    } catch (e) {
+      log("❌ [Geocoding] Failed: $e");
+    }
+    return null;
+  }
+
+  Future<LatLng?> _getLocationFromNominatim(String address) async {
+    try {
+      log("🌍 [Nominatim] Searching for: $address");
+      final encodedAddress = Uri.encodeComponent(address);
+      final String addressUrl =
+          '$baseAddressUrl/search?q=$encodedAddress&format=json';
+
+      final response = await http.get(Uri.parse(addressUrl), headers: {
+        'User-Agent': 'FlutterApp',
+      }).timeout(const Duration(seconds: 10));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        if (data.isNotEmpty) {
+          final lat = double.parse(data[0]['lat']);
+          final lon = double.parse(data[0]['lon']);
+          log("✅ [Nominatim] Found: $address -> ($lat, $lon)");
+          return LatLng(lat, lon);
+        }
+      } else {
+        log("❌ [Nominatim] No results for: $address");
+      }
+    } catch (e) {
+      log("⚠️ [Nominatim] Error: $e");
+    }
+
     return null;
   }
 }
