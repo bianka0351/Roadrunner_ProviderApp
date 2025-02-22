@@ -59,7 +59,7 @@ class _OrderDetailState extends State<OrderDetail> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        CustomMap(),
+                        // CustomMap(),
                         SizedBox(height: 15.h),
                         CustomClientDetail(
                           clientName: "${state.details?.clientName}",

@@ -131,7 +131,7 @@ class _MapWidgetState extends State<MapWidget> {
           },
           style: ElevatedButton.styleFrom(
             shape: CircleBorder(
-              side: BorderSide(color: AppColors.tertiaryColor, width: 1.w),
+              side: BorderSide(color: AppColors.secondaryColor, width: 1.w),
             ),
             padding: EdgeInsets.all(10.r),
             backgroundColor: Colors.white,
@@ -141,7 +141,7 @@ class _MapWidgetState extends State<MapWidget> {
           child: Icon(
             Icons.my_location,
             size: 24,
-            color: AppColors.tertiaryColor,
+            color: AppColors.secondaryColor,
           ),
         ),
       ),
@@ -155,7 +155,7 @@ class _MapWidgetState extends State<MapWidget> {
           },
           style: ElevatedButton.styleFrom(
             shape: CircleBorder(
-              side: BorderSide(color: AppColors.tertiaryColor, width: 1.w),
+              side: BorderSide(color: AppColors.secondaryColor, width: 1.w),
             ),
             padding: EdgeInsets.all(10.r),
             backgroundColor: Colors.white,
@@ -165,7 +165,7 @@ class _MapWidgetState extends State<MapWidget> {
           child: Icon(
             Icons.add,
             size: 24,
-            color: AppColors.tertiaryColor,
+            color: AppColors.secondaryColor,
           ),
         ),
       ),
@@ -180,7 +180,7 @@ class _MapWidgetState extends State<MapWidget> {
           },
           style: ElevatedButton.styleFrom(
             shape: CircleBorder(
-              side: BorderSide(color: AppColors.tertiaryColor, width: 1.w),
+              side: BorderSide(color: AppColors.secondaryColor, width: 1.w),
             ),
             padding: EdgeInsets.all(10.r),
             backgroundColor: Colors.white,
@@ -190,7 +190,7 @@ class _MapWidgetState extends State<MapWidget> {
           child: Icon(
             Icons.remove,
             size: 24,
-            color: AppColors.tertiaryColor,
+            color: AppColors.secondaryColor,
           ),
         ),
       ),

@@ -15,7 +15,10 @@ class CustomCard extends StatelessWidget {
       required this.service,
       required this.serviceNumber,
       required this.productNumber,
-      required this.clientImage});
+      required this.clientImage,
+      this.isLastOrder = false,
+      required this.distance,
+      required this.duration});
   String number;
   String clientName;
   String startTime;
@@ -25,7 +28,9 @@ class CustomCard extends StatelessWidget {
   int serviceNumber;
   int productNumber;
   String clientImage;
-
+  bool isLastOrder;
+  String distance;
+  String duration;
   final Map<String, Color> statusColors = {
     "In Progress": AppColors.inProgressStatusColor,
     "Start": AppColors.startStatusColor,
@@ -147,29 +152,30 @@ class CustomCard extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        Row(
-          children: [
-            Expanded(
-              child: Divider(
-                color: AppColors.tritiaryColor,
-                thickness: 1.0,
-                indent: 20.w,
-              ),
-            ),
-            Text('18 mil - 0:26 min',
-                style: AppFonts.poppinsSemiBold(
-                  fontSize: 10.sp,
+        if (!isLastOrder)
+          Row(
+            children: [
+              Expanded(
+                child: Divider(
                   color: AppColors.tritiaryColor,
-                )),
-            Expanded(
-              child: Divider(
-                color: AppColors.tritiaryColor,
-                thickness: 1.0,
-                endIndent: 20.w,
+                  thickness: 1.0,
+                  indent: 20.w,
+                ),
               ),
-            ),
-          ],
-        ),
+              Text('$distance - $duration',
+                  style: AppFonts.poppinsSemiBold(
+                    fontSize: 10.sp,
+                    color: AppColors.tritiaryColor,
+                  )),
+              Expanded(
+                child: Divider(
+                  color: AppColors.tritiaryColor,
+                  thickness: 1.0,
+                  endIndent: 20.w,
+                ),
+              ),
+            ],
+          ),
         SizedBox(
           height: 10.h,
         ),

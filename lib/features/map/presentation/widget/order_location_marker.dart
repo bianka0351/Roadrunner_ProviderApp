@@ -18,7 +18,7 @@ class OrderLocationMarker extends StatelessWidget {
           'assets/icons/location.svg',
           semanticsLabel: 'location pin icon',
           colorFilter:
-              ColorFilter.mode(AppColors.tertiaryColor, BlendMode.srcIn),
+              ColorFilter.mode(AppColors.secondaryColor, BlendMode.srcIn),
         ),
         // Index
         Padding(

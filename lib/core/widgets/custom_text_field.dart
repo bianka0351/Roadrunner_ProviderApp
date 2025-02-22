@@ -4,18 +4,21 @@ import 'package:roadrunner_provider_app/core/app_colors.dart';
 import 'package:roadrunner_provider_app/core/app_fonts.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
+  CustomTextField({
     super.key,
-    required this.validator,
+    this.validator,
     required this.hintText,
     required this.controller,
+    this.readOnly,
   });
-  final String? Function(String?) validator;
+  final FormFieldValidator<String>? validator;
   final String hintText;
   final TextEditingController controller;
+  final bool? readOnly;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly ?? false,
       controller: controller,
       decoration: InputDecoration(
         fillColor: Colors.white,

@@ -9,7 +9,7 @@ import 'package:roadrunner_provider_app/features/auth/bloc/bloc/auth_bloc.dart';
 import 'package:roadrunner_provider_app/core/widgets/custom_button.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_password_text_field.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_road_runner.dart';
-import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:roadrunner_provider_app/core/widgets/custom_text_field.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/screens/home_page.dart';
 import 'package:roadrunner_provider_app/main.dart';
 

@@ -102,7 +102,10 @@ class MapApi {
 
     // Extract route path
     for (var coord in routeCoords) {
-      routePath.add(LatLng(coord[1], coord[0]));
+      double lat = (coord[1] as num).toDouble();
+      double lng = (coord[0] as num).toDouble();
+
+      routePath.add(LatLng(lat, lng));
     }
 
     // Extract distance & duration
@@ -115,12 +118,14 @@ class MapApi {
       int hours = (durationSeconds ~/ 3600);
       int minutes = ((durationSeconds % 3600) ~/ 60);
 
-      routeDetails.add({
-        "from": "${routePath[i]}",
-        "to": "${routePath[i + 1]}",
-        "distance": "${distanceMiles.toStringAsFixed(2)} mi",
-        "duration": "$hours h $minutes min"
-      });
+      if (i + 1 < routePath.length) {
+        routeDetails.add({
+          "from": "${routePath[i]}",
+          "to": "${routePath[i + 1]}",
+          "distance": "${distanceMiles.toStringAsFixed(2)} mil",
+          "duration": "$hours h $minutes min"
+        });
+      }
     }
 
     return {
