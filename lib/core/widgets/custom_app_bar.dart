@@ -36,7 +36,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         actions: [
           Padding(
               padding: EdgeInsets.only(right: 15.w),
-              child: Icon(Icons.chat_bubble_outline_rounded))
+              child: Stack(
+                children: [
+                  Icon(
+                    Icons.chat_bubble_outline,
+                    size: 30.sp,
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      padding: EdgeInsets.all(4.w),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 10.w,
+                        minHeight: 10.w,
+                      ),
+                    ),
+                  ),
+                ],
+              ))
         ],
       ),
     );
