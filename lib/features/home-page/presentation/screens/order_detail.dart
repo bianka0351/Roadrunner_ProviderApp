@@ -6,7 +6,6 @@ import 'package:roadrunner_provider_app/core/app_fonts.dart';
 import 'package:roadrunner_provider_app/core/widgets/custom_button.dart';
 import 'package:roadrunner_provider_app/core/widgets/custom_error_message.dart';
 import 'package:roadrunner_provider_app/features/home-page/buisness_logic/bloc/order_bloc.dart';
-import 'package:roadrunner_provider_app/features/home-page/presentation/widgets/custom_map.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/widgets/custom_client_detail.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/widgets/custom_payment_summary.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/widgets/custom_small_button.dart';

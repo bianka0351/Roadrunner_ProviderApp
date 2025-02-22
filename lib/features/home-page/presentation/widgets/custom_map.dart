@@ -5,6 +5,7 @@ import 'package:roadrunner_provider_app/core/app_fonts.dart';
 import 'package:roadrunner_provider_app/features/map/data/model/map_data_type.dart';
 import 'package:roadrunner_provider_app/features/map/presentation/widget/map_widget.dart';
 
+// ignore: must_be_immutable
 class CustomMap extends StatefulWidget {
   CustomMap(
       {super.key,

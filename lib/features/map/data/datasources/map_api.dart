@@ -134,6 +134,7 @@ class MapApi {
     };
   }
 
+  // ignore: unused_element
   LatLng? _parseAddress(String json) {
     final List<dynamic> data = jsonDecode(json);
     if (data.isNotEmpty) {
