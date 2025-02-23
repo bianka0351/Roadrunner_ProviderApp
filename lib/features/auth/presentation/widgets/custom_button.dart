@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roadrunner_provider_app/core/app_colors.dart';
+
+import '../../../../core/constants/app_colors.dart';
 
 // ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
@@ -21,7 +22,7 @@ class CustomButton extends StatelessWidget {
         style: TextStyle(
             fontFamily: 'Poppins-SemiBold',
             fontSize: 20.sp,
-            color: AppColors.whiteColor),
+            color: Colors.white),
       ),
     );
   }

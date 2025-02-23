@@ -2,16 +2,20 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:roadrunner_provider_app/features/auth/bloc/bloc/auth_bloc.dart';
-import 'package:roadrunner_provider_app/features/auth/presentation/screens/splash_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:roadrunner_provider_app/features/client/presentaion/screen/client_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'core/constants/app_pages.dart';
+import 'core/constants/app_routes.dart';
+import 'features/client/cubit/client_cubit.dart';
+
 
 late SharedPreferences sharedPref;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPref = await SharedPreferences.getInstance();
+
   runApp(const MainApp());
 }
 
@@ -20,18 +24,34 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return BlocProvider<AuthBloc>(
-      create: (context) => AuthBloc(),
+    return MultiProvider(
+      providers: [
+        BlocProvider<ClientCubit>(
+          create: (context) => ClientCubit(),
+        ),
+        // BlocProvider<AuthBloc>(
+        //   create: (context) => AuthBloc(),
+        // ),
+        // BlocProvider<OrderBloc>(
+        //   create: (context) => OrderBloc(),
+        // ),
+      ],
       child: ScreenUtilInit(
-          designSize: const Size(428, 926), // Reference size for the design.
+        designSize: const Size(428, 926), // Reference size for the design.
 
-          child: MaterialApp(
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return MaterialApp(
             debugShowCheckedModeBanner: false,
+             initialRoute: AppRoutes.home,
+            routes: AppPages.routes,
             builder: BotToastInit(),
-            home: SplashScreen(),
-          )),
+            navigatorObservers: [BotToastNavigatorObserver()],
+            home: CreateClientScreen(),
+          );
+        },
+      ),
     );
-
   }
 }
