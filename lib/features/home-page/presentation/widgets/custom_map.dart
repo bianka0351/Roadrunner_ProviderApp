@@ -63,9 +63,9 @@ class _CustomMapState extends State<CustomMap> {
                   height: 288.h,
                   width: 408.w,
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(15.r),
-                  ),
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(15.r),
+                      border: Border.all()),
                   child: mapWidget,
                 ),
               ),
