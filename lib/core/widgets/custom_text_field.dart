@@ -1,0 +1,52 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:roadrunner_provider_app/core/constants/app_colors.dart';
+import 'package:roadrunner_provider_app/core/constants/app_fonts.dart';
+
+class CustomTextField extends StatelessWidget {
+  const CustomTextField({
+    super.key,
+    this.validator,
+    required this.hintText,
+    required this.controller,
+    this.readOnly,
+  });
+  final FormFieldValidator<String>? validator;
+  final String hintText;
+  final TextEditingController controller;
+  final bool? readOnly;
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      readOnly: readOnly ?? false,
+      controller: controller,
+      decoration: InputDecoration(
+        fillColor: Colors.white,
+        filled: true,
+        labelText: hintText,
+        labelStyle: AppFonts.poppinsRegular(
+          fontSize: 20.sp,
+          color: Color(0xFFB2B2C2),
+        ),
+        floatingLabelStyle: AppFonts.poppinsRegular(
+            fontSize: 20.sp, color: AppColors.secondaryColor),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide(color: Color(0xFFDDDDDD)),
+        ),
+        errorStyle: TextStyle(color: AppColors.errorColor),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.errorColor),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.secondaryColor),
+        ),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 12.h,
+        ),
+      ),
+      validator: validator,
+    );
+  }
+}

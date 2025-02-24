@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roadrunner_provider_app/core/app_colors.dart';
+import 'package:roadrunner_provider_app/core/constants/app_colors.dart';
 
 class CustomSwitchWidget extends StatefulWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
 
   const CustomSwitchWidget(
-      {Key? key, required this.value, required this.onChanged})
-      : super(key: key);
+      {super.key, required this.value, required this.onChanged});
 
   @override
   _CustomSwitchWidgetState createState() => _CustomSwitchWidgetState();
@@ -26,7 +25,7 @@ class _CustomSwitchWidgetState extends State<CustomSwitchWidget> {
         width: 50.w,
         height: 30.h,
         decoration: BoxDecoration(
-          color: widget.value ? AppColors.tertiaryColor : Colors.grey,
+          color: widget.value ? AppColors.secondaryColor : Colors.grey,
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: Stack(

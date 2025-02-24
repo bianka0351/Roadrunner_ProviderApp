@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roadrunner_provider_app/core/app_colors.dart';
+import 'package:roadrunner_provider_app/core/constants/app_fonts.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/screens/sign_in_page.dart';
+import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_road_runner.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/screens/home_page.dart';
 import 'package:roadrunner_provider_app/main.dart';
 
@@ -40,26 +41,17 @@ class _SplashScreenState extends State<SplashScreen> {
             fit: BoxFit.cover,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.w),
+            padding: EdgeInsets.symmetric(horizontal: 50.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                CustomRoadRunner(
+                    color: Colors.black, text: "Road Runner", fontSize: 48.sp),
+                SizedBox(height: 25.h),
                 Text(
-                  'Road Runner',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 48.sp,
-                      fontFamily: "Roboto"),
-                ),
-                SizedBox(height: 30.h),
-                Text(
-                  'Bringing services to your doorstep–fast, easy, and reliable!',
+                  'Bringing services to your doorstep   – fast, easy, and reliable!',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24.sp,
-                    color: AppColors.blackColor,
-                    fontFamily: 'Poppins-Regular',
-                  ),
+                  style: AppFonts.poppinsRegular(fontSize: 20.sp),
                 ),
                 SizedBox(height: 150.h),
               ],

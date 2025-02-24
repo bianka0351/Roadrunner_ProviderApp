@@ -1,3 +1,4 @@
+//Handling errors during request execution
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
@@ -20,7 +21,6 @@ mixin HandlingExceptionManager {
     } on AuthException catch (e) {
       log('AuthException: ${e.message}');
       return Left(AuthFailure(message: e.message));
-
     } on SocketException {
       log('No Internet Connection');
       return Left(
@@ -30,7 +30,7 @@ mixin HandlingExceptionManager {
       return Left(
           NetworkFailure(message: "The request timed out. Please try again."));
     } catch (e) {
-      log('UnknownException: ${e}');
+      log('UnknownException: $e');
       return Left(UnknownFailure(message: e.toString()));
     }
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roadrunner_provider_app/core/app_colors.dart';
+import 'package:roadrunner_provider_app/core/constants/app_colors.dart';
+import 'package:roadrunner_provider_app/core/constants/app_fonts.dart';
 
 class CustomPasswordTextField extends StatelessWidget {
   CustomPasswordTextField({
@@ -26,19 +27,29 @@ class CustomPasswordTextField extends StatelessWidget {
                 onTap: () {
                   obscure.value = !value;
                 },
-                child: Icon(value ? Icons.visibility : Icons.visibility_off),
+                child: Icon(
+                  value ? Icons.visibility : Icons.visibility_off,
+                ),
               ),
-              fillColor: AppColors.whiteColor,
+              fillColor: Colors.white,
               filled: true,
-              hintText: hintText,
-              hintStyle: TextStyle(
-                color: Color(0xffB2B2C2),
-                fontFamily: 'Poppins-Regular',
+              labelText: hintText,
+              labelStyle: AppFonts.poppinsRegular(
                 fontSize: 20.sp,
+                color: Color(0xFFB2B2C2),
               ),
+              floatingLabelStyle: AppFonts.poppinsRegular(
+                  fontSize: 20.sp, color: AppColors.secondaryColor),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.r),
-                borderSide: BorderSide(color: Color(0xffE4E4EE)),
+                borderSide: BorderSide(color: Color(0xFFDDDDDD)),
+              ),
+              errorStyle: TextStyle(color: AppColors.errorColor),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.errorColor),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.secondaryColor),
               ),
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 16.w,
