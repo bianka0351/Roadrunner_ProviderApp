@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:roadrunner_provider_app/core/app_colors.dart';
-import 'package:roadrunner_provider_app/core/app_fonts.dart';
+import 'package:roadrunner_provider_app/core/constants/app_colors.dart';
+import 'package:roadrunner_provider_app/core/constants/app_fonts.dart';
 import 'package:roadrunner_provider_app/core/widgets/custom_app_bar.dart';
 import 'package:roadrunner_provider_app/core/widgets/custom_error_message.dart';
 import 'package:roadrunner_provider_app/features/home-page/buisness_logic/bloc/order_bloc.dart';
+import 'package:roadrunner_provider_app/features/home-page/data/model/order_response_model.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/screens/order_detail.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/widgets/custom_map.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/widgets/custom_calendar.dart';
@@ -20,6 +22,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Map<String, dynamic>> routeDetails = [];
+
+//A function to refresh the page to fetch new requests.
   Future<void> _refreshOrders() async {
     final selectedDate = context.read<OrderBloc>().selectedDate;
     context.read<OrderBloc>().add(
@@ -27,6 +32,33 @@ class _HomePageState extends State<HomePage> {
             date: DateFormat('yyyy-MM-dd').format(selectedDate),
           ),
         );
+  }
+
+//A function to add the addresses of all orders with the selected date to a list.
+  List<String> getOrderAddress(List<Order> orders) {
+    List<String> locations = [];
+    for (Order order in orders) {
+      String address = [
+        order.clientAddress!.streetAddress,
+        order.clientAddress!.city,
+        "${order.clientAddress!.state} ${order.clientAddress!.zipCode}",
+        order.clientAddress!.country
+      ].join(", ");
+      locations.add(address);
+    }
+    return locations;
+  }
+
+  Future<void> cacheOrderList(List<Order> orders) async {
+    var box = Hive.box('orderCache');
+    await box.put('lastOrderList', orders.map((e) => e.toJson()).toList());
+  }
+
+//Update routeDetails upon receiving data from the map.
+  void handleRouteDetailsUpdate(List<Map<String, dynamic>> details) {
+    setState(() {
+      routeDetails = details;
+    });
   }
 
   @override
@@ -69,6 +101,7 @@ class _HomePageState extends State<HomePage> {
                           ],
                         );
                       }
+                      //Sort orders by time
                       state.orderList!.sort((a, b) {
                         DateTime startA =
                             DateFormat("hh:mm a").parse(a.startTime!);
@@ -76,14 +109,34 @@ class _HomePageState extends State<HomePage> {
                             DateFormat("hh:mm a").parse(b.startTime!);
                         return startA.compareTo(startB);
                       });
+
+                      // Save orders in cache storage
+                      cacheOrderList(state.orderList!);
+
                       return Column(
                         children: [
-                          CustomMap(),
+                          CustomMap(
+                            locations: getOrderAddress(state.orderList!),
+                            onRouteDetailsUpdated: handleRouteDetailsUpdate,
+                          ),
                           SizedBox(height: 10.h),
                           Expanded(
                             child: ListView.builder(
                               itemCount: state.orderList!.length,
                               itemBuilder: (context, index) {
+                                final order = state.orderList![index];
+
+                                // Fetch distance and duration from routeDetails
+                                String distance = '';
+                                String duration = '';
+                                if (routeDetails.isNotEmpty &&
+                                    index < routeDetails.length) {
+                                  distance =
+                                      routeDetails[index]['distance'] ?? '';
+                                  duration =
+                                      routeDetails[index]['duration'] ?? '';
+                                }
+
                                 return GestureDetector(
                                   onTap: () {
                                     BlocProvider.of<OrderBloc>(context).add(
@@ -100,28 +153,24 @@ class _HomePageState extends State<HomePage> {
                                   },
                                   child: CustomCard(
                                     number: "${index + 1}",
-                                    clientName:
-                                        "${state.orderList![index].clientName}",
-                                    startTime:
-                                        "${state.orderList![index].startTime}",
+                                    clientName: "${order.clientName}",
+                                    startTime: "${order.startTime}",
                                     clientAddress: [
-                                      state.orderList![index].clientAddress!
-                                          .streetAddress,
-                                      state.orderList![index].clientAddress!
-                                          .city,
-                                      state.orderList![index].clientAddress!
-                                          .state,
+                                      order.clientAddress!.streetAddress,
+                                      order.clientAddress!.city,
+                                      order.clientAddress!.state,
                                     ].join(", "),
-                                    productNumber: state.orderList![index]
-                                        .orderProducts!.length,
-                                    status: "${state.orderList![index].status}",
+                                    productNumber: order.orderProducts!.length,
+                                    status: "${order.status}",
                                     service:
-                                        "${state.orderList![index].orderServices![0].serviceName}",
-                                    serviceNumber: state.orderList![index]
-                                            .orderServices!.length -
-                                        1,
-                                    clientImage:
-                                        "${state.orderList![index].clientImage}",
+                                        "${order.orderServices![0].serviceName}",
+                                    serviceNumber:
+                                        order.orderServices!.length - 1,
+                                    clientImage: "${order.clientImage}",
+                                    isLastOrder:
+                                        index == state.orderList!.length - 1,
+                                    distance: distance,
+                                    duration: duration,
                                   ),
                                 );
                               },

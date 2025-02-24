@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roadrunner_provider_app/core/app_fonts.dart';
+import 'package:roadrunner_provider_app/core/constants/app_fonts.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/screens/sign_in_page.dart';
 import 'package:roadrunner_provider_app/features/auth/presentation/widgets/custom_road_runner.dart';
 import 'package:roadrunner_provider_app/features/home-page/presentation/screens/home_page.dart';

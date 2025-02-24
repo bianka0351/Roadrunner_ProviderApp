@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roadrunner_provider_app/core/app_colors.dart';
+import 'package:roadrunner_provider_app/core/constants/app_colors.dart';
+import 'package:roadrunner_provider_app/core/constants/app_fonts.dart';
+import 'package:roadrunner_provider_app/core/widgets/custom_button.dart';
+import 'package:roadrunner_provider_app/core/widgets/custom_text_field.dart';
 import 'package:roadrunner_provider_app/features/profile/buisness_logic/bloc/profile_bloc.dart';
 import 'package:roadrunner_provider_app/features/profile/buisness_logic/bloc/profile_event.dart';
 import 'package:roadrunner_provider_app/features/profile/buisness_logic/bloc/profile_state.dart';
@@ -38,15 +41,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Runner Profile',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28.sp),
-          ),
-        ),
+        backgroundColor: Colors.white,
+        title: Text('Runner Profile',
+            style: AppFonts.poppinsSemiBold(fontSize: 32.sp)),
         centerTitle: true,
+        actions: [
+          PopupMenuButton<String>(
+            color: Colors.white,
+            icon: Icon(Icons.menu),
+            onSelected: (value) {
+              if (value == "profile") {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ProfileScreen();
+                }));
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem<String>(
+                  value: "profile",
+                  child: Text("Profile"),
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       resizeToAvoidBottomInset: false,
       body: BlocBuilder<ProfileBloc, ProfileState>(
@@ -96,24 +117,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 20.h,
                     ),
                     // username
-                    TextField(
-                      controller: _usernameController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0.r)),
-                          labelText: 'Username'),
-                    ),
+                    CustomTextField(
+                        hintText: 'Username', controller: _usernameController),
+
                     SizedBox(
                       height: 20.h,
                     ),
                     // Email
-                    TextField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0.r)),
-                          labelText: 'Email'),
-                    ),
+                    CustomTextField(
+                        hintText: 'Email', controller: _emailController),
+
                     SizedBox(
                       height: 20.h,
                     ),
@@ -122,69 +135,86 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       controller: _addressController,
                       readOnly: true,
                       decoration: InputDecoration(
-                          labelText: 'Address',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0.r)),
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.all(10.r),
-                                  backgroundColor: AppColors.secondaryColor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(7.r))),
-                              child: Text(
-                                'Edit',
-                                style: TextStyle(color: Colors.white),
-                              ),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: Size(60.w, 37.h),
+                                padding: EdgeInsets.all(10.r),
+                                backgroundColor: AppColors.secondaryColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(7.r))),
+                            child: Text(
+                              'Edit',
+                              style: TextStyle(color: Colors.white),
                             ),
-                          )),
+                          ),
+                        ),
+                        fillColor: Colors.white,
+                        filled: true,
+                        labelText: 'Address',
+                        labelStyle: AppFonts.poppinsRegular(
+                          fontSize: 20.sp,
+                          color: Color(0xFFB2B2C2),
+                        ),
+                        floatingLabelStyle: AppFonts.poppinsRegular(
+                            fontSize: 20.sp, color: AppColors.secondaryColor),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: BorderSide(color: Color(0xFFDDDDDD)),
+                        ),
+                        errorStyle: TextStyle(color: AppColors.errorColor),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: AppColors.errorColor),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: AppColors.secondaryColor),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 12.h,
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
                     // Phone Number
-                    TextField(
-                      controller: _phoneNumberController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0.r)),
-                          labelText: 'Phone Number'),
-                    ),
+                    CustomTextField(
+                        hintText: 'Phone Number',
+                        controller: _phoneNumberController),
+
                     SizedBox(
                       height: 20.h,
                     ),
                     // Organization ID
-                    TextField(
-                      readOnly: true,
+                    CustomTextField(
+                      hintText: 'Organization Name',
                       controller: _organizationTitleController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0.r)),
-                          labelText: 'Organization Name'),
+                      readOnly: true,
                     ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
+
                     // reset password
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: ElevatedButton(
+                      child: TextButton(
                           onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.all(10.r),
-                              backgroundColor: AppColors.secondaryColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(7.r))),
                           child: Text(
                             'Reset Password',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              decoration: TextDecoration.underline,
+                              decorationColor: AppColors.secondaryColor,
+                              decorationThickness: 2,
+                              color: AppColors.secondaryColor,
+                            ),
                           )),
                     ),
                     SizedBox(
-                      height: 20.h,
+                      height: 10.h,
                     ),
                     // instant booking
                     Align(
@@ -211,7 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 20.h,
+                      height: 10.h,
                     ),
                     // Working Hours
                     WorkingHoursWidget(workingHours: {
@@ -223,24 +253,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 20.h,
                     ),
                     // Save
-                    SizedBox(
-                      width: 300.w,
-                      height: 70.h,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.r)),
-                            elevation: 5.h,
-                            shadowColor: Colors.black),
-                        child: Text(
-                          'Save',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 24.sp),
-                        ),
-                      ),
-                    ),
+                    CustomButton(text: "Save", onpressed: () {}),
                     SizedBox(
                       height: 30.h,
                     ),

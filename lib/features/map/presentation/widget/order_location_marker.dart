@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:roadrunner_provider_app/core/app_colors.dart';
+import 'package:roadrunner_provider_app/core/constants/app_colors.dart';
 
 class OrderLocationMarker extends StatelessWidget {
   final String index;
@@ -18,7 +18,7 @@ class OrderLocationMarker extends StatelessWidget {
           'assets/icons/location.svg',
           semanticsLabel: 'location pin icon',
           colorFilter:
-              ColorFilter.mode(AppColors.tertiaryColor, BlendMode.srcIn),
+              ColorFilter.mode(AppColors.secondaryColor, BlendMode.srcIn),
         ),
         // Index
         Padding(

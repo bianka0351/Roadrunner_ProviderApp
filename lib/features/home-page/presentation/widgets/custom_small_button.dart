@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roadrunner_provider_app/core/app_colors.dart';
-import 'package:roadrunner_provider_app/core/app_fonts.dart';
+import 'package:roadrunner_provider_app/core/constants/app_colors.dart';
+import 'package:roadrunner_provider_app/core/constants/app_fonts.dart';
 
+// ignore: must_be_immutable
 class CustomSmallButton extends StatelessWidget {
   CustomSmallButton({super.key, required this.icon, required this.text});
 

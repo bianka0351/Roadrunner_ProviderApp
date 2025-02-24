@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:roadrunner_provider_app/core/app_colors.dart';
+import 'package:roadrunner_provider_app/core/constants/app_colors.dart';
 import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_bloc.dart';
 import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_event.dart';
 import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_state.dart';
@@ -131,7 +131,7 @@ class _MapWidgetState extends State<MapWidget> {
           },
           style: ElevatedButton.styleFrom(
             shape: CircleBorder(
-              side: BorderSide(color: AppColors.tertiaryColor, width: 1.w),
+              side: BorderSide(color: AppColors.secondaryColor, width: 1.w),
             ),
             padding: EdgeInsets.all(10.r),
             backgroundColor: Colors.white,
@@ -141,7 +141,7 @@ class _MapWidgetState extends State<MapWidget> {
           child: Icon(
             Icons.my_location,
             size: 24,
-            color: AppColors.tertiaryColor,
+            color: AppColors.secondaryColor,
           ),
         ),
       ),
@@ -155,7 +155,7 @@ class _MapWidgetState extends State<MapWidget> {
           },
           style: ElevatedButton.styleFrom(
             shape: CircleBorder(
-              side: BorderSide(color: AppColors.tertiaryColor, width: 1.w),
+              side: BorderSide(color: AppColors.secondaryColor, width: 1.w),
             ),
             padding: EdgeInsets.all(10.r),
             backgroundColor: Colors.white,
@@ -165,7 +165,7 @@ class _MapWidgetState extends State<MapWidget> {
           child: Icon(
             Icons.add,
             size: 24,
-            color: AppColors.tertiaryColor,
+            color: AppColors.secondaryColor,
           ),
         ),
       ),
@@ -180,7 +180,7 @@ class _MapWidgetState extends State<MapWidget> {
           },
           style: ElevatedButton.styleFrom(
             shape: CircleBorder(
-              side: BorderSide(color: AppColors.tertiaryColor, width: 1.w),
+              side: BorderSide(color: AppColors.secondaryColor, width: 1.w),
             ),
             padding: EdgeInsets.all(10.r),
             backgroundColor: Colors.white,
@@ -190,7 +190,7 @@ class _MapWidgetState extends State<MapWidget> {
           child: Icon(
             Icons.remove,
             size: 24,
-            color: AppColors.tertiaryColor,
+            color: AppColors.secondaryColor,
           ),
         ),
       ),
