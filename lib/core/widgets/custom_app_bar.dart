@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roadrunner_provider_app/core/app_fonts.dart';
+import 'package:roadrunner_provider_app/core/constants/app_fonts.dart';
 import 'package:roadrunner_provider_app/features/profile/presentaion/screen/profile_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
