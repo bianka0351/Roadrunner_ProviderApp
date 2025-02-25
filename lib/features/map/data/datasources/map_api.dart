@@ -51,44 +51,6 @@ class MapApi {
 
       await Future.delayed(Duration(seconds: 1)); // To avoid API rate limits
     }
-
-    /*
-    // Use this if you want to throw exception not switch to geocoding
-    for (String address in addresses) {
-      final encodedAddress = Uri.encodeComponent(address);
-      final String addressUrl =
-          '$baseAddressUrl/search?q=$encodedAddress&format=json';
-
-      LatLng? latLng;
-
-      try {
-        latLng = await GetApi<LatLng?>(
-          url: addressUrl,
-          fromJson: (json) => _parseAddress(json),
-          headers: {
-            'User-Agent': 'FlutterApp',
-          },
-        ).call();
-      } catch (e) {
-        log("Nominatim API failed: $e");
-      }
-
-      // If Nominatim fails, use geocoding as fallback
-      // ignore: prefer_conditional_assignment
-      if (latLng == null) {
-        latLng = await _getLocationFromGeocoding(address);
-      }
-
-      if (latLng != null) {
-        locations.add(latLng);
-      } else {
-        log('No coordinates found for address: $address');
-      }
-
-      await Future.delayed(Duration(seconds: 1));
-    }
-    */
-
     return locations;
   }
 

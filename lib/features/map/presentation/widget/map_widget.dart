@@ -9,17 +9,42 @@ import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_eve
 import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_state.dart';
 import 'package:roadrunner_provider_app/features/map/data/model/map_data_type.dart';
 import 'package:roadrunner_provider_app/features/map/presentation/widget/order_location_marker.dart';
+import 'package:roadrunner_provider_app/features/map/presentation/widget/orders_locations_map.dart';
 
 class MapWidget extends StatefulWidget {
   final MapDataType mapDataType;
-  final List<String> locations;
+  final List<String>? ordersLocations;
+  final String? orderDetailLocation;
   final void Function(List<Map<String, dynamic>>)? onRouteDetailsUpdated;
 
-  const MapWidget(
+  const MapWidget._(
       {super.key,
-      required this.locations,
+      this.ordersLocations,
       required this.mapDataType,
+      this.orderDetailLocation,
       this.onRouteDetailsUpdated});
+
+  // call map for orders locations
+  factory MapWidget.ordersLocations(
+      {required List<String> ordersLocations,
+      Key? key,
+      void Function(List<Map<String, dynamic>>)? onRouteDetailsUpdated}) {
+    return MapWidget._(
+        key: key,
+        mapDataType: MapDataType.orders,
+        ordersLocations: ordersLocations,
+        onRouteDetailsUpdated: onRouteDetailsUpdated);
+  }
+
+  // call map for order detail location
+  factory MapWidget.orderDetailLocation({
+    required String orderDetailLocation,
+    Key? key,
+  }) {
+    return MapWidget._(
+        mapDataType: MapDataType.orderDetail,
+        orderDetailLocation: orderDetailLocation);
+  }
 
   @override
   State<StatefulWidget> createState() => _MapWidgetState();
@@ -35,7 +60,11 @@ class _MapWidgetState extends State<MapWidget> {
     super.initState();
     switch (widget.mapDataType) {
       case MapDataType.orders:
-        context.read<MapBloc>().add(LoadOrdersLocationEvent(widget.locations));
+        context
+            .read<MapBloc>()
+            .add(LoadOrdersLocationEvent(widget.ordersLocations!));
+        break;
+      case MapDataType.orderDetail:
         break;
     }
   }
@@ -70,57 +99,27 @@ class _MapWidgetState extends State<MapWidget> {
             child: Text(state.message),
           );
 
-          //loaded state
-        } else if (state is OrdersLocationState) {
-          _initialLocation = state.orderLocations.first;
+          //orders locations state
+        } else if (state is OrdersLocationsState) {
+          _initialLocation = state.ordersLocations.first;
           if (widget.onRouteDetailsUpdated != null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               widget.onRouteDetailsUpdated!(state.routeDetails);
             });
           }
-
-          return FlutterMap(
-            // map controller
-            mapController: _mapController,
-            // map options
-            options: MapOptions(
-              initialCenter: state.routePath.isNotEmpty
-                  ? state.routePath.first
-                  : LatLng(0.0, 0.0),
+          return OrdersLocationsMap(
+              mapController: _mapController,
               initialZoom: _currentZoom,
-            ),
-            // map layers
-            children: [
-              // tile layer
-              TileLayer(
-                urlTemplate:
-                    "https://tile.openstreetmap.org/{z}/{x}/{y}.png", // "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
-              ),
-              // polyline layer
-              PolylineLayer(polylines: [
-                Polyline(
-                    points: state.routePath,
-                    color: AppColors.primaryColor,
-                    strokeWidth: 5.0.w)
-              ]),
-              // marker layer
-              MarkerLayer(
-                alignment: Alignment.topCenter,
-                markers: List.generate(state.orderLocations.length, (index) {
-                  return Marker(
-                      point: state.orderLocations[index],
-                      width: 40.w,
-                      height: 40.h,
-                      child:
-                          OrderLocationMarker(index: (index + 1).toString()));
-                }).toList(),
-              )
-            ],
-          );
+              routePath: state.routePath,
+              ordersLocations: state.ordersLocations);
         }
+
+        // order detail location state
+
         // indicator
         return const Center(child: CircularProgressIndicator());
       }),
+
       // location button
       Positioned(
         bottom: 10.h,
@@ -145,6 +144,7 @@ class _MapWidgetState extends State<MapWidget> {
           ),
         ),
       ),
+
       // zoom in out buttons
       Positioned(
         bottom: 65.h,

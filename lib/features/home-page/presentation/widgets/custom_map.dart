@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:roadrunner_provider_app/core/constants/app_colors.dart';
 import 'package:roadrunner_provider_app/core/constants/app_fonts.dart';
-import 'package:roadrunner_provider_app/features/map/data/model/map_data_type.dart';
 import 'package:roadrunner_provider_app/features/map/presentation/widget/map_widget.dart';
 
 // ignore: must_be_immutable
@@ -27,9 +26,8 @@ class _CustomMapState extends State<CustomMap> {
   @override
   void initState() {
     super.initState();
-    mapWidget = MapWidget(
-      locations: widget.locations,
-      mapDataType: MapDataType.orders,
+    mapWidget = MapWidget.ordersLocations(
+      ordersLocations: widget.locations,
       onRouteDetailsUpdated: widget.onRouteDetailsUpdated,
     );
   }
@@ -63,11 +61,9 @@ class _CustomMapState extends State<CustomMap> {
                   height: 288.h,
                   width: 408.w,
                   decoration: BoxDecoration(
-
                     color: Colors.grey.shade300,
                     borderRadius: BorderRadius.circular(15.r),
                   ),
-
                   child: mapWidget,
                 ),
               ),

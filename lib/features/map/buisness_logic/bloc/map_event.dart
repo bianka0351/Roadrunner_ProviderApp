@@ -18,6 +18,15 @@ class LoadOrdersLocationEvent extends MapEvent {
   List<Object?> get props => [orderLocations];
 }
 
+class LoadOrderDetailLocationEvent extends MapEvent {
+  final String orderLocation;
+
+  const LoadOrderDetailLocationEvent(this.orderLocation);
+
+  @override
+  List<Object?> get props => [orderLocation];
+}
+
 // get current location
 class GetCurrentLocationEvent extends MapEvent {
   final LatLng currentLocation;

@@ -34,8 +34,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       routePathResult.fold((failure) {
         emit(MapErrorState('Failed to get route path: ${failure.message}'));
       }, (routeData) {
-        emit(OrdersLocationState(
-          orderLocations: latLngList,
+        emit(OrdersLocationsState(
+          ordersLocations: latLngList,
           routePath: routeData['routePath'], // Route path for the map
           routeDetails:
               routeData['routeDetails'], // Distance & duration details
