@@ -27,7 +27,7 @@ class MapApi {
     ).call();
   }
 
-  Future<List<LatLng>> getAddressLocationApi(List<String> addresses) async {
+  Future<List<LatLng>> getAddressesLocationsApi(List<String> addresses) async {
     List<LatLng> locations = [];
 
     /// I used this since I dont want to throw an exception from Nominatim Api
@@ -38,6 +38,7 @@ class MapApi {
 
       // If Nominatim fails, use geocoding as a fallback
       // ignore: prefer_conditional_assignment
+
       if (latLng == null) {
         log("⚠️ Nominatim failed! Trying Geocoding...");
         latLng = await _getLocationFromGeocoding(address);

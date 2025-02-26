@@ -9,22 +9,24 @@ abstract class MapEvent extends Equatable {
 }
 
 // load map data with a list of order locations
-class LoadOrdersLocationEvent extends MapEvent {
-  final List<String> orderLocations;
+class LoadOrdersLocationsEvent extends MapEvent {
+  final List<String> ordersAddresses;
 
-  const LoadOrdersLocationEvent(this.orderLocations);
+  const LoadOrdersLocationsEvent({required this.ordersAddresses});
 
   @override
-  List<Object?> get props => [orderLocations];
+  List<Object?> get props => [ordersAddresses];
 }
 
 class LoadOrderDetailLocationEvent extends MapEvent {
-  final String orderLocation;
+  final String runnerAddress;
+  final String orderAddress;
 
-  const LoadOrderDetailLocationEvent(this.orderLocation);
+  const LoadOrderDetailLocationEvent(
+      {required this.runnerAddress, required this.orderAddress});
 
   @override
-  List<Object?> get props => [orderLocation];
+  List<Object?> get props => [orderAddress, runnerAddress];
 }
 
 // get current location

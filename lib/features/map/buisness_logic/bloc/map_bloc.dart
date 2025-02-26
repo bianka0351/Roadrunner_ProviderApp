@@ -10,32 +10,66 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   final MapRepository mapRepository = MapRepository();
 
   MapBloc() : super(MapInitialState()) {
-    on<LoadOrdersLocationEvent>(_onLoadOrdersLocationDate);
+    on<LoadOrdersLocationsEvent>(_onLoadOrdersLocationsDate);
+    on<LoadOrderDetailLocationEvent>(_onLoadOrderDetailLocationData);
   }
 
-  Future<void> _onLoadOrdersLocationDate(
-      LoadOrdersLocationEvent event, Emitter<MapState> emit) async {
-    if (event.orderLocations.isEmpty) {
+  Future<void> _onLoadOrdersLocationsDate(
+      LoadOrdersLocationsEvent event, Emitter<MapState> emit) async {
+    // empty data
+    if (event.ordersAddresses.isEmpty) {
       emit(const MapErrorState('No order locations provided'));
       return;
     }
-
+    // loading
     emit(MapLoadingState());
 
     final Either<Failure, List<LatLng>> addressToLatLngResult =
-        await mapRepository.getOrdersAdressLocation(event.orderLocations);
+        await mapRepository.getOrdersAdressLocation(event.ordersAddresses);
 
     await addressToLatLngResult.fold((failure) async {
       emit(MapErrorState('Failed to convert addresses: ${failure.message}'));
     }, (latLngList) async {
       final Either<Failure, Map<String, dynamic>> routePathResult =
-          await mapRepository.getOrdersLocationRoute(latLngList);
+          await mapRepository.getLocationsRoutes(latLngList);
 
       routePathResult.fold((failure) {
         emit(MapErrorState('Failed to get route path: ${failure.message}'));
       }, (routeData) {
         emit(OrdersLocationsState(
           ordersLocations: latLngList,
+          routePath: routeData['routePath'], // Route path for the map
+          routeDetails:
+              routeData['routeDetails'], // Distance & duration details
+        ));
+      });
+    });
+  }
+
+  Future<void> _onLoadOrderDetailLocationData(
+      LoadOrderDetailLocationEvent event, Emitter<MapState> emit) async {
+    // empty data
+    if (event.orderAddress.isEmpty) {
+      emit(const MapErrorState('No order location provided'));
+      return;
+    }
+    // loading
+    final Either<Failure, List<LatLng>> addressToLatLngResult =
+        await mapRepository.getOrderRunnerAddressLocations(
+            event.runnerAddress, event.orderAddress);
+
+    await addressToLatLngResult.fold((failure) async {
+      emit(MapErrorState('Failed to convert addresses: ${failure.message}'));
+    }, (latLngList) async {
+      final Either<Failure, Map<String, dynamic>> routePathResult =
+          await mapRepository.getLocationsRoutes(latLngList);
+
+      routePathResult.fold((failure) {
+        emit(MapErrorState('Failed to get route path: ${failure.message}'));
+      }, (routeData) {
+        emit(OrderDetailLocationState(
+          runnerLocation: latLngList[0],
+          orderLocation: latLngList[1],
           routePath: routeData['routePath'], // Route path for the map
           routeDetails:
               routeData['routeDetails'], // Distance & duration details

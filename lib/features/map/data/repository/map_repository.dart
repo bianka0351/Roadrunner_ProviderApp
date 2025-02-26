@@ -9,7 +9,7 @@ class MapRepository with HandlingExceptionManager {
 
   MapRepository();
 
-  Future<Either<Failure, Map<String, dynamic>>> getOrdersLocationRoute(
+  Future<Either<Failure, Map<String, dynamic>>> getLocationsRoutes(
       List<LatLng> locations) async {
     return await handleError(tryCall: () async {
       final result = await mapApi.getLocationsRoutesApi(locations);
@@ -17,11 +17,25 @@ class MapRepository with HandlingExceptionManager {
     });
   }
 
+  // routes addresses
   Future<Either<Failure, List<LatLng>>> getOrdersAdressLocation(
       List<String> addresses) async {
     return await handleError(tryCall: () async {
-      final result = await mapApi.getAddressLocationApi(addresses);
+      final result = await mapApi.getAddressesLocationsApi(addresses);
       return Right(result);
     });
   }
+
+  // order runner addresses
+  Future<Either<Failure, List<LatLng>>> getOrderRunnerAddressLocations(
+      String runner, String order) async {
+    List<String> addresses = [];
+    addresses.add(runner);
+    addresses.add(order);
+    return await handleError(tryCall: () async {
+      final result = await mapApi.getAddressesLocationsApi(addresses);
+      return Right(result);
+    });
+  }
+  // order runner route
 }

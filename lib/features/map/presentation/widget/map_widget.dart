@@ -8,20 +8,22 @@ import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_blo
 import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_event.dart';
 import 'package:roadrunner_provider_app/features/map/buisness_logic/bloc/map_state.dart';
 import 'package:roadrunner_provider_app/features/map/data/model/map_data_type.dart';
-import 'package:roadrunner_provider_app/features/map/presentation/widget/order_location_marker.dart';
+import 'package:roadrunner_provider_app/features/map/presentation/widget/order_runner_locations_map.dart';
 import 'package:roadrunner_provider_app/features/map/presentation/widget/orders_locations_map.dart';
 
 class MapWidget extends StatefulWidget {
   final MapDataType mapDataType;
-  final List<String>? ordersLocations;
-  final String? orderDetailLocation;
+  final List<String>? ordersAddresses;
+  final String? orderDetailAddress;
+  final String? runnerAddress;
   final void Function(List<Map<String, dynamic>>)? onRouteDetailsUpdated;
 
   const MapWidget._(
       {super.key,
-      this.ordersLocations,
+      this.ordersAddresses,
       required this.mapDataType,
-      this.orderDetailLocation,
+      this.orderDetailAddress,
+      this.runnerAddress,
       this.onRouteDetailsUpdated});
 
   // call map for orders locations
@@ -32,18 +34,22 @@ class MapWidget extends StatefulWidget {
     return MapWidget._(
         key: key,
         mapDataType: MapDataType.orders,
-        ordersLocations: ordersLocations,
+        ordersAddresses: ordersLocations,
         onRouteDetailsUpdated: onRouteDetailsUpdated);
   }
 
   // call map for order detail location
-  factory MapWidget.orderDetailLocation({
-    required String orderDetailLocation,
-    Key? key,
-  }) {
+  factory MapWidget.orderDetailLocation(
+      {required String orderDetailAddress,
+      required String runnerAddress,
+      Key? key,
+      void Function(List<Map<String, dynamic>>)? onRouteDetailsUpdated}) {
     return MapWidget._(
+        key: key,
         mapDataType: MapDataType.orderDetail,
-        orderDetailLocation: orderDetailLocation);
+        orderDetailAddress: orderDetailAddress,
+        runnerAddress: runnerAddress,
+        onRouteDetailsUpdated: onRouteDetailsUpdated);
   }
 
   @override
@@ -59,12 +65,16 @@ class _MapWidgetState extends State<MapWidget> {
   void initState() {
     super.initState();
     switch (widget.mapDataType) {
+      // orders
       case MapDataType.orders:
-        context
-            .read<MapBloc>()
-            .add(LoadOrdersLocationEvent(widget.ordersLocations!));
+        context.read<MapBloc>().add(
+            LoadOrdersLocationsEvent(ordersAddresses: widget.ordersAddresses!));
         break;
+      // order detail
       case MapDataType.orderDetail:
+        context.read<MapBloc>().add(LoadOrderDetailLocationEvent(
+            runnerAddress: widget.runnerAddress!,
+            orderAddress: widget.orderDetailAddress!));
         break;
     }
   }
@@ -115,6 +125,21 @@ class _MapWidgetState extends State<MapWidget> {
         }
 
         // order detail location state
+        else if (state is OrderDetailLocationState) {
+          _initialLocation = state.runnerLocation;
+          if (widget.onRouteDetailsUpdated != null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.onRouteDetailsUpdated!(state.routeDetails);
+            });
+          }
+          return OrderRunnerLocationsMap(
+            mapController: _mapController,
+            initialZoom: _currentZoom,
+            routePath: state.routePath,
+            runnerLocation: state.runnerLocation,
+            orderLocation: state.orderLocation,
+          );
+        }
 
         // indicator
         return const Center(child: CircularProgressIndicator());
