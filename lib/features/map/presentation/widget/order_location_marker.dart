@@ -4,9 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:roadrunner_provider_app/core/constants/app_colors.dart';
 
 class OrderLocationMarker extends StatelessWidget {
-  final String index;
+  final String orderNumber;
 
-  const OrderLocationMarker({super.key, required this.index});
+  const OrderLocationMarker({super.key, required this.orderNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class OrderLocationMarker extends StatelessWidget {
         Padding(
             padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0.h),
             child: Text(
-              index,
+              orderNumber,
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ))

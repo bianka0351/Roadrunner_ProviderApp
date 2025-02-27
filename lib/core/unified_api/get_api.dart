@@ -18,7 +18,7 @@ class GetApi<T> with HandlingRequestException {
             Uri.parse(url),
             headers: headers ?? {'Content-Type': 'application/json'},
           )
-          .timeout(const Duration(seconds: 10));
+          .timeout(const Duration(seconds: 20));
 
       if (response.statusCode == 200) {
         return fromJson(response.body);

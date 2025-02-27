@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:roadrunner_provider_app/core/constants/app_colors.dart';
 import 'package:roadrunner_provider_app/core/constants/app_fonts.dart';
-import 'package:roadrunner_provider_app/features/map/presentation/widget/map_widget.dart';
+import 'package:roadrunner_provider_app/features/map/presentation/widget/map_widget2.dart';
 
 // ignore: must_be_immutable
 class CustomMap extends StatefulWidget {

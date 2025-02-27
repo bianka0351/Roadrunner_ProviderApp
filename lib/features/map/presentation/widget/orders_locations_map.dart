@@ -51,7 +51,8 @@ class OrdersLocationsMap extends StatelessWidget {
                 point: ordersLocations[index],
                 width: 40.w,
                 height: 40.h,
-                child: OrderLocationMarker(index: (index + 1).toString()));
+                child:
+                    OrderLocationMarker(orderNumber: (index + 1).toString()));
           }).toList(),
         )
       ],
